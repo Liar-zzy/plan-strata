@@ -1,0 +1,306 @@
+{
+  "kind": "release-documentation-check",
+  "created_at": "2026-09-05T14:01:46.857852+00:00",
+  "status": "pass",
+  "shell_blocks_equal": true,
+  "local_links": [
+    {
+      "from": "README.md",
+      "target": "README.zh-CN.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/SKILL.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/protocol.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/development.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/research.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "docs/FIRST_USE.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "docs/validation.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "docs/PUBLISHING.md",
+      "exists": true
+    },
+    {
+      "from": "README.md",
+      "target": "LICENSE",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "README.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/SKILL.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/protocol.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/development.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/research.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/FIRST_USE.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/validation.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/PUBLISHING.md",
+      "exists": true
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "LICENSE",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../evals/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/protocol.md",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/development.md",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/research.md",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "evidence/T02-first-use-commands.md",
+      "exists": true
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../plans/ex-plans/P001/check/T02-check-001.md",
+      "exists": true
+    },
+    {
+      "from": "docs/PUBLISHING.md",
+      "target": "../.github/workflows/check.yml",
+      "exists": true
+    },
+    {
+      "from": "docs/PUBLISHING.md",
+      "target": "evidence/P002-release-preparation.md",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/install-local-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-py310-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-py314-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-docs-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../PUBLISHING.md",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../evals/results/handoff-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../evals/results/first-use-root-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../plans/ex-plans/P001/check/T02-check-001.md",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/automated-py314-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/automated-py310-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/resume-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/switch-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/stale-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/integration-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/research-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/research-002.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/handoff-001.json",
+      "exists": true
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/first-use-root-001.json",
+      "exists": true
+    },
+    {
+      "from": "evals/README.md",
+      "target": "expected.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/protocol.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/core.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/ex-plan.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/progress.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/CURRENT.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/development.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/research.md",
+      "exists": true
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/check.md",
+      "exists": true
+    }
+  ],
+  "demo": {
+    "command": "strata_trial_dir=$(mktemp -d)\npython3 evals/prepare.py --scenario resume --destination \"$strata_trial_dir/project\"\npython3 skills/plan-strata/scripts/strata.py validate --project \"$strata_trial_dir/project\"",
+    "exit_code": 0,
+    "stdout": "<temporary-project>\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+    "stderr": ""
+  },
+  "subjects": [
+    {
+      "path": "README.md",
+      "sha256": "2c3fa48dfc98c7de746dbf58aec8dff39ef0ecf266f1622e1b0cca83bc7ec405"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "bf891d3a8843076e5a3c5212aad535f76a185c4215030e92fc81255a08a19ffe"
+    },
+    {
+      "path": "docs/PUBLISHING.md",
+      "sha256": "3c50edeb9a604542db0e10882c6d9059e228e088c2e4b122186356fae7e0fd3d"
+    },
+    {
+      "path": "docs/evidence/P002-release-preparation.md",
+      "sha256": "9c59c7de649a9a62103c8d8ab8efc91c9591fb13597fecef4113bb054be91bc7"
+    },
+    {
+      "path": ".github/workflows/check.yml",
+      "sha256": "25013dc0c9c4c5074e40711228b7a8598e3bfeb5a97afb608082d989d82003cb"
+    },
+    {
+      "path": "evals/prepare.py",
+      "sha256": "7fe8badb85362b10dc87d7eb9ef84fb88419366904a0e250a48ff1148c1a739e"
+    }
+  ],
+  "limits": "Only local Markdown file targets and matching README shell examples are checked. The demo actually runs; installation blocks are covered separately by install-local-001.json using a local source. External links, client discovery, and GitHub execution are not tested here."
+}
