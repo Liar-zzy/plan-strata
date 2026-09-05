@@ -1,0 +1,272 @@
+{
+  "kind": "release-install-smoke",
+  "created_at": "2026-09-05T14:08:28.744110+00:00",
+  "installer": "skills@1.5.23",
+  "source": "Liar-zzy/plan-strata",
+  "status": "pass",
+  "commands": [
+    {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "cwd": "<temporary-workspace>",
+      "exit_code": 0,
+      "stdout": "v26.7.0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "--version"
+      ],
+      "cwd": "<temporary-workspace>",
+      "exit_code": 0,
+      "stdout": "1.5.23\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "add",
+        "Liar-zzy/plan-strata",
+        "--skill",
+        "plan-strata",
+        "--agent",
+        "codex",
+        "--yes"
+      ],
+      "cwd": "<temporary-workspace>/codex",
+      "exit_code": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: https://github.com/Liar-zzy/plan-strata.git\n\u001b[?25h\u001b[?25l│\n◒  Cloning repository…\u001b[1G\u001b[J◐  Cloning repository…\u001b[1G\u001b[J◓  Cloning repository…\u001b[1G\u001b[J◑  Cloning repository…\u001b[1G\u001b[J◒  Cloning repository…\u001b[1G\u001b[J◐  Cloning repository…\u001b[1G\u001b[J◓  Cloning repository…\u001b[1G\u001b[J◑  Cloning repository…\u001b[1G\u001b[J◒  Cloning repository….\u001b[1G\u001b[J◐  Cloning repository….\u001b[1G\u001b[J◓  Cloning repository….\u001b[1G\u001b[J◑  Cloning repository….\u001b[1G\u001b[J◒  Cloning repository….\u001b[1G\u001b[J◐  Cloning repository….\u001b[1G\u001b[J◇  Repository cloned\n\u001b[?25h\u001b[?25l│\n\u001b[1G\u001b[J◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: plan-strata\n\n│\n◇  Installation Summary ─────────╮\n│                                │\n│  ./.agents/skills/plan-strata  │\n│    copy → Codex                │\n│                                │\n├────────────────────────────────╯\n\u001b[?25l│\n\u001b[1G\u001b[J◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────────╮\n│                                    │\n│  ✓ plan-strata (copied)            │\n│    → ./.agents/skills/plan-strata  │\n│                                    │\n├────────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/codex/.agents/skills/plan-strata/scripts/strata.py",
+        "validate",
+        "--project",
+        "."
+      ],
+      "cwd": "<temporary-workspace>/codex",
+      "exit_code": 0,
+      "stdout": "{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/codex/.agents/skills/plan-strata/scripts/strata.py",
+        "fingerprint",
+        "--project",
+        "<temporary-workspace>/codex/.agents/skills/plan-strata",
+        "SKILL.md"
+      ],
+      "cwd": "<temporary-workspace>/codex",
+      "exit_code": 0,
+      "stdout": "[\n  {\n    \"path\": \"SKILL.md\",\n    \"sha256\": \"e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650\"\n  }\n]\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "add",
+        "Liar-zzy/plan-strata",
+        "--skill",
+        "plan-strata",
+        "--agent",
+        "claude-code",
+        "--yes"
+      ],
+      "cwd": "<temporary-workspace>/claude-code",
+      "exit_code": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: https://github.com/Liar-zzy/plan-strata.git\n\u001b[?25h\u001b[?25l│\n◒  Cloning repository…\u001b[1G\u001b[J◐  Cloning repository…\u001b[1G\u001b[J◓  Cloning repository…\u001b[1G\u001b[J◑  Cloning repository…\u001b[1G\u001b[J◒  Cloning repository…\u001b[1G\u001b[J◐  Cloning repository…\u001b[1G\u001b[J◓  Cloning repository…\u001b[1G\u001b[J◑  Cloning repository…\u001b[1G\u001b[J◒  Cloning repository….\u001b[1G\u001b[J◐  Cloning repository….\u001b[1G\u001b[J◓  Cloning repository….\u001b[1G\u001b[J◑  Cloning repository….\u001b[1G\u001b[J◒  Cloning repository….\u001b[1G\u001b[J◐  Cloning repository….\u001b[1G\u001b[J◇  Repository cloned\n\u001b[?25h\u001b[?25l│\n\u001b[1G\u001b[J◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: plan-strata\n\n│\n◇  Installation Summary ─────────╮\n│                                │\n│  ./.agents/skills/plan-strata  │\n│    copy → Claude Code          │\n│                                │\n├────────────────────────────────╯\n\u001b[?25l│\n\u001b[1G\u001b[J◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────────╮\n│                                    │\n│  ✓ plan-strata (copied)            │\n│    → ./.claude/skills/plan-strata  │\n│                                    │\n├────────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/claude-code/.claude/skills/plan-strata/scripts/strata.py",
+        "validate",
+        "--project",
+        "."
+      ],
+      "cwd": "<temporary-workspace>/claude-code",
+      "exit_code": 0,
+      "stdout": "{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/claude-code/.claude/skills/plan-strata/scripts/strata.py",
+        "fingerprint",
+        "--project",
+        "<temporary-workspace>/claude-code/.claude/skills/plan-strata",
+        "SKILL.md"
+      ],
+      "cwd": "<temporary-workspace>/claude-code",
+      "exit_code": 0,
+      "stdout": "[\n  {\n    \"path\": \"SKILL.md\",\n    \"sha256\": \"e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650\"\n  }\n]\n",
+      "stderr": ""
+    }
+  ],
+  "installations": [
+    {
+      "agent": "codex",
+      "path": ".agents/skills/plan-strata",
+      "files": {
+        "LICENSE": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679",
+        "SKILL.md": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650",
+        "agents/openai.yaml": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876",
+        "assets/CURRENT.md": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f",
+        "assets/check.md": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0",
+        "assets/core.md": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7",
+        "assets/ex-plan.md": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6",
+        "assets/progress.md": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa",
+        "references/development.md": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2",
+        "references/protocol.md": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b",
+        "references/research.md": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805",
+        "scripts/strata.py": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+      },
+      "validation": {
+        "schema": 1,
+        "status": "consistent",
+        "overall": "open",
+        "tasks": [
+          {
+            "id": "T01",
+            "state": "done",
+            "effective_state": "done",
+            "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+            "owner": "fixture-worker",
+            "next": "Accepted; continue the dependent documentation"
+          },
+          {
+            "id": "T02",
+            "state": "planned",
+            "effective_state": "planned",
+            "plan": null,
+            "owner": "fixture-worker",
+            "next": "Write and verify docs/usage.md"
+          }
+        ],
+        "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "errors": [],
+        "warnings": []
+      },
+      "existing_project_unchanged": true
+    },
+    {
+      "agent": "claude-code",
+      "path": ".claude/skills/plan-strata",
+      "files": {
+        "LICENSE": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679",
+        "SKILL.md": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650",
+        "agents/openai.yaml": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876",
+        "assets/CURRENT.md": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f",
+        "assets/check.md": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0",
+        "assets/core.md": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7",
+        "assets/ex-plan.md": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6",
+        "assets/progress.md": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa",
+        "references/development.md": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2",
+        "references/protocol.md": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b",
+        "references/research.md": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805",
+        "scripts/strata.py": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+      },
+      "validation": {
+        "schema": 1,
+        "status": "consistent",
+        "overall": "open",
+        "tasks": [
+          {
+            "id": "T01",
+            "state": "done",
+            "effective_state": "done",
+            "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+            "owner": "fixture-worker",
+            "next": "Accepted; continue the dependent documentation"
+          },
+          {
+            "id": "T02",
+            "state": "planned",
+            "effective_state": "planned",
+            "plan": null,
+            "owner": "fixture-worker",
+            "next": "Write and verify docs/usage.md"
+          }
+        ],
+        "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "errors": [],
+        "warnings": []
+      },
+      "existing_project_unchanged": true
+    }
+  ],
+  "subjects": [
+    {
+      "path": "skills/plan-strata/LICENSE",
+      "sha256": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679"
+    },
+    {
+      "path": "skills/plan-strata/SKILL.md",
+      "sha256": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650"
+    },
+    {
+      "path": "skills/plan-strata/agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "skills/plan-strata/assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "skills/plan-strata/assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "skills/plan-strata/assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "skills/plan-strata/assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "skills/plan-strata/assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "skills/plan-strata/references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "skills/plan-strata/references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "skills/plan-strata/references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    },
+    {
+      "path": "skills/plan-strata/scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    },
+    {
+      "path": "evals/install_smoke.py",
+      "sha256": "f36ff49e0437ee20c1c3653068f0863aa3434bd97de72b5cba6c39e173b31980"
+    },
+    {
+      "path": "evals/prepare.py",
+      "sha256": "7fe8badb85362b10dc87d7eb9ef84fb88419366904a0e250a48ff1148c1a739e"
+    }
+  ],
+  "limits": "Checks package bytes and installed CLI behavior, not client discovery or agent behavior. Temporary/source/interpreter paths in output are replaced with labels. A local source does not test GitHub transport. No global skills are installed."
+}
