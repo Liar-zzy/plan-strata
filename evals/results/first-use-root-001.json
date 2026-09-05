@@ -1,0 +1,26 @@
+{
+  "kind": "first-use-root-verification",
+  "command": "set -o pipefail\nawk '/^```sh$/ {strata_block=1; next} strata_block && /^```$/ {exit} strata_block {print}' docs/FIRST_USE.md | bash",
+  "cwd": ".",
+  "exit_code": 0,
+  "output": "Python 3.14.7\n技能路径：/Users/liar/codes/plan-strata/skills/plan-strata/SKILL.md\n试用项目：/Users/liar/codes/plan-strata/.first-use.i8al7e/project\n/Users/liar/codes/plan-strata/.first-use.i8al7e/project\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n[\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n    \"sha256\": \"04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8\"\n  },\n  {\n    \"path\": \"src/calc.py\",\n    \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n  },\n  {\n    \"path\": \"tests/check_total.py\",\n    \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n  },\n  {\n    \"path\": \"observations/total.log\",\n    \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n  }\n]\nempty input and numeric sum passed\n6\n0\ntest_acceptance_propagates_through_dependencies (test_workflow.WorkflowTests.test_acceptance_propagates_through_dependencies) ... ok\ntest_changed_evidence_is_detected (test_workflow.WorkflowTests.test_changed_evidence_is_detected) ... ok\ntest_changed_plan_and_core_are_detected (test_workflow.WorkflowTests.test_changed_plan_and_core_are_detected) ... ok\ntest_changed_subject_revokes_current_acceptance_without_rewriting_history (test_workflow.WorkflowTests.test_changed_subject_revokes_current_acceptance_without_rewriting_history) ... ok\ntest_dependency_cycle_is_rejected (test_workflow.WorkflowTests.test_dependency_cycle_is_rejected) ... ok\ntest_done_requires_check (test_workflow.WorkflowTests.test_done_requires_check) ... ok\ntest_fixture_preparation_refuses_overwrite (test_workflow.WorkflowTests.test_fixture_preparation_refuses_overwrite) ... ok\ntest_local_success_with_failed_integration_stays_open (test_workflow.WorkflowTests.test_local_success_with_failed_integration_stays_open) ... ok\ntest_malformed_metadata_returns_a_diagnostic (test_workflow.WorkflowTests.test_malformed_metadata_returns_a_diagnostic) ... ok\ntest_old_acceptance_cannot_silently_carry_into_new_revision (test_workflow.WorkflowTests.test_old_acceptance_cannot_silently_carry_into_new_revision) ... ok\ntest_path_escape_and_external_symlink_are_rejected (test_workflow.WorkflowTests.test_path_escape_and_external_symlink_are_rejected) ... ok\ntest_research_check_requires_separate_interpretation (test_workflow.WorkflowTests.test_research_check_requires_separate_interpretation) ... ok\ntest_resume_selects_pointer_and_does_not_treat_consistency_as_completion (test_workflow.WorkflowTests.test_resume_selects_pointer_and_does_not_treat_consistency_as_completion) ... ok\ntest_running_task_retains_old_binding_after_switch (test_workflow.WorkflowTests.test_running_task_retains_old_binding_after_switch) ... ok\ntest_selected_draft_is_rejected (test_workflow.WorkflowTests.test_selected_draft_is_rejected) ... ok\ntest_stale_check_on_open_task_is_a_warning (test_workflow.WorkflowTests.test_stale_check_on_open_task_is_a_warning) ... ok\ntest_unrelated_file_does_not_invalidate_a_scoped_check (test_workflow.WorkflowTests.test_unrelated_file_does_not_invalidate_a_scoped_check) ... ok\ntest_valid_negative_research_can_complete (test_workflow.WorkflowTests.test_valid_negative_research_can_complete) ... ok\ntest_validator_is_read_only_and_cli_returns_json (test_workflow.WorkflowTests.test_validator_is_read_only_and_cli_returns_json) ... ok\ntest_wrong_check_cannot_satisfy_another_task (test_workflow.WorkflowTests.test_wrong_check_cannot_satisfy_another_task) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 0.726s\n\nOK\n",
+  "subjects": [
+    {
+      "path": "docs/FIRST_USE.md",
+      "sha256": "7e62244d54b887726ef678bcb2645d132006259716665898866b4cfec2024773"
+    },
+    {
+      "path": "evals/prepare.py",
+      "sha256": "7fe8badb85362b10dc87d7eb9ef84fb88419366904a0e250a48ff1148c1a739e"
+    },
+    {
+      "path": "skills/plan-strata/scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "sha256": "32156431a1799252ccf83395fd5ebdf77918232d6e67a31093e4e3867867432a"
+    }
+  ],
+  "limits": "Re-execution of the reviewed documentation command block in the final root project. This is a local command test, not an additional blind agent evaluation."
+}

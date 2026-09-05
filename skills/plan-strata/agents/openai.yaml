@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Strata"
+  short_description: "Versioned plans and evidence for development and research"
+  default_prompt: "Use $plan-strata to recover this project's current plan and advance the next bounded task."

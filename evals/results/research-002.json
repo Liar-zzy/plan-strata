@@ -1,0 +1,139 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "research",
+  "worker": "/root/research_retest",
+  "captured_at": "2026-09-05T13:17:13.719300+00:00",
+  "skill_files": [
+    {
+      "path": "LICENSE",
+      "sha256": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679"
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    },
+    {
+      "path": "scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "EVALUATION.md",
+      "sha256": "ac8d987c431251a2ae2182c49b6decce54536a7fc5c8625cdc375667d410f671",
+      "text": "# 本轮实际执行记录\n\n日期：2026-09-05。执行者：research-retest。\n\n请求：接着处理这轮研究任务，核对已有产物，整理本轮结果并留下检查和交接记录。\n\n工作范围为 `/tmp/plan-strata-eval.61HMhi/research-retest`。已读取所提供的技能 `/tmp/plan-strata-eval.61HMhi/skills-retest/plan-strata/SKILL.md` 全文及其 `references/protocol.md`、`references/research.md`、`assets/check.md`、`assets/progress.md`。只读取提供的技能资源和本项目文件；未修改技能，未访问外部服务，未安装依赖，未使用子代理。\n\n## 恢复与实际动作\n\n1. 用 `rg --files --hidden` 和 `ls -la` 盘点项目，读取全部既有文件。项目内未发现额外的 AGENTS.md。`SCENARIO.md` 明确说明为合成数据演示。\n2. 从 `progress.md` 恢复 T01 的 `needs_review` 状态、已有计划绑定和 fixture-worker 交接；CURRENT 指向同一计划，未出现待选择的其他版本。保持原任务绑定与 core、plan 快照不变。\n3. 阅读分析脚本、全部 6 个分数和原始日志；实际运行 `python3 analysis.py`。又用 awk 的求和/计数方式核对同一固定比较，未增加研究问题或数据。\n4. 新增中文结果说明、实际复核日志和正式检查。检查对象包含合成场景声明、分析脚本、输入数据和结果说明；证据包含原始日志和本轮复核记录，均使用技能工具计算完整字节 SHA-256。\n5. 检查结论为 `pass`，研究模式为 `exploratory`，发现为 `not_supported`，决定为 `stop`。在有通过检查且无前置依赖的基础上将 T01 记为 `done`；owner 更新为本轮接手者，正文保留原交接来源。\n6. 再次运行记录校验，重新核对原始文件指纹，并回读本轮结果、检查和交接。补充本执行记录。\n\n## 命令结果\n\n所有运行命令均返回；没有命令失败，没有后台作业。文件盘点、阅读和 apply_patch 写入均成功。\n\n- `python3 analysis.py`：退出 0。输出 `Synthetic demonstration only`、`candidate_minus_baseline: -0.010000`、`practical_improvement_target: 0.020000`。\n- awk 独立复算：退出 0。两组各 3 个分数，基线均值 0.800000、候选均值 0.790000、差值 -0.010000；完整命令和原样输出见 `observations/verification-2026-09-05.log`。\n- `command -v python3` 与 `python3 --version`：均成功；路径 `/opt/homebrew/bin/python3`，版本 Python 3.14.7。\n- `python3 /tmp/plan-strata-eval.61HMhi/skills-retest/plan-strata/scripts/strata.py fingerprint --project /tmp/plan-strata-eval.61HMhi/research-retest ...`：三次均退出 0，依次指纹化原始对象、两份新增对象/证据，再核对原始对象保持不变。原始指纹与正式检查、原计划和 core 记录吻合。\n- `python3 /tmp/plan-strata-eval.61HMhi/skills-retest/plan-strata/scripts/strata.py validate --project /tmp/plan-strata-eval.61HMhi/research-retest`：首次退出 0，`status: consistent`、`overall: open`，T01 为 `needs_review`，错误和警告均为空；完成检查及状态记录后再次退出 0，结果如下。\n\n```json\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"verified\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"research-retest\",\n      \"next\": \"本轮停止并保留负向结果；仅在后续问题与新预算明确后另行计划\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n```\n\n该 JSON 是实际返回结果的转录。校验器验证本地记录与被引用字节的一致性；其 `verified` 不表示真实科学结论得到确认。\n\n## 摩擦、歧义与处理\n\n未遇到工具、路径、权限或记录格式阻塞。原文件使用英文，本轮按用户语言采用中文，没有为语言转换修改已开始使用的快照。\n\n需要判断的是如何接受负向研究结果。原计划明确不要求改进，技能也要求分开记录执行、有效性、研究发现和下一步决定。因此正确的计算与有限解释可以通过检查，而 +0.02 改进目标仍记为未得到支持；没有为了得到正向结果而扩大预算。\n\n原任务只列举 CSV 和既有日志为证据，实际核验还检查了脚本及场景声明，并新增复算日志和结果说明，使检查范围可追溯。这些属于既有“正确分析、有限解释、下一步决定”的验收工作，不改变方法或范围，因此未新建计划修订。\n\n技能使用对本轮的实质影响：保留原绑定及快照、添加含对象/证据指纹的新检查、区分负向发现与交付失败、在零新实验预算下结束本轮，并在交接中标明检查来源和限制。\n\n## 文件变更与未解决事项\n\n新增：\n\n- `plans/ex-plans/P001/results.md`\n- `plans/ex-plans/P001/check/T01-check-001.md`\n- `observations/verification-2026-09-05.log`\n- `EVALUATION.md`\n\n修改：`plans/ex-plans/P001/progress.md`，记录接受状态、检查引用和交接。\n\n保留：CURRENT、core、执行计划、合成场景声明、数据、分析脚本及原日志。对重新计算指纹的六个原始对象，前后 SHA-256 一致。\n\n本轮没有未解决的执行问题或待完成任务。限制是证据全部为合成演示，检查由同一代理完成；未验证真实实验、总体效应、显著性、等效性或未知输入下的脚本行为。固定比较已经结束，未来新研究需明确新的问题和预算。本轮没有运行新实验。\n"
+    },
+    {
+      "path": "SCENARIO.md",
+      "sha256": "e09a15385a547b81c4de705e264d7148780327f0bbfd782d8fc08201c63ced09",
+      "text": "# Synthetic workflow fixture\n\nFiles describe a deliberately small demonstration project. Any research\ndata are synthetic. Commands and logs can be verified locally.\n"
+    },
+    {
+      "path": "analysis.py",
+      "sha256": "fe067b4e6f2ba87c7645b0e8fb952b226daf74db3e4e26ac8fe5f6a91075c0ac",
+      "text": "import csv\nfrom statistics import mean\n\ngroups = {}\nwith open('results.csv', newline='') as stream:\n    for row in csv.DictReader(stream):\n        groups.setdefault(row['method'], []).append(float(row['score']))\ndelta = mean(groups['candidate']) - mean(groups['baseline'])\nprint('Synthetic demonstration only')\nprint(f'candidate_minus_baseline: {delta:.6f}')\nprint('practical_improvement_target: 0.020000')\n"
+    },
+    {
+      "path": "observations/analysis.log",
+      "sha256": "9370201f933dcb42849b7bb589ba2c04d70f6c95874a559a72e73d62661a9bf7",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 analysis.py\nSynthetic demonstration only\ncandidate_minus_baseline: -0.010000\npractical_improvement_target: 0.020000\n\nexit_code: 0\n"
+    },
+    {
+      "path": "observations/verification-2026-09-05.log",
+      "sha256": "a41ac495272e9188c7f35199dbfcdd1478d0d943d31de95befc52248af0d7d67",
+      "text": "P001 / T01 本轮复核记录\n记录者：research-retest（同一代理执行复核并记录，不是独立审稿）\n时间：2026-09-05T13:10:26Z\n项目工作目录：/tmp/plan-strata-eval.61HMhi/research-retest\n说明：以下命令、标准输出与退出码转录自本轮实际工具返回。\n数据性质：SCENARIO.md 明确声明所有研究数据为合成演示数据。\n\n$ command -v python3\n/opt/homebrew/bin/python3\nexit_code: 0\n\n$ python3 --version\nPython 3.14.7\nexit_code: 0\n\n$ python3 analysis.py\nSynthetic demonstration only\ncandidate_minus_baseline: -0.010000\npractical_improvement_target: 0.020000\nexit_code: 0\n\n$ awk -F, 'NR > 1 { sums[$1] += $2; counts[$1]++ } END { printf \"baseline_count: %d\\nbaseline_mean: %.6f\\ncandidate_count: %d\\ncandidate_mean: %.6f\\ncandidate_minus_baseline: %.6f\\n\", counts[\"baseline\"], sums[\"baseline\"] / counts[\"baseline\"], counts[\"candidate\"], sums[\"candidate\"] / counts[\"candidate\"], sums[\"candidate\"] / counts[\"candidate\"] - sums[\"baseline\"] / counts[\"baseline\"] }' results.csv\nbaseline_count: 3\nbaseline_mean: 0.800000\ncandidate_count: 3\ncandidate_mean: 0.790000\ncandidate_minus_baseline: -0.010000\nexit_code: 0\n\n人工检查（同一代理）：\n- 已读取 analysis.py 全文和 results.csv 全部 6 行数据。\n- 脚本按 method 分组、将 score 转为浮点数，计算候选均值减去基线均值。\n- CSV 两组各 3 个分数，无缺失分数；基线为 0.80、0.81、0.79，候选为 0.79、0.80、0.78。\n- awk 使用求和除以计数复算同一固定分析，与 analysis.py 输出一致。\n- observations/analysis.log 的既有输出与本轮复算一致；原日志保留不改。\n- 目标 +0.020000 来自已绑定计划；观察差值 -0.010000 未达到该目标。\n- 本次仅重算既定分析，没有增加实验、数据集、候选方法或比较问题。\n- 不根据这些合成分数推断真实总体效应、统计显著性、等效性或因果关系。\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "sha256": "e037d58e84de0b78861adf292317b8b5535329a165c92ed7d39d58212bf5d559",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"4e34c75aaf923b332e3640b19f432f4cd19700ca4a7c58c7dc4ac5c90592e13c\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nSelected for this bounded synthetic demonstration.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "sha256": "cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Core\n\nComplete a bounded demonstration and retain accurate evidence.\nUse local files only. No new dependencies, external services, or real experiments.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-001.md",
+      "sha256": "891b2d43ba1e94fec0994919f4ad2d46da0b6fe9bcff0b33b2642c05708aa348",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-001\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"4e34c75aaf923b332e3640b19f432f4cd19700ca4a7c58c7dc4ac5c90592e13c\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"SCENARIO.md\",\n      \"sha256\": \"e09a15385a547b81c4de705e264d7148780327f0bbfd782d8fc08201c63ced09\"\n    },\n    {\n      \"path\": \"analysis.py\",\n      \"sha256\": \"fe067b4e6f2ba87c7645b0e8fb952b226daf74db3e4e26ac8fe5f6a91075c0ac\"\n    },\n    {\n      \"path\": \"results.csv\",\n      \"sha256\": \"b8358711375b6d1cff0b9f086e83106bbb165c1de20d2706506391abd509b027\"\n    },\n    {\n      \"path\": \"plans/ex-plans/P001/results.md\",\n      \"sha256\": \"d01f5fb5afe80de70b21ff3faae7fd5e7366afb888a5a86c5547909ffb0d1368\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/analysis.log\",\n      \"sha256\": \"9370201f933dcb42849b7bb589ba2c04d70f6c95874a559a72e73d62661a9bf7\"\n    },\n    {\n      \"path\": \"observations/verification-2026-09-05.log\",\n      \"sha256\": \"a41ac495272e9188c7f35199dbfcdd1478d0d943d31de95befc52248af0d7d67\"\n    }\n  ],\n  \"research\": {\n    \"mode\": \"exploratory\",\n    \"finding\": \"not_supported\",\n    \"decision\": \"stop\"\n  }\n}\n---\n\n# T01 范围内检查\n\n检查者：research-retest，2026-09-05。同一代理恢复任务、核查现有文件、执行复算并撰写检查；没有独立审稿。本轮检查前已接触数据和原日志。本记录不是预注册。\n\n## 方法与实际结果\n\n检查依据为任务原有绑定，与 CURRENT 选中的计划一致；核心文件和计划的完整字节指纹均与记录匹配。T01 没有前置依赖，计划不要求集成检查。\n\n已读取并核对元数据列出的全部检查对象和证据。`SCENARIO.md` 明确数据为合成演示；`analysis.py` 读取 `results.csv`，按方法分组并计算候选均值减基线均值。CSV 含基线、候选各 3 个数值，没有缺失项。\n\n在项目目录实际执行 `python3 analysis.py`，退出码 0，得到差值 -0.010000、目标 +0.020000。另用 `observations/verification-2026-09-05.log` 中保留的 awk 命令，按组求和除以计数，退出码 0，得到基线均值 0.800000、候选均值 0.790000、差值 -0.010000。两种实现与已有 `observations/analysis.log` 一致。本轮运行环境为 `/opt/homebrew/bin/python3`，Python 3.14.7。\n\n`results.md` 如实保留负向结果，限制解释范围，并说明结束本轮的预算依据。复算使用相同输入和相同问题，没有新增实验、数据集、候选方法或比较。\n\n## 判定与下一步\n\n接受方法要求正确分析所给数据、限定解释范围及有依据的下一步决定，未要求观察到改进。这三项均满足，故检查判定 `pass`，支持接受本轮任务交付。\n\n研究发现为 `not_supported`：当前合成数据的差值 -0.01 不支持候选达到 +0.02 的预选改进目标。检查通过不表示研究假设得到支持。决定为 `stop`：固定比较已完成，新实验预算为零，不再增加分析以寻找正向结果。\n\n该结论仅覆盖当前文件和算术分析。未验证真实研究、样本生成机制、总体效应、统计显著性、等效性、因果关系或脚本对未知输入的健壮性。指纹验证只标识本地字节；一致的元数据不建立研究真实性。保留原始产物和本记录，后续如提出新问题，应明确新范围与预算再计划。\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "sha256": "4e34c75aaf923b332e3640b19f432f4cd19700ca4a7c58c7dc4ac5c90592e13c",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"research\",\n      \"depends_on\": []\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# P001 — Synthetic exploratory comparison\n\n## T01\nCompare the supplied method scores using analysis.py. This is an\nexploratory demonstration. Budget: one fixed comparison, zero new experiments,\ndatasets, or candidate methods. Verification may recompute this same analysis.\nA difference of +0.02 is the preselected practical improvement target.\nAcceptance requires a correct analysis of supplied data, a bounded\ninterpretation, and a justified next decision. It does not require improvement.\nEvidence: results.csv and observations/analysis.log. Verify as needed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "sha256": "b7392b9da8d3297f0cfdce25f91e3218dd4e40e7d52d4b52d044663989956a84",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"owner\": \"research-retest\",\n      \"next\": \"本轮停止并保留负向结果；仅在后续问题与新预算明确后另行计划\",\n      \"check\": \"plans/ex-plans/P001/check/T01-check-001.md\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"4e34c75aaf923b332e3640b19f432f4cd19700ca4a7c58c7dc4ac5c90592e13c\"\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# P001 交接记录\n\n## 2026-09-05 复核与接受\n\n由 research-retest 接手原 fixture-worker 留下的待检查交付，沿用元数据中的计划绑定。CURRENT 与该绑定一致，无需重新选择计划或修订基线。SCENARIO.md 明确这是合成演示；原始数据、脚本、既有日志、core 和执行计划均保留原字节。\n\n已核对所有输入，运行 `python3 analysis.py`，并用 awk 复算相同固定比较，两条命令均退出 0。基线均值 0.800000、候选均值 0.790000，差值 -0.010000，与原日志一致。正式检查已通过；研究发现为未支持达到 +0.02 的实际改进目标，决定结束本轮。\n\n## 产物与限制\n\n- 本轮结果：`plans/ex-plans/P001/results.md`。\n- 本轮命令、环境和观察：`observations/verification-2026-09-05.log`。\n- 含对象及证据指纹的检查：`plans/ex-plans/P001/check/T01-check-001.md`。\n- 原始数据和证据：`results.csv`、`analysis.py`、`observations/analysis.log`。\n- 本轮执行与使用记录：`EVALUATION.md`。\n\n完成记录后已运行技能的只读校验器，退出码 0，返回 `status: consistent`、`overall: verified`，无错误或警告。该结果表示所选计划的任务、检查、引用和指纹一致；研究判断仍以正式检查列明的范围和限制为准。\n\n检查由同一代理完成；没有独立审稿。结论只适用于当前合成数据的固定算术比较，不能外推为真实研究发现或无效/等效证明。单次固定比较预算已经用完，允许的同一分析复核已完成；新实验、数据集和候选方法均未增加。\n\n原交接称没有后台作业；本轮所有命令都已返回，未启动后台作业。无待追踪作业标识，无未解决的本轮执行阻塞。下一位接手者应保留这些负向结果，在新的研究问题与预算明确后再开始后续计划。\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/results.md",
+      "sha256": "d01f5fb5afe80de70b21ff3faae7fd5e7366afb888a5a86c5547909ffb0d1368",
+      "text": "# P001 本轮研究结果\n\n本轮为合成数据上的探索性演示。任务 T01 继续绑定 `plans/ex-plans/P001/ex-plan-v0.1.0.md`，完整内容 SHA-256 为 `4e34c75aaf923b332e3640b19f432f4cd19700ca4a7c58c7dc4ac5c90592e13c`。本轮未改变研究问题、方法、目标或预算。\n\n## 结果与解释\n\n`results.csv` 包含基线和候选各 3 个分数。基线均值为 0.800000，候选均值为 0.790000；候选减基线为 -0.010000，低于预选的实际改进目标 +0.020000。相对该目标还差 0.030000。\n\n这组提供的合成分数不支持“候选达到预选改进目标”的判断。这里的负向描述仅适用于这 6 个演示数值，不构成真实研究结论，也不能证明总体上无效、等效或有害。\n\n## 执行、有效性与决定\n\n- **执行**：已读取全部输入、分析脚本和既有日志，运行一次 `python3 analysis.py`，并用 awk 独立计算同一比较的计数、均值和差值。两条分析命令均退出 0。\n- **有效性**：脚本实现的是计划要求的均值差；数据完整，复算与原日志均得到 -0.010000。当前数据及本轮固定分析满足计划的检查范围。\n- **发现**：`not_supported`，即本次合成演示未支持达到 +0.02 的实际改进目标。执行成功与得到正向研究发现是分开的判断。\n- **决定**：`stop`。一个固定比较已完成，保留负向结果并结束本轮；新实验、新数据集、新方法预算均为零，不继续搜索正向结果。\n\n## 证据和限制\n\n输入为 `results.csv`，实现为 `analysis.py`。既有输出在 `observations/analysis.log`，本轮实际复算、环境和检查观察在 `observations/verification-2026-09-05.log`。\n\n本轮属于探索性活动；复核前已看过数据和原日志。计划未要求置信区间、显著性检验、随机种子或真实实验验证，故没有增加这些分析。输入未提供真实采样或生成过程，不能将分数组间差异外推到真实应用。脚本适用于当前提供的 CSV；未检查未知输入的通用健壮性。\n\n检查由同一代理完成，没有独立审稿。技术上的两种算术实现一致只证明当前固定计算相符，不增加科学证据量。未来若有新研究问题，应先明确新范围和预算，再建立后续计划；本轮没有必须继续处理的研究动作。\n"
+    },
+    {
+      "path": "results.csv",
+      "sha256": "b8358711375b6d1cff0b9f086e83106bbb165c1de20d2706506391abd509b027",
+      "text": "method,score\nbaseline,0.80\nbaseline,0.81\nbaseline,0.79\ncandidate,0.79\ncandidate,0.80\ncandidate,0.78\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "verified",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "research-retest",
+        "next": "本轮停止并保留负向结果；仅在后续问题与新预算明确后另行计划"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": []
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}

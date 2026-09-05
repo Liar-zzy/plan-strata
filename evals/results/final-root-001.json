@@ -1,0 +1,41 @@
+{
+  "kind": "final-root-consistency",
+  "date": "2026-09-05",
+  "command": "python3 skills/plan-strata/scripts/strata.py validate --project .",
+  "exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "verified",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "root",
+        "next": "根据后续实际使用问题修改；当前范围已验收"
+      },
+      {
+        "id": "T02",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "real_handoff / root",
+        "next": "使用 docs/FIRST_USE.md 进行首次体验"
+      },
+      {
+        "id": "T03",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "root",
+        "next": "下一轮观察自然中断或需求调整的恢复成本"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": []
+  },
+  "limits": "A final consistency result for the accepted local alpha; substantive evidence and limitations are recorded in the task and integration checks."
+}

@@ -1,0 +1,203 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "integration",
+  "worker": "/root/forward_development",
+  "captured_at": "2026-09-05T13:14:29.647737+00:00",
+  "skill_files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "references/research.md",
+      "sha256": "21b20d426657ec58193839ca2dc6df48d08c31a35bcd7923b128fbd254b5d079"
+    },
+    {
+      "path": "scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "EVALUATION.md",
+      "sha256": "d0a479bddade16310800719a17d6b642f3be1849a4235874b7f209b3df61046a",
+      "text": "# 本次执行评估\n\n日期：2026-09-05。检查：codex-forward-development。\n\n按指定 plan-strata 技能检查当前产物和本轮结束条件。T01、T02 的产物及历史指纹有效；本次新增二者的复核检查，保留任务完成状态。当前计划 integration_required=true，因此还单独新增 `plans/ex-plans/P001/check/integration-check-002.md`，更新 progress 的集成检查引用与下一步。\n\n实际检查：单元检查退出 0；实际文档命令输出 `6`，退出 0，空输入观察为 `0`。`PYTHONDONTWRITEBYTECODE=1 python3 tests/check_integration.py` 在公开包装函数断言处失败，退出 1；直接观察 `public_total([1, 2, 3])` 得到 `12`，计划要求 `6`。源码中的额外乘 2 解释了差异。最终管理校验退出 0，为 consistent/open，警告 INTEGRATION_OPEN。命令和结果见 `observations/forward-review-2026-09-05.log`、`observations/forward-validation-2026-09-05.log`。\n\n摩擦与歧义：原 `observations/docs.log` 实际记录单元检查，而非运行文档命令；本次补充真实文档命令证据。技能要求把任务通过与集成通过分开，最终结论为本轮不能结束，不能将 validator 的 consistent 解释成整体完成。\n\n剩余工作：后续获得源码修改授权的执行者应修复 `src/public.py` 的包装行为，重跑集成及相关回归，用新的有效通过检查再次决定是否结束。本次仅新增检查、证据与评估记录并更新 progress；源码、测试、文档、CURRENT、core、两份计划、历史检查和日志均保持原指纹。\n\n"
+    },
+    {
+      "path": "SCENARIO.md",
+      "sha256": "e09a15385a547b81c4de705e264d7148780327f0bbfd782d8fc08201c63ced09",
+      "text": "# Synthetic workflow fixture\n\nFiles describe a deliberately small demonstration project. Any research\ndata are synthetic. Commands and logs can be verified locally.\n"
+    },
+    {
+      "path": "docs/usage.md",
+      "sha256": "c8874ed9c78add1856e0d275021e2d5884ebe8918e14ea4d1b2415e070156ff5",
+      "text": "# Usage\n\nRun from project root:\n\n```sh\nPYTHONPATH=src python3 -c 'from calc import total; print(total([1, 2, 3]))'\n```\n\nThe result is 6. Empty input returns 0.\n"
+    },
+    {
+      "path": "observations/docs.log",
+      "sha256": "e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n"
+    },
+    {
+      "path": "observations/forward-review-2026-09-05.log",
+      "sha256": "1b39cc71a132e2c77a0a7a17bdc6af11728631f760c6d8422dcf227e6b22b4c9",
+      "text": "日期：2026-09-05\n检查人：codex-forward-development（同一代理复核；无独立审阅者）\n项目工作目录：/tmp/plan-strata-eval.61HMhi/integration\n本文件保留本次实际工具命令输出；以下 validator 结果为管理记录更新前的快照。\n测试命令设置 PYTHONDONTWRITEBYTECODE=1，仅防止写入缓存，不改变验收断言。\n\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py validate --project /tmp/plan-strata-eval.61HMhi/integration\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Review integration outcome\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"code\": \"INTEGRATION_OPEN\",\n      \"message\": \"Integration is not currently verified\"\n    }\n  ]\n}\n\nexit_code: 0\n\n$ PYTHONDONTWRITEBYTECODE=1 python3 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n\n$ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -c 'from calc import total; print(total([1, 2, 3]))'\n6\n\nexit_code: 0\n\n$ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -c 'from calc import total; from public import public_total; print(\"total([]) =\", total([])); print(\"public_total([1, 2, 3]) =\", public_total([1, 2, 3]))'\ntotal([]) = 0\npublic_total([1, 2, 3]) = 12\n\nexit_code: 0\n\n$ PYTHONDONTWRITEBYTECODE=1 python3 tests/check_integration.py\nTraceback (most recent call last):\n  File \"/private/tmp/plan-strata-eval.61HMhi/integration/tests/check_integration.py\", line 5, in <module>\n    assert public_total([1, 2, 3]) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n\nexit_code: 1\n\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py fingerprint --project /tmp/plan-strata-eval.61HMhi/integration plans/CURRENT.md plans/core/core-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.2.0.md src/calc.py tests/check_total.py observations/total.log plans/ex-plans/P001/check/T01-check-001.md docs/usage.md src/public.py tests/check_integration.py observations/docs.log observations/integration.log plans/ex-plans/P001/check/T02-check-001.md plans/ex-plans/P001/check/integration-check-001.md\n[\n  {\n    \"path\": \"plans/CURRENT.md\",\n    \"sha256\": \"baccb35cb8d3ddfb1669d7d0b1a866a965172342385e99bcfdda9bc70b210e12\"\n  },\n  {\n    \"path\": \"plans/core/core-v0.1.0.md\",\n    \"sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n    \"sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.2.0.md\",\n    \"sha256\": \"5ed70adc80b69933379bb53f6e64d1c8cb5535aae97e2738101b3bac42cb9a50\"\n  },\n  {\n    \"path\": \"src/calc.py\",\n    \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n  },\n  {\n    \"path\": \"tests/check_total.py\",\n    \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n  },\n  {\n    \"path\": \"observations/total.log\",\n    \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/check/T01-check-001.md\",\n    \"sha256\": \"3221758428c549c8656f41f0f316e0198e6a9ce7852cff967ac2d64a08e90de4\"\n  },\n  {\n    \"path\": \"docs/usage.md\",\n    \"sha256\": \"c8874ed9c78add1856e0d275021e2d5884ebe8918e14ea4d1b2415e070156ff5\"\n  },\n  {\n    \"path\": \"src/public.py\",\n    \"sha256\": \"6ccac366296df4504483eedee81220cfe5b038b0d63b4117dc21d4e701709749\"\n  },\n  {\n    \"path\": \"tests/check_integration.py\",\n    \"sha256\": \"f4dc4e39cecc00467208dee16de2c157a0f35f20468c3eab023ed2ac2ace2466\"\n  },\n  {\n    \"path\": \"observations/docs.log\",\n    \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n  },\n  {\n    \"path\": \"observations/integration.log\",\n    \"sha256\": \"64ad41a3f56def398c6b7439c30796bef3146de2d2c5da399224538b7e9c2ba7\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/check/T02-check-001.md\",\n    \"sha256\": \"991d4914cdb438cbdd36af2247882e9e0f555e581b48ff5d2a61d202aa658bf9\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/check/integration-check-001.md\",\n    \"sha256\": \"13a42d61a03b03745d9dcebad441f2d84ad638d82287dd6858d2d620d145d42d\"\n  }\n]\n\nexit_code: 0\n\n人工检查观察：\n阅读 docs/usage.md 并执行其导入示例，输出 6；空输入检查输出 0。T01 和 T02 的当前产物与历史指纹一致。public_total([1, 2, 3]) 实际为 12，集成测试要求 6；src/public.py 的 return total(values) * 2 解释了差异。当前计划 integration_required=true，任务级通过不能结束本轮。此次只更新管理及证据记录。\n\n"
+    },
+    {
+      "path": "observations/forward-validation-2026-09-05.log",
+      "sha256": "21f06cb086996c36ff0c55a1151fcee0bb84190c3648a6e0d02b94d44fd6d800",
+      "text": "日期：2026-09-05\n检查人：codex-forward-development\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py validate --project /tmp/plan-strata-eval.61HMhi/integration\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"任务范围已复核通过；等待集成修复后的相关回归\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"文档范围已复核通过；在集成检查通过后汇总本轮完成性\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"code\": \"INTEGRATION_OPEN\",\n      \"message\": \"Integration is not currently verified\"\n    }\n  ]\n}\n\nexit_code: 0\n\n结束时重算此前已记录的 15 个文件指纹，与 observations/forward-review-2026-09-05.log 中的指纹逐项比较；changed: []。\n校验工具只检查记录一致性；测试和实际观察须结合本次 review 日志及检查结论解读。\n\n"
+    },
+    {
+      "path": "observations/integration.log",
+      "sha256": "64ad41a3f56def398c6b7439c30796bef3146de2d2c5da399224538b7e9c2ba7",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 tests/check_integration.py\nTraceback (most recent call last):\n  File \"/private/tmp/plan-strata-eval.61HMhi/integration/tests/check_integration.py\", line 5, in <module>\n    assert public_total([1, 2, 3]) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n\nexit_code: 1\n"
+    },
+    {
+      "path": "observations/total.log",
+      "sha256": "e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "sha256": "baccb35cb8d3ddfb1669d7d0b1a866a965172342385e99bcfdda9bc70b210e12",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nSelected for this bounded synthetic demonstration.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "sha256": "cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Core\n\nComplete a bounded demonstration and retain accurate evidence.\nUse local files only. No new dependencies, external services, or real experiments.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-001.md",
+      "sha256": "3221758428c549c8656f41f0f316e0198e6a9ce7852cff967ac2d64a08e90de4",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-001\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/check_total.py\",\n      \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/total.log\",\n      \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n    }\n  ]\n}\n---\n\n# Fixture check\n\nReviewer: scenario preparation script.\n\nThe linked evidence records the actual local command result. This is a\nsynthetic demonstration project; no real research result is claimed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-002.md",
+      "sha256": "ac269a08ee78f0d9b59f08fb82bdd902814bf0e826f2e81dc0deb2bfb753b7cf",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-002\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/check_total.py\",\n      \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/forward-review-2026-09-05.log\",\n      \"sha256\": \"1b39cc71a132e2c77a0a7a17bdc6af11728631f760c6d8422dcf227e6b22b4c9\"\n    }\n  ]\n}\n---\n\n# T01 检查\n\n检查人：codex-forward-development。日期：2026-09-05。\n复核来源：同一代理直接读取实际文件并执行本地命令，无独立审阅者。\n命令完整输出和退出码见所绑定的 `observations/forward-review-2026-09-05.log`。\n\n按当前 v0.1.0 T01 标准复核实现和原始检查指纹。执行 `PYTHONDONTWRITEBYTECODE=1 python3 tests/check_total.py`，输出 `empty input and numeric sum passed`，退出 0。源码和测试与历史接受版本一致。\n\nT01 的求和和空输入验收通过，可保持完成；本结论只涉及直接调用 `total`，不能代替公开包装函数的集成验收。历史 `T01-check-001.md` 保留。\n\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T02-check-001.md",
+      "sha256": "991d4914cdb438cbdd36af2247882e9e0f555e581b48ff5d2a61d202aa658bf9",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T02-check-001\",\n  \"task\": \"T02\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"docs/usage.md\",\n      \"sha256\": \"c8874ed9c78add1856e0d275021e2d5884ebe8918e14ea4d1b2415e070156ff5\"\n    },\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/docs.log\",\n      \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n    }\n  ]\n}\n---\n\n# Fixture check\n\nReviewer: scenario preparation script.\n\nThe linked evidence records the actual local command result. This is a\nsynthetic demonstration project; no real research result is claimed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T02-check-002.md",
+      "sha256": "f990b4b5a8bfa9abf60afd78d5ca2e0f65b720a609539e163cb9a2b90fc65646",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T02-check-002\",\n  \"task\": \"T02\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"docs/usage.md\",\n      \"sha256\": \"c8874ed9c78add1856e0d275021e2d5884ebe8918e14ea4d1b2415e070156ff5\"\n    },\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/check_total.py\",\n      \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/forward-review-2026-09-05.log\",\n      \"sha256\": \"1b39cc71a132e2c77a0a7a17bdc6af11728631f760c6d8422dcf227e6b22b4c9\"\n    }\n  ]\n}\n---\n\n# T02 检查\n\n检查人：codex-forward-development。日期：2026-09-05。\n复核来源：同一代理直接读取实际文件并执行本地命令，无独立审阅者。\n命令完整输出和退出码见所绑定的 `observations/forward-review-2026-09-05.log`。\n\n人工阅读 `docs/usage.md`，确认项目根目录的实际导入命令、数值例子与空输入说明均存在。执行文档的 `PYTHONPATH=src python3 -c 'from calc import total; print(total([1, 2, 3]))'`（增加防缓存变量），输出 `6`，退出 0；另一个观察命令打印 `total([]) = 0`，退出 0。现有单元检查退出 0。\n\n文档和被调用源码的指纹与历史记录一致。历史 `T02-check-001.md` 引用的 `docs.log` 实际执行的是单元检查，所以本次补充了真正运行文档命令的证据；旧文件完整保留。T01 经本次 `T01-check-002.md` 复核通过。\n\nT02 的直接导入文档范围通过，可保持完成。本检查不验收公开包装函数，也不能支持结束本轮。\n\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/integration-check-001.md",
+      "sha256": "13a42d61a03b03745d9dcebad441f2d84ad638d82287dd6858d2d620d145d42d",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"integration-check-001\",\n  \"task\": \"integration\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"fail\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"src/public.py\",\n      \"sha256\": \"6ccac366296df4504483eedee81220cfe5b038b0d63b4117dc21d4e701709749\"\n    },\n    {\n      \"path\": \"tests/check_integration.py\",\n      \"sha256\": \"f4dc4e39cecc00467208dee16de2c157a0f35f20468c3eab023ed2ac2ace2466\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/integration.log\",\n      \"sha256\": \"64ad41a3f56def398c6b7439c30796bef3146de2d2c5da399224538b7e9c2ba7\"\n    }\n  ]\n}\n---\n\n# Fixture check\n\nReviewer: scenario preparation script.\n\nThe linked evidence records the actual local command result. This is a\nsynthetic demonstration project; no real research result is claimed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/integration-check-002.md",
+      "sha256": "056af6da485d0b6619115fd5b35e5bc6c1fc790a9318203ff56cc0635ebbb4e3",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"integration-check-002\",\n  \"task\": \"integration\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\",\n  \"verdict\": \"fail\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"src/public.py\",\n      \"sha256\": \"6ccac366296df4504483eedee81220cfe5b038b0d63b4117dc21d4e701709749\"\n    },\n    {\n      \"path\": \"tests/check_integration.py\",\n      \"sha256\": \"f4dc4e39cecc00467208dee16de2c157a0f35f20468c3eab023ed2ac2ace2466\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/forward-review-2026-09-05.log\",\n      \"sha256\": \"1b39cc71a132e2c77a0a7a17bdc6af11728631f760c6d8422dcf227e6b22b4c9\"\n    }\n  ]\n}\n---\n\n# integration 检查\n\n检查人：codex-forward-development。日期：2026-09-05。\n复核来源：同一代理直接读取实际文件并执行本地命令，无独立审阅者。\n命令完整输出和退出码见所绑定的 `observations/forward-review-2026-09-05.log`。\n\n当前 v0.1.0 计划要求独立集成验收。已核对旧 `integration-check-001.md` 的源码、测试与日志指纹；旧失败仍适用于当前产物。\n\n重新执行 `PYTHONDONTWRITEBYTECODE=1 python3 tests/check_integration.py`，在 `assert public_total([1, 2, 3]) == 6` 处失败，退出 1。额外观察命令输出 `public_total([1, 2, 3]) = 12`，退出 0。阅读源码可见 `src/public.py` 将 `total(values)` 再乘以 2，解释了当前差异。\n\nT01、T02 的任务验收通过，但不满足 `integration_required=true` 的完成条件。本轮保持开放；保留旧失败检查，本检查记录最新复核。没有修改源码、测试或使用文档。\n\n下一步：由获得源码修改授权的执行者修复包装函数使其遵循原集成标准，重跑 `python3 tests/check_integration.py` 和相关回归，创建新的集成检查；仅在有效通过后才可结束本轮。\n\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "sha256": "1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": true\n}\n---\n\n# P001 — Sum utility and usage documentation\n\n## T01\nImplement total(values), including empty input, in src/calc.py.\nValidate with python3 tests/check_total.py.\n\n## T02\nWrite docs/usage.md with an actual import/run command, empty-input\nbehavior, and a numeric example. Verify the example and record evidence.\nKeep the existing arithmetic behavior.\n\n## Integration\nWhen integration is required, verify the public wrapper\nusing python3 tests/check_integration.py. Local task success alone is insufficient.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.2.0.md",
+      "sha256": "5ed70adc80b69933379bb53f6e64d1c8cb5535aae97e2738101b3bac42cb9a50",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.2.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\",\n  \"ready\": false,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": true\n}\n---\n\n# Unselected proposal\n\nExplore replacing the sum utility with multiplication.\nThis draft has not been selected for execution.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "sha256": "acb6e00f65a12824f9f593dfd0762a76d74c4fb57054dec91933ca02f5cbbd4d",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"任务范围已复核通过；等待集成修复后的相关回归\",\n      \"check\": \"plans/ex-plans/P001/check/T01-check-002.md\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"done\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"文档范围已复核通过；在集成检查通过后汇总本轮完成性\",\n      \"check\": \"plans/ex-plans/P001/check/T02-check-002.md\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"1638dbcc60d4980dc8db22ad9eef0a0250e5dba65caea98be5ea05125ac4d9a2\"\n    }\n  ],\n  \"integration_check\": \"plans/ex-plans/P001/check/integration-check-002.md\"\n}\n---\n\n# Handoff\n\nRead the task metadata and relevant observation files.\nThere are no background jobs. Synthetic fixture preparation produced the existing files.\n\n## 2026-09-05 本轮结束性复核\n\n检查人：codex-forward-development。已检查当前产物、历史检查及实际命令输出。\nT01 的单元检查退出 0；实际文档命令输出 6，空输入观察为 0，T02 的范围成立。\n新增任务检查 `check/T01-check-002.md`、`check/T02-check-002.md` 记录本次复核，\n既有检查与日志保留。源码、测试及文档均未修改。\n\n本轮不能结束：当前计划要求集成检查，而公开包装函数实际输出 12，验收要求 6；\n重跑 `python3 tests/check_integration.py` 退出 1。当前失败记录见\n`check/integration-check-002.md`，完整证据见 `observations/forward-review-2026-09-05.log`。\n任务级完成继续保留，整体保持开放；元数据 consistent 不表示集成已通过。\n\n下一步由获得源码修改授权的执行者修复 `src/public.py` 的额外乘 2，使其符合原验收，\n重跑集成及相关回归并创建新的集成检查；有效通过后再汇总是否可以结束。\n本次只更新管理与检查证据，没有后台任务。\n"
+    },
+    {
+      "path": "src/calc.py",
+      "sha256": "3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad",
+      "text": "def total(values):\n    return sum(values)\n"
+    },
+    {
+      "path": "src/public.py",
+      "sha256": "6ccac366296df4504483eedee81220cfe5b038b0d63b4117dc21d4e701709749",
+      "text": "from calc import total\ndef public_total(values):\n    return total(values) * 2\n"
+    },
+    {
+      "path": "tests/check_integration.py",
+      "sha256": "f4dc4e39cecc00467208dee16de2c157a0f35f20468c3eab023ed2ac2ace2466",
+      "text": "import sys\nfrom pathlib import Path\nsys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))\nfrom public import public_total\nassert public_total([1, 2, 3]) == 6\n"
+    },
+    {
+      "path": "tests/check_total.py",
+      "sha256": "103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc",
+      "text": "import sys\nfrom pathlib import Path\nsys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))\nfrom calc import total\nassert total([]) == 0\nassert total([1, 2, 3]) == 6\nprint('empty input and numeric sum passed')\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "open",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "fixture-worker",
+        "next": "任务范围已复核通过；等待集成修复后的相关回归"
+      },
+      {
+        "id": "T02",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "fixture-worker",
+        "next": "文档范围已复核通过；在集成检查通过后汇总本轮完成性"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": [
+      {
+        "code": "INTEGRATION_OPEN",
+        "message": "Integration is not currently verified"
+      }
+    ]
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "package-and-evidence-review",
+  "date": "2026-09-05",
+  "checks": [
+    {
+      "check": 0,
+      "exit_code": 0,
+      "output": "Skill is valid!\n"
+    },
+    {
+      "check": 1,
+      "exit_code": 0,
+      "output": "{\n  \"archived_artifacts_verified\": 129,\n  \"skill_local_links_verified\": 8,\n  \"automated_subjects_match_current_files\": true,\n  \"forward_reports\": [\n    {\n      \"file\": \"handoff-001.json\",\n      \"overall\": \"open\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"integration-001.json\",\n      \"overall\": \"open\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"research-001.json\",\n      \"overall\": \"verified\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"research-002.json\",\n      \"overall\": \"verified\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"resume-001.json\",\n      \"overall\": \"verified\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"stale-001.json\",\n      \"overall\": \"open\",\n      \"exit_code\": 0\n    },\n    {\n      \"file\": \"switch-001.json\",\n      \"overall\": \"open\",\n      \"exit_code\": 0\n    }\n  ]\n}\n"
+    }
+  ],
+  "limits": "Checks skill format, local skill links, archived artifact byte identities, and current tested source fingerprints. Scientific interpretation and host automatic discovery are outside this check."
+}

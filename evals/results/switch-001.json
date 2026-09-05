@@ -1,0 +1,158 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "switch",
+  "worker": "/root/forward_development",
+  "captured_at": "2026-09-05T13:14:29.513371+00:00",
+  "skill_files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "e2fa62e3a3d97d3682de5c2ac649af08afed050ad09cce6633db6d94ae528650"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "references/research.md",
+      "sha256": "21b20d426657ec58193839ca2dc6df48d08c31a35bcd7923b128fbd254b5d079"
+    },
+    {
+      "path": "scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "EVALUATION.md",
+      "sha256": "22fa43d0f3afd964cf3c8a231dc41fdb947dc68565306cd0b41dbffbbf38b9c0",
+      "text": "# 本次执行评估\n\n日期：2026-09-05。交接检查：codex-forward-development。\n\n按指定 plan-strata 技能恢复已分配 T01 的 v0.1.0 plan/hash 绑定。CURRENT 虽已切换至 v0.2.0，其修订说明明确要求原 T01 保持旧绑定并稍后协调验收。实际源码已经满足原范围，未修改源码；新增 `plans/ex-plans/P001/check/T01-check-002.md`，将原范围的通过结果与交接写入 progress。\n\n实际检查：`PYTHONDONTWRITEBYTECODE=1 python3 tests/check_total.py` 退出 0，输出 `empty input and numeric sum passed`。最终管理校验退出 0，为 consistent/open；保留 OLDER_BASIS 警告，明确标出 T01 的旧绑定与 CURRENT 的差别。完整命令见 `observations/forward-review-2026-09-05.log` 和 `observations/forward-validation-2026-09-05.log`。\n\n摩擦与歧义：原分配范围已通过，但技能规定 done 需要当前基线的有效通过检查，因此采用 needs_review 表达交付已完成、当前接受仍待协调。没有擅自更换绑定或创建当前基线复用声明。T02 的状态、负责人及下一步保持原样，本次未承担 T02。\n\n剩余工作：协调者依据 v0.2.0 明确复用适用性，新增有理由的复用检查或明确重分配，再接受 T01；T02 由后续分配处理。CURRENT、core、两份计划、源码、测试和原检查日志指纹均未变化。当前用户分配的 T01 原范围已交接，整体迭代仍开放。\n\n"
+    },
+    {
+      "path": "SCENARIO.md",
+      "sha256": "e09a15385a547b81c4de705e264d7148780327f0bbfd782d8fc08201c63ced09",
+      "text": "# Synthetic workflow fixture\n\nFiles describe a deliberately small demonstration project. Any research\ndata are synthetic. Commands and logs can be verified locally.\n"
+    },
+    {
+      "path": "observations/forward-review-2026-09-05.log",
+      "sha256": "b117defcdb5a78e16fadfc2746f8d12949e8b8263bfcf653838a850caa678c85",
+      "text": "日期：2026-09-05\n检查人：codex-forward-development（同一代理复核；无独立审阅者）\n项目工作目录：/tmp/plan-strata-eval.61HMhi/switch\n本文件保留本次实际工具命令输出；以下 validator 结果为管理记录更新前的快照。\n测试命令设置 PYTHONDONTWRITEBYTECODE=1，仅防止写入缓存，不改变验收断言。\n\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py validate --project /tmp/plan-strata-eval.61HMhi/switch\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"in_progress\",\n      \"effective_state\": \"in_progress\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Finish the original T01 scope and hand it off\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.2.0.md\",\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"code\": \"OLDER_BASIS\",\n      \"message\": \"T01: bound to plans/ex-plans/P001/ex-plan-v0.1.0.md; CURRENT selects plans/ex-plans/P001/ex-plan-v0.2.0.md\"\n    }\n  ]\n}\n\nexit_code: 0\n\n$ PYTHONDONTWRITEBYTECODE=1 python3 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py fingerprint --project /tmp/plan-strata-eval.61HMhi/switch plans/CURRENT.md plans/core/core-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.2.0.md src/calc.py tests/check_total.py observations/total.log plans/ex-plans/P001/check/T01-check-001.md\n[\n  {\n    \"path\": \"plans/CURRENT.md\",\n    \"sha256\": \"453631b38c45f18224f8bd6754a9c2a3945a5da07b1040df15da07e7b6a23776\"\n  },\n  {\n    \"path\": \"plans/core/core-v0.1.0.md\",\n    \"sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n    \"sha256\": \"04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.2.0.md\",\n    \"sha256\": \"cd2cfc80aac53710724ccbb991363743bf11107af2775064701766051ef7df6d\"\n  },\n  {\n    \"path\": \"src/calc.py\",\n    \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n  },\n  {\n    \"path\": \"tests/check_total.py\",\n    \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n  },\n  {\n    \"path\": \"observations/total.log\",\n    \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/check/T01-check-001.md\",\n    \"sha256\": \"aeb3e5c1f6125230acd8afe9ceff070d3e2e4c8c5725374eeca3791e540263e1\"\n  }\n]\n\nexit_code: 0\n\n人工检查观察：\nCURRENT 选择 v0.2.0；T01 已开始的执行绑定仍为 v0.1.0。v0.2.0 的修订说明明确要求原 T01 保持该绑定、稍后协调验收。本次只验证并交接原 T01，没有承担 T02。\n\n"
+    },
+    {
+      "path": "observations/forward-validation-2026-09-05.log",
+      "sha256": "d2cd520529a536e8ea66f8f806717f0f7c203879d6d9419bd8edca37639d59e7",
+      "text": "日期：2026-09-05\n检查人：codex-forward-development\n$ python3 /tmp/plan-strata-eval.61HMhi/skills/plan-strata/scripts/strata.py validate --project /tmp/plan-strata-eval.61HMhi/switch\n{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"needs_review\",\n      \"effective_state\": \"needs_review\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"v0.1.0 原范围已通过并交接；由协调者按 v0.2.0 新建复用检查或明确重分配\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.2.0.md\",\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"code\": \"OLDER_BASIS\",\n      \"message\": \"T01: bound to plans/ex-plans/P001/ex-plan-v0.1.0.md; CURRENT selects plans/ex-plans/P001/ex-plan-v0.2.0.md\"\n    }\n  ]\n}\n\nexit_code: 0\n\n结束时重算此前已记录的 8 个文件指纹，与 observations/forward-review-2026-09-05.log 中的指纹逐项比较；changed: []。\n校验工具只检查记录一致性；测试和实际观察须结合本次 review 日志及检查结论解读。\n\n"
+    },
+    {
+      "path": "observations/total.log",
+      "sha256": "e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "sha256": "453631b38c45f18224f8bd6754a9c2a3945a5da07b1040df15da07e7b6a23776",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.2.0.md\",\n  \"plan_sha256\": \"cd2cfc80aac53710724ccbb991363743bf11107af2775064701766051ef7df6d\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nSelected for this bounded synthetic demonstration.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "sha256": "cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Core\n\nComplete a bounded demonstration and retain accurate evidence.\nUse local files only. No new dependencies, external services, or real experiments.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-001.md",
+      "sha256": "aeb3e5c1f6125230acd8afe9ceff070d3e2e4c8c5725374eeca3791e540263e1",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-001\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/check_total.py\",\n      \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/total.log\",\n      \"sha256\": \"e64e4370447eb3c0e52e27deb52ce7bc24ee926baea16026fc46ba31cc308da0\"\n    }\n  ]\n}\n---\n\n# Fixture check\n\nReviewer: scenario preparation script.\n\nThe linked evidence records the actual local command result. This is a\nsynthetic demonstration project; no real research result is claimed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-002.md",
+      "sha256": "21bae8d94e36594c08e8422eec3e15e279dd3f28445fd7dab88c85fb1015f319",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-002\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/check_total.py\",\n      \"sha256\": \"103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc\"\n    }\n  ],\n  \"evidence\": [\n    {\n      \"path\": \"observations/forward-review-2026-09-05.log\",\n      \"sha256\": \"b117defcdb5a78e16fadfc2746f8d12949e8b8263bfcf653838a850caa678c85\"\n    }\n  ]\n}\n---\n\n# T01 检查\n\n检查人：codex-forward-development。日期：2026-09-05。\n复核来源：同一代理直接读取实际文件并执行本地命令，无独立审阅者。\n命令完整输出和退出码见所绑定的 `observations/forward-review-2026-09-05.log`。\n\n本检查严格使用已开始任务的 v0.1.0 绑定，复核原 T01 范围。执行 `PYTHONDONTWRITEBYTECODE=1 python3 tests/check_total.py`，输出 `empty input and numeric sum passed`，退出 0。实现已满足该范围，无需源码修改。\n\n历史 `T01-check-001.md` 及其证据仍保留。CURRENT 已选择 v0.2.0；该版本明确说明正在执行的 T01 继续绑定 v0.1.0，验收协调留待后续。因此本次 pass 只表示原分配范围通过，不构成 v0.2.0 的接受或任务重绑定。\n\n交接决定：T01 进入 `needs_review`，保留 v0.1.0 的 plan/hash，等待协调者按当前基线给出有理由的复用检查或明确重分配。未承担 T02，未编写新版本要求的文档。\n\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "sha256": "04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# P001 — Sum utility and usage documentation\n\n## T01\nImplement total(values), including empty input, in src/calc.py.\nValidate with python3 tests/check_total.py.\n\n## T02\nWrite docs/usage.md with an actual import/run command, empty-input\nbehavior, and a numeric example. Verify the example and record evidence.\nKeep the existing arithmetic behavior.\n\n## Integration\nWhen integration is required, verify the public wrapper\nusing python3 tests/check_integration.py. Local task success alone is insufficient.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.2.0.md",
+      "sha256": "cd2cfc80aac53710724ccbb991363743bf11107af2775064701766051ef7df6d",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.2.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"cd8ccfd934302f088e450c82b111d1ad893d28434b0b7147f1b5be741b69a2e6\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# P001 — Sum utility and usage documentation\n\n## T01\nImplement total(values), including empty input, in src/calc.py.\nValidate with python3 tests/check_total.py.\n\n## T02\nWrite docs/usage.md with an actual import/run command, empty-input\nbehavior, and a numeric example. Verify the example and record evidence.\nKeep the existing arithmetic behavior.\n\n## Integration\nWhen integration is required, verify the public wrapper\nusing python3 tests/check_integration.py. Local task success alone is insufficient.\n\n## Revision\nNew documentation should additionally include negative values.\nThe already-running T01 remains assigned to v0.1.0; reconcile acceptance later.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "sha256": "d3771f9262f463ae7453a285f8e00b620e9bfa9b9857dc5a5cfc3bb3c8968cb4",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"needs_review\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"v0.1.0 原范围已通过并交接；由协调者按 v0.2.0 新建复用检查或明确重分配\",\n      \"check\": \"plans/ex-plans/P001/check/T01-check-002.md\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"04486175d73174db58508bad9c3b2034b979b37a83a353d25c3b80afdf22e9f8\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\",\n      \"check\": null\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# Handoff\n\nRead the task metadata and relevant observation files.\nThere are no background jobs. Synthetic fixture preparation produced the existing files.\n\n## 2026-09-05 原任务交接\n\n交接检查人：codex-forward-development。T01 的原执行绑定仍为 v0.1.0，\nCURRENT 已选 v0.2.0；该新版本明确要求原 T01 继续按旧绑定完成，之后协调验收。\n已读取当前源码并执行原计划的单元检查，空输入和数值求和通过，退出 0。\n实现已满足原范围，无需修改源码。最新检查见 `check/T01-check-002.md`，\n实际命令、指纹及初始验证警告见 `observations/forward-review-2026-09-05.log`。\n\n本次执行范围已交付，当前验收设为 needs_review：旧基线的 pass 尚未自动成为\n当前 v0.2.0 的验收。下一位协调者应确认复用适用性，记录当前基线下的新检查，\n或明确重新分配任务；此后才能将 T01 标为当前计划的 done。\n未承接 T02，保留其原状态、负责人和下一步记录。没有后台任务。\n"
+    },
+    {
+      "path": "src/calc.py",
+      "sha256": "3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad",
+      "text": "def total(values):\n    return sum(values)\n"
+    },
+    {
+      "path": "tests/check_total.py",
+      "sha256": "103b39641f71cf4d1206a265b4298ab32940c5e7a238b4cca9147db49d7222cc",
+      "text": "import sys\nfrom pathlib import Path\nsys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))\nfrom calc import total\nassert total([]) == 0\nassert total([1, 2, 3]) == 6\nprint('empty input and numeric sum passed')\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "open",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "needs_review",
+        "effective_state": "needs_review",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "fixture-worker",
+        "next": "v0.1.0 原范围已通过并交接；由协调者按 v0.2.0 新建复用检查或明确重分配"
+      },
+      {
+        "id": "T02",
+        "state": "planned",
+        "effective_state": "planned",
+        "plan": null,
+        "owner": "fixture-worker",
+        "next": "Write and verify docs/usage.md"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.2.0.md",
+    "errors": [],
+    "warnings": [
+      {
+        "code": "OLDER_BASIS",
+        "message": "T01: bound to plans/ex-plans/P001/ex-plan-v0.1.0.md; CURRENT selects plans/ex-plans/P001/ex-plan-v0.2.0.md"
+      }
+    ]
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}
