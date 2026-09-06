@@ -5,8 +5,8 @@
   "plan_id": "P002",
   "tasks": [{
     "id": "T01", "state": "done", "owner": "root",
-    "next": "已首次 push 并核验远端安装与 CI；后续按真实使用反馈改进，尚未创建 tag/release",
-    "check": "plans/ex-plans/P002/check/T01-check-001.md",
+    "next": "双语参与说明已验收；后续按真实使用反馈维护，发布状态以 GitHub 对应提交为准",
+    "check": "plans/ex-plans/P002/check/T01-check-002.md",
     "plan": "plans/ex-plans/P002/ex-plan-v0.1.0.md",
     "plan_sha256": "aa04df317c01a9a609d674123c6321721a0895f67d7454d808b3b0fd942cbecb"
   }],
@@ -47,3 +47,16 @@ GitHub About。P002 检查只接受本地材料，不从本地安装通过推断
 列出的首次推送提交；后续提交的运行应另查 GitHub，不将旧结果当作新运行。
 
 P001 与其历史证据保持不变；私人会话继续 Git-ignored。没有后台作业或全局安装。
+
+## README 参与入口维护
+
+2026-09-06，按用户要求在两个 README 顶部加入 Join us 提示，在正文提供可复制的
+可选 AGENTS.md 使用反馈约定和 issue 入口。只修改发布说明，不改变技能内容、
+安装方式或原验收标准。旧文档检查保留，新检查重新接受当前 README；详见
+[本次复验](check/T01-check-002.md)。
+
+反馈采取“使用中观察、交接时归档”，不自动修改技能或向外上传；未在本仓库实际
+创建 AGENTS.md 或反馈文件。本次 20 项测试、文档链接和锚点检查通过。
+以上是提交前的本地复验记录。随后用户明确要求“完成后帮我 push”，授权将这轮
+文档和验收记录推送到 origin/main；对应推送及 CI 状态以 GitHub 提交和运行记录
+为准。先前 GitHub 成功结果只对应先前已推送提交，不代替本次 CI。

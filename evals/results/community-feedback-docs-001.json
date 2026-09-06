@@ -1,0 +1,295 @@
+{
+  "kind": "community-feedback-doc-review",
+  "created_at": "2026-09-06T04:42:54.284811+00:00",
+  "status": "pass",
+  "readmes": {
+    "README.md": {
+      "shell_blocks_unchanged": 5,
+      "feedback_snippet": "## Plan Strata usage feedback\n\nWhile using plan-strata, note observed ambiguity, blocked workflows,\nstate/evidence mismatches, and unnecessary bookkeeping. Keep the current\nproject task as the priority.\n\n- At a milestone or handoff, record issues in docs/plan-strata-feedback.md.\n  Create the file only when needed, and merge repeated observations.\n- Record the available skill version or source, development/research context,\n  expected and actual behavior, task impact, workaround, and local evidence\n  references or a sanitized minimal example.\n- Separate observations from suspected causes. Mark uncertain attribution\n  as \"needs confirmation\"; environment or usage issues may also be responsible.\n- Keep task state in the project's existing progress records. The feedback\n  file records skill issues, not a second task tracker.\n- If an issue compromises data safety or valid acceptance, explain it and\n  pause the affected action; otherwise record a justified workaround and continue.\n- Changes or upgrades to the installed skill and GitHub submissions require\n  separate authorization. Keep private data and credentials out of feedback\n  notes, and review/redact any material before sharing it externally.\n- No observed issue means no feedback note. Do not launch extra experiments\n  solely to look for skill defects.",
+      "callout_line": 15,
+      "snippet_section_line": 171
+    },
+    "README.zh-CN.md": {
+      "shell_blocks_unchanged": 5,
+      "feedback_snippet": "## Plan Strata 使用反馈\n\n使用 plan-strata 时，留意实际遇到的规则歧义、流程阻塞、状态与证据\n不一致，以及明显多余的记录成本。保持当前项目任务优先。\n\n- 在阶段结束或交接时，将问题记录到 docs/plan-strata-feedback.md。\n  首次发现问题再创建文件，同类问题合并。\n- 记录可获得的技能版本或来源、开发/科研场景、预期与实际行为、\n  任务影响、临时处理方式，以及本地证据引用或脱敏后的最小复现。\n- 将观察事实与原因推测分开；无法确定是否属于技能问题时标为\n  “待确认”，保留环境或使用方式导致问题的可能。\n- 任务状态仍以项目原有进度记录为准，反馈文件只记录技能问题，\n  不维护第二份任务清单。\n- 涉及数据安全或验收真实性时，先说明问题并暂停受影响的动作；\n  其他情况记录有依据的临时处理方式后继续任务。\n- 修改或升级已安装技能、向 GitHub 提交反馈，需另行获得授权。\n  反馈记录不包含私人数据或凭据，对外分享前检查并脱敏相关材料。\n- 未发现问题时无需生成反馈，也不为寻找技能问题额外启动实验。",
+      "callout_line": 14,
+      "snippet_section_line": 153
+    }
+  },
+  "local_links": [
+    {
+      "from": "README.md",
+      "target": "README.zh-CN.md"
+    },
+    {
+      "from": "README.md",
+      "target": "#join-us"
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/SKILL.md"
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/protocol.md"
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/development.md"
+    },
+    {
+      "from": "README.md",
+      "target": "skills/plan-strata/references/research.md"
+    },
+    {
+      "from": "README.md",
+      "target": "docs/FIRST_USE.md"
+    },
+    {
+      "from": "README.md",
+      "target": "docs/validation.md"
+    },
+    {
+      "from": "README.md",
+      "target": "docs/PUBLISHING.md"
+    },
+    {
+      "from": "README.md",
+      "target": "LICENSE"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "README.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "#join-us"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/SKILL.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/protocol.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/development.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "skills/plan-strata/references/research.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/FIRST_USE.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/validation.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "docs/PUBLISHING.md"
+    },
+    {
+      "from": "README.zh-CN.md",
+      "target": "LICENSE"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../evals/README.md"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/protocol.md"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/development.md"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../skills/plan-strata/references/research.md"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "evidence/T02-first-use-commands.md"
+    },
+    {
+      "from": "docs/FIRST_USE.md",
+      "target": "../plans/ex-plans/P001/check/T02-check-001.md"
+    },
+    {
+      "from": "docs/PUBLISHING.md",
+      "target": "../.github/workflows/check.yml"
+    },
+    {
+      "from": "docs/PUBLISHING.md",
+      "target": "evidence/P002-release-preparation.md"
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/install-local-001.json"
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-py310-001.json"
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-py314-001.json"
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../../evals/results/release-docs-001.json"
+    },
+    {
+      "from": "docs/evidence/P002-release-preparation.md",
+      "target": "../PUBLISHING.md"
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../evals/results/handoff-001.json"
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../evals/results/first-use-root-001.json"
+    },
+    {
+      "from": "docs/evidence/README.md",
+      "target": "../../plans/ex-plans/P001/check/T02-check-001.md"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/automated-py314-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/automated-py310-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/resume-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/switch-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/stale-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/integration-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/research-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/research-002.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/handoff-001.json"
+    },
+    {
+      "from": "docs/validation.md",
+      "target": "../evals/results/first-use-root-001.json"
+    },
+    {
+      "from": "evals/README.md",
+      "target": "expected.md"
+    },
+    {
+      "from": "plans/ex-plans/P002/progress.md",
+      "target": "../../../evals/results/github-ci-001.json"
+    },
+    {
+      "from": "plans/ex-plans/P002/progress.md",
+      "target": "../../../evals/results/install-github-001.json"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/protocol.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/core.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/ex-plan.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/progress.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/CURRENT.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/development.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "references/research.md"
+    },
+    {
+      "from": "skills/plan-strata/SKILL.md",
+      "target": "assets/check.md"
+    }
+  ],
+  "prior_check_changed_subjects": [
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "reused_evidence_with_unchanged_sources": [
+    "install-local-001.json",
+    "release-py310-001.json",
+    "release-py314-001.json"
+  ],
+  "tests": {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "test_acceptance_propagates_through_dependencies (test_workflow.WorkflowTests.test_acceptance_propagates_through_dependencies) ... ok\ntest_changed_evidence_is_detected (test_workflow.WorkflowTests.test_changed_evidence_is_detected) ... ok\ntest_changed_plan_and_core_are_detected (test_workflow.WorkflowTests.test_changed_plan_and_core_are_detected) ... ok\ntest_changed_subject_revokes_current_acceptance_without_rewriting_history (test_workflow.WorkflowTests.test_changed_subject_revokes_current_acceptance_without_rewriting_history) ... ok\ntest_dependency_cycle_is_rejected (test_workflow.WorkflowTests.test_dependency_cycle_is_rejected) ... ok\ntest_done_requires_check (test_workflow.WorkflowTests.test_done_requires_check) ... ok\ntest_fixture_preparation_refuses_overwrite (test_workflow.WorkflowTests.test_fixture_preparation_refuses_overwrite) ... ok\ntest_local_success_with_failed_integration_stays_open (test_workflow.WorkflowTests.test_local_success_with_failed_integration_stays_open) ... ok\ntest_malformed_metadata_returns_a_diagnostic (test_workflow.WorkflowTests.test_malformed_metadata_returns_a_diagnostic) ... ok\ntest_old_acceptance_cannot_silently_carry_into_new_revision (test_workflow.WorkflowTests.test_old_acceptance_cannot_silently_carry_into_new_revision) ... ok\ntest_path_escape_and_external_symlink_are_rejected (test_workflow.WorkflowTests.test_path_escape_and_external_symlink_are_rejected) ... ok\ntest_research_check_requires_separate_interpretation (test_workflow.WorkflowTests.test_research_check_requires_separate_interpretation) ... ok\ntest_resume_selects_pointer_and_does_not_treat_consistency_as_completion (test_workflow.WorkflowTests.test_resume_selects_pointer_and_does_not_treat_consistency_as_completion) ... ok\ntest_running_task_retains_old_binding_after_switch (test_workflow.WorkflowTests.test_running_task_retains_old_binding_after_switch) ... ok\ntest_selected_draft_is_rejected (test_workflow.WorkflowTests.test_selected_draft_is_rejected) ... ok\ntest_stale_check_on_open_task_is_a_warning (test_workflow.WorkflowTests.test_stale_check_on_open_task_is_a_warning) ... ok\ntest_unrelated_file_does_not_invalidate_a_scoped_check (test_workflow.WorkflowTests.test_unrelated_file_does_not_invalidate_a_scoped_check) ... ok\ntest_valid_negative_research_can_complete (test_workflow.WorkflowTests.test_valid_negative_research_can_complete) ... ok\ntest_validator_is_read_only_and_cli_returns_json (test_workflow.WorkflowTests.test_validator_is_read_only_and_cli_returns_json) ... ok\ntest_wrong_check_cannot_satisfy_another_task (test_workflow.WorkflowTests.test_wrong_check_cannot_satisfy_another_task) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 0.752s\n\nOK\n"
+  },
+  "subjects": [
+    {
+      "path": "README.md",
+      "sha256": "5ad7ec04212461d0f245f115e44f4ff1c4103f82ee1988335d6b9c7c61eb481b"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "cfa642eda29013a612fc0697d409cf53bfcecd5f21d8362d1b20fd0e8fe9e4bd"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "sha256": "32156431a1799252ccf83395fd5ebdf77918232d6e67a31093e4e3867867432a"
+    },
+    {
+      "path": "evals/prepare.py",
+      "sha256": "7fe8badb85362b10dc87d7eb9ef84fb88419366904a0e250a48ff1148c1a739e"
+    },
+    {
+      "path": "skills/plan-strata/scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    }
+  ],
+  "limits": "Local links and the Join us fragment target are checked without rendering GitHub. README shell commands are unchanged and not rerun; the contract suite is rerun. Feedback instructions receive a bilingual manual review, not a new agent behavior trial. No issue is submitted and no push occurs."
+}

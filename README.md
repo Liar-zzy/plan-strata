@@ -12,6 +12,10 @@ without sharing the same meaning of success.
 **Status: `0.1.0-alpha.1` · MIT · Python 3.10+ for the optional validator.**
 Ready for early trials, not a production workflow guarantee.
 
+> **🙌 Join us! Help improve Plan Strata through real use.**
+> Using AI for development or research? [Copy the optional AGENTS.md feedback snippet](#join-us)
+> and [share one sanitized case](https://github.com/Liar-zzy/plan-strata/issues/new).
+
 ## Quick install
 
 Run this in the project where you want to use the skill:
@@ -164,6 +168,46 @@ from the GitHub checks that must happen after pushing.
 - Long-running production use, real research outcomes, client auto-discovery,
   and cross-client agent behavior have not been established by these trials.
 
+## Join us!
+
+You don't need to write code to contribute. Tell us where a handoff gets stuck,
+instructions are unclear, or maintaining records costs more effort than it saves.
+
+Append this **optional** block to your target project's `AGENTS.md`, preserving
+its existing instructions. If your agent uses a different project-instruction
+file, adapt the location. This collects local observations; nothing is sent
+automatically.
+
+```markdown
+## Plan Strata usage feedback
+
+While using plan-strata, note observed ambiguity, blocked workflows,
+state/evidence mismatches, and unnecessary bookkeeping. Keep the current
+project task as the priority.
+
+- At a milestone or handoff, record issues in docs/plan-strata-feedback.md.
+  Create the file only when needed, and merge repeated observations.
+- Record the available skill version or source, development/research context,
+  expected and actual behavior, task impact, workaround, and local evidence
+  references or a sanitized minimal example.
+- Separate observations from suspected causes. Mark uncertain attribution
+  as "needs confirmation"; environment or usage issues may also be responsible.
+- Keep task state in the project's existing progress records. The feedback
+  file records skill issues, not a second task tracker.
+- If an issue compromises data safety or valid acceptance, explain it and
+  pause the affected action; otherwise record a justified workaround and continue.
+- Changes or upgrades to the installed skill and GitHub submissions require
+  separate authorization. Keep private data and credentials out of feedback
+  notes, and review/redact any material before sharing it externally.
+- No observed issue means no feedback note. Do not launch extra experiments
+  solely to look for skill defects.
+```
+
+Review your local notes, then [open an issue](https://github.com/Liar-zzy/plan-strata/issues/new)
+with one sanitized case. There is no need to upload your full project, chat
+history, or unpublished research. Confirmed cases can guide clearer instructions,
+regression checks, and simpler workflows.
+
 ## Repository and contributions
 
 `skills/plan-strata/` is the distributable package. `plans/` records this skill's own
@@ -171,8 +215,6 @@ development, and `evals/` plus `tests/` support reproducible checks. Historical 
 describe their original revisions; they are not new acceptance for changed files.
 Private design conversations and temporary trial directories remain Git-ignored.
 
-Please [open an issue](https://github.com/Liar-zzy/plan-strata/issues) with a minimal,
-sanitized starting state, your request, observed behavior, and expected difference.
 Keep English and Chinese READMEs aligned when changing user-facing behavior.
 
 Packaging follows [Agent Skills](https://agentskills.io/specification). Design
