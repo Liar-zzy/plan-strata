@@ -1,0 +1,18 @@
+{
+  "kind": "issue-cold-start-blocked-observation",
+  "attempt": "A01",
+  "worker": "/root/issue_worker_trial",
+  "outcome": "Stopped at input verification before creating any worker workspace or executing the task.",
+  "task_test_runs": 0,
+  "background_jobs": [],
+  "expected_issue_sha256": "a5db166e9a58e33a8866b4ff44e4a914c50e22733d74a36f641428702b185091",
+  "observed_retained_body_sha256": "2dd043b44aefda9c90757547f830f89b29289d7029bd82d3f4fef649f466b3ea",
+  "dispatch_snapshot_sha256": "0ef3a0388e71c46a9d90ab9fc1f7a0a003aedd7ab039704d21e76774a3a1d71f",
+  "source_archive": "evals/results/issue-author-001.json",
+  "root_observation": "Root's independent archive hash assertion also failed on T01. Final T01 is 6359 bytes; the cached draft dispatched at A01 was 8265 bytes. At inspection worker-area was empty. The author had finished and frozen its shorter final files before dispatch; root incorrectly reused an earlier in-memory read.",
+  "cause": "Evaluation capture/dispatch error by root, not inaccessible task context or a demonstrated defect in the revised skill.",
+  "recovery": "A01 agent ended with no task writes/jobs. Preserve its packet and archive. Reread the final author files, allocate A02 to a fresh agent, and compare the complete retained Issue bytes and hash before launch.",
+  "a02_preflight_command": "Extract bytes after the first b'\\n---\\n\\n' from outbox/T01-A02.md; assert equality with final outbox/T01.md and its SHA-256; assert the worker area is empty.",
+  "a02_preflight_result": "Passed, exit 0. Snapshot SHA-256 f4e83e5aa14561f1cd89f38ee66285bdd04c94e42ccd3f069f3de90ead85ae94.",
+  "limits": "An observed safe stop, not a successful task execution; this accidental mismatch was not a planned randomized experiment."
+}

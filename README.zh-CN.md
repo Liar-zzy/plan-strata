@@ -121,8 +121,11 @@ Manager 分配范围明确的任务单，Worker 返回产物和证据，最后�
 
 如果只想评估是否适合并行，使用上面的方案请求即可；它不授权实际派发。
 首版限定在一份 ex-plan 内，不要求 Git 或 GitHub。
-本地任务单、宿主的委派消息、经审核的 Issue 都可以承载同一份任务；任务单
-或 Issue 本身不会启动 Agent。执行仍依赖宿主工具与授权，默认工作流不变。
+本地任务单、宿主的委派消息、经审核的 Issue 都承载相同的任务契约。选择 Issue
+派发时，Issue 本身包含可执行任务说明；详细计划可以引用固定且可访问的版本。
+新 Agent 应能据此从指定基线创建 worktree 并完成任务，不再等待补任务单。
+任务说明完整不等于依赖已就绪或已被领取：分别写清条件，执行前确认分配。
+任务单或 Issue 本身不会启动 Agent。执行仍依赖宿主工具与授权，默认工作流不变。
 
 详见[交接说明](skills/plan-strata/references/parallel-handoff.md)、
 [Worker 任务单](skills/plan-strata/assets/task-handoff.md)和
@@ -179,8 +182,10 @@ python3 skills/plan-strata/scripts/strata.py validate --project .
 区分本地安装检查和 push 后仍需进行的 GitHub 检查。
 
 alpha.2 的[首次并行交接试用](docs/validation-parallel.md)保留为历史证据；随后针对
-接收端基线与保留标识的修复，见[最新回归记录](docs/validation-handoff-fixes.md)。
-这些检查不代表 GitHub 派发、运行时编排或生产并发已验证。
+接收端基线与保留标识的修复，见[对应回归记录](docs/validation-handoff-fixes.md)。
+[Issue 冷启动记录](docs/validation-issue-handoff.md)另行保留“本地 Issue 正文 →
+新 worktree”的独立接手过程及实际失败。这些检查不代表真实 GitHub 派发、
+运行时编排或生产并发已验证。
 
 - 工具检查显式列出的本地文件与依赖，不推断隐含依赖或内容真实性；外部对象需另行核验。
 - 使用单一进度维护者。并行执行依赖实际环境的隔离和集成方式，技能不提供调度器或锁。

@@ -16,7 +16,7 @@ push, publication, or default-branch merge authority.
 
 ## Manager: prepare and assign
 
-1. Choose a small batch within one ready ex-plan. A task is ready when its required
+1. Choose a small batch within one ready ex-plan. A task is ready to execute when its required
    inputs and accepted dependencies are available. Shared interfaces and data
    formats must be settled; distinct filenames alone do not establish independence.
    Declare write scopes and shared resources, including output directories, GPU,
@@ -31,22 +31,63 @@ push, publication, or default-branch merge authority.
    plan path/hash and code/input baseline (commit plus retained dirty inputs, or a
    file manifest). Include only relevant context; material must be readable in the
    recipient's environment. External posting additionally needs an identified
-   target, permissions, and a privacy review. Keep the same contract across channels.
-4. Before launching, assign the owner and binding in authoritative progress. In its
+   target, permissions, and a privacy review. Apply the [cold-start gate](#cold-start-gate)
+   to the actual handoff delivered through the chosen channel.
+4. At assignment, before execution, confirm the owner, attempt, binding, and workspace
+   allocation in authoritative progress. Publishing an unclaimed task does not start it. In its
    handoff prose record task/attempt → packet, workspace/output location, and any
    runtime/job or external task handle. This is a dispatch receipt, not another
    status table. Give each attempt a distinct report location; packets are immutable
-   assignments, not live copies of progress. Start only within the agreed capacity.
+   assignments, not live copies of progress. Retain the dispatched Issue/message
+   snapshot so later edits cannot silently change a running attempt. Start only
+   within the agreed capacity.
 
 Readiness and write-scope checks here are Manager judgments. Protocol v1's validator
 checks declared records and acceptance; it does not lock claims, enforce readiness
 at launch, or parse packet Markdown. Cross-ex-plan dependencies are outside this
 first mode. Historical revisions are not additional tasks to dispatch.
 
+## Cold-start gate
+
+A complete handoff lets a recipient with no prior conversation use the task/Issue
+and its accessible references to identify the work, verify entry conditions,
+create or locate an isolated workspace, execute the bounded task, test it, and
+return evidence. Core task instructions are ready before pickup; assignment
+bookkeeping may happen at pickup.
+
+For Issue dispatch, the Issue is the worker packet: put the objective, boundaries,
+entry conditions, acceptance, and return contract in its body. Detailed plans and
+supporting context may be linked at exact, retrievable versions. For Git-based
+pickup, identify the repository, a fetchable ref containing the pinned commit,
+and paths/hashes at that commit; a moving branch name alone is not a baseline.
+Verify required documents are available there. Manager-only paths or uncommitted
+files need an explicit accessible delivery and fingerprint, not just a filename.
+If required material cannot be delivered within existing authority, explain the
+block; publishing or pushing it needs the corresponding permission.
+
+Describe packet completeness, dependency readiness, and assignment separately in
+handoff prose; these are not new protocol states or a second progress table.
+A complete, ready task can be unclaimed: specify how Manager confirms ownership
+and how the worker creates its workspace, instead of requiring an existing worker
+directory. Execution waits for that confirmation, not for another task brief.
+An authorized draft or dependency-blocked Issue can be created early, with the
+missing inputs and release conditions stated. When dependencies are accepted,
+Manager pins their actual deliveries and confirms readiness before dispatch;
+an upstream Issue closing alone does not release downstream work. Preserve earlier
+snapshots when completing or revising the packet.
+
+Before presenting a handoff as executable, inspect it from the recipient's entry
+point: all essential content is inline or retrievable, baseline and start conditions
+are verifiable, and scope, acceptance, budget, and report destination are concrete.
+If this gate fails, return an explicitly incomplete/blocked handoff with the missing
+items. Passing it neither launches an agent nor claims the task automatically.
+
 ## Worker: execute the bound assignment
 
 Read the packet, applicable project instructions, and the pinned plan/core. Verify
-the relevant baseline before writing. If the packet and assignment disagree, an
+the relevant baseline and assignment confirmation before task writes. Create a
+workspace from the pinned inputs using the packet's instructions if none is supplied.
+If the packet and assignment disagree, an
 input is inaccessible, or a required dependency is not accepted, report the block
 to Manager. CURRENT changing does not silently rebind this attempt.
 

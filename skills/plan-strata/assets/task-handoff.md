@@ -1,15 +1,16 @@
 # Worker handoff — {{task_key}} / {{attempt}}
 
-This is an assignment snapshot, not a second progress record. Follow the installed
-Plan Strata skill and its parallel-handoff guidance. Return the report to Manager.
+Use this as the Issue body, delegation message, or local packet. Follow the
+specified Plan Strata skill and its parallel-handoff guidance. Retain a snapshot
+at dispatch; Manager maintains live progress. Return the report to Manager.
 
 ## Identity and baseline
 
-- Project and accessible workspace: {{project}}
+- Repository/source access and workspace or creation instructions: {{project}}
 - Task key (project / plan ID / task ID): {{task_key}}
-- Attempt and assigned worker: {{attempt}} / {{worker}}
+- Attempt and worker, or how Manager confirms their allocation: {{attempt}} / {{worker}}
 - Plan path and SHA-256: {{plan}} / {{plan_sha256}}
-- Source/input baseline and how to verify it: {{baseline}}
+- Source/input baseline, retrieval, and verification: {{baseline}}
 - Skill location/version: {{skill}}
 - Manager and authoritative progress location: {{manager}}
 
@@ -21,7 +22,7 @@ Plan Strata skill and its parallel-handoff guidance. Return the report to Manage
 
 {{objective}}
 
-- Required accepted inputs/dependencies: {{dependencies}}
+- Input/dependency readiness, accepted versions, and any release conditions: {{dependencies}}
 - Allowed writes, including the attempt's evidence/report location: {{write_scope}}
 - Shared interface and resource constraints: {{constraints}}
 - Verification and acceptance method: {{acceptance}}

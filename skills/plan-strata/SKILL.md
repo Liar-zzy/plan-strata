@@ -34,9 +34,10 @@ Use the user's language for project documents.
 
 Parallel delegation is **off by default**. A user's explicit choice for the current
 iteration/batch enables it; loading this skill or finding Git does not. For an
-opt-in request, a received assignment in an approved batch, or terminal integration,
-read [parallel handoffs](references/parallel-handoff.md) before assigning or starting
-work. Ordinary work uses the workflow below without extra packets.
+opt-in request, preparing or picking up an Issue/task handoff in an approved batch,
+or terminal integration, read [parallel handoffs](references/parallel-handoff.md)
+before publishing, assigning, or starting work. Ordinary work uses the workflow
+below without extra packets.
 
 - Put task definitions and dependencies in the plan; maintain live state only in
   progress. Record a plan path and content hash when starting a task. That binding

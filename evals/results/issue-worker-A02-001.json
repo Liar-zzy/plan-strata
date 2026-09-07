@@ -1,0 +1,154 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "issue-cold-start",
+  "worker": "/root/issue_worker_retry",
+  "captured_at": "2026-09-07T11:42:00.666390+00:00",
+  "skill_files": [
+    {
+      "path": "LICENSE",
+      "sha256": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679"
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "d166ffa0c8581a3ce8d4ba6bfe16677693b7459bdffe57b46fcabde57f442bfb"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "assets/integration-handoff.md",
+      "sha256": "23529de0dcf1bc8e314eebea103be53b7347cd53a1d4eaeaf2f423d805aa4694"
+    },
+    {
+      "path": "assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "assets/task-handoff.md",
+      "sha256": "33f0ce893539ce981f6a2b03eb599227f17166c0fd2ac3f8c80966e6ddf186c0"
+    },
+    {
+      "path": "references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "references/parallel-handoff.md",
+      "sha256": "e4a756e5a979e7c5c3b3fa5265d3e301d522e55442e544a3b9f26ad2feb8889b"
+    },
+    {
+      "path": "references/protocol.md",
+      "sha256": "063bd61071831121b6ce9559db553721fbfec9b42a7c82afd76b4b9e6e2bbcd2"
+    },
+    {
+      "path": "references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    },
+    {
+      "path": "scripts/strata.py",
+      "sha256": "c8126230964accea0ed774cc653aa88ee5dc4b303fce1af3ff3f58cdb3263c31"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "SCENARIO.md",
+      "sha256": "dc891082d502a229e2bba16c9d0f8a58ad66fbe6c820530d951f91f51af6fa01",
+      "text": "# Synthetic Issue pickup trial\n\nImplement a tiny sum utility, then document the accepted implementation.\nManager owns planning and acceptance. One local worker at a time; each\nattempt gets reports/<task>/<attempt>.md and observations/<task>/<attempt>/.\nUse Python standard library only; at most 3 verification runs per attempt.\nNo network, installs, nested agents, push, merge, or source commits by workers.\nCreating a local clone and worktree from the supplied source is authorized.\n"
+    },
+    {
+      "path": "observations/T01/A02/baseline-and-scope.json",
+      "sha256": "ea509b54d881e75cdb958d4b69bd8430b446033c267609eddfcf0c3b97d9b85b",
+      "text": "{\n  \"task\": \"P001/T01\",\n  \"owner\": \"/root/issue_worker_retry\",\n  \"attempt\": \"A02\",\n  \"receipt\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/outbox/T01-A02.md\",\n  \"manager_progress\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/seed/plans/ex-plans/P001/progress.md\",\n  \"assignment_observation\": \"Authoritative progress records T01 in_progress, owner /root/issue_worker_retry, attempt A02, matching allocation, and pinned plan hash. Only A02 is active; no other attempt is running.\",\n  \"skill_fingerprint\": {\n    \"command\": \"shasum -a 256 /private/tmp/plan-strata-issue-cSe0N6/trial/skill/SKILL.md\",\n    \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n    \"combined_output\": \"d166ffa0c8581a3ce8d4ba6bfe16677693b7459bdffe57b46fcabde57f442bfb  /private/tmp/plan-strata-issue-cSe0N6/trial/skill/SKILL.md\\n\",\n    \"exit_code\": 0\n  },\n  \"entry_checks\": [\n    {\n      \"command\": \"sed -n '/^# T01 — Implement the iterable numeric sum utility$/,$p' /private/tmp/plan-strata-issue-cSe0N6/trial/outbox/T01-A02.md | shasum -a 256\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"a5db166e9a58e33a8866b4ff44e4a914c50e22733d74a36f641428702b185091  -\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"if [ -e /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02 ] || [ -L /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02 ]; then printf '%s\\\\n' 'Allocated A02 area already exists: stop for recovery.'; exit 1; else printf '%s\\\\n' 'Allocated A02 area does not exist.'; fi\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"Allocated A02 area does not exist.\\n\",\n      \"exit_code\": 0\n    }\n  ],\n  \"setup\": [\n    {\n      \"command\": \"mkdir -p /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git clone --no-hardlinks --no-checkout --single-branch --branch trial-baseline /private/tmp/plan-strata-issue-cSe0N6/trial/origin.git /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/source\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"Cloning into '/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/source'...\\ndone.\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git -C /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/source rev-parse 'refs/tags/trial-baseline^{commit}'\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"659e5b8999440c06d3eb22ec86096e0ce6ca4f01\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git -C /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/source worktree add --detach /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace 659e5b8999440c06d3eb22ec86096e0ce6ca4f01\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial\",\n      \"combined_output\": \"Preparing worktree (detached HEAD 659e5b8)\\nHEAD is now at 659e5b8 Freeze synthetic task inputs\\n\",\n      \"exit_code\": 0\n    }\n  ],\n  \"initial_baseline\": [\n    {\n      \"command\": \"git rev-parse HEAD\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"659e5b8999440c06d3eb22ec86096e0ce6ca4f01\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git status --porcelain\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"shasum -a 256 SCENARIO.md plans/CURRENT.md plans/core/core-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.1.0.md src/calc.py tests/test_calc.py\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"dc891082d502a229e2bba16c9d0f8a58ad66fbe6c820530d951f91f51af6fa01  SCENARIO.md\\n782a7589022250dc72854e8a80358a272017201f16fb24083a11cde916e50120  plans/CURRENT.md\\nc1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2  plans/core/core-v0.1.0.md\\ne955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039  plans/ex-plans/P001/ex-plan-v0.1.0.md\\nd869ce83ea0dbefa3ad3dc18e50f8b63e7f86b46f85760bb5d2c965faf1dbc62  src/calc.py\\nd1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84  tests/test_calc.py\\n\",\n      \"exit_code\": 0\n    }\n  ],\n  \"post_test_inspection_before_report_artifacts\": [\n    {\n      \"command\": \"shasum -a 256 SCENARIO.md plans/CURRENT.md plans/core/core-v0.1.0.md plans/ex-plans/P001/ex-plan-v0.1.0.md src/calc.py tests/test_calc.py\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"dc891082d502a229e2bba16c9d0f8a58ad66fbe6c820530d951f91f51af6fa01  SCENARIO.md\\n782a7589022250dc72854e8a80358a272017201f16fb24083a11cde916e50120  plans/CURRENT.md\\nc1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2  plans/core/core-v0.1.0.md\\ne955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039  plans/ex-plans/P001/ex-plan-v0.1.0.md\\n3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad  src/calc.py\\nd1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84  tests/test_calc.py\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git diff --no-ext-diff --src-prefix=a/ --dst-prefix=b/ -- src/calc.py\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"diff --git a/src/calc.py b/src/calc.py\\nindex e9d7631..5dcb752 100644\\n--- a/src/calc.py\\n+++ b/src/calc.py\\n@@ -1,2 +1,2 @@\\n def total(values):\\n-    raise NotImplementedError\\n+    return sum(values)\\n\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git diff --check\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \"\",\n      \"exit_code\": 0\n    },\n    {\n      \"command\": \"git status --porcelain --untracked-files=all\",\n      \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n      \"combined_output\": \" M src/calc.py\\n\",\n      \"exit_code\": 0\n    }\n  ],\n  \"scope_observation\": \"The only tracked change after implementation and the single verification run was src/calc.py. Source delta replaces raise NotImplementedError with return sum(values). Supplied tests and all pinned planning inputs retain their original hashes.\",\n  \"review_provenance\": \"Worker /root/issue_worker_retry implemented the change and inspected the scope; root review is pending.\",\n  \"behavioral_runs\": 1,\n  \"note\": \"Hashes, clone/worktree setup and git inspections do not execute behavior tests. Host shell output is retained combined for these commands.\"\n}\n"
+    },
+    {
+      "path": "observations/T01/A02/scoped.diff",
+      "sha256": "9f7724899d9ce6ed7b3893d9209847f719b836d10d12830b5ad73c84fee03885",
+      "text": "diff --git a/src/calc.py b/src/calc.py\nindex e9d7631..5dcb752 100644\n--- a/src/calc.py\n+++ b/src/calc.py\n@@ -1,2 +1,2 @@\n def total(values):\n-    raise NotImplementedError\n+    return sum(values)\n"
+    },
+    {
+      "path": "observations/T01/A02/verification-run-01.json",
+      "sha256": "17dda6cd586c66e396871d048ce680b9bae86fb55259353d9ad4ccfc22531df2",
+      "text": "{\n  \"task\": \"P001/T01\",\n  \"owner\": \"/root/issue_worker_retry\",\n  \"attempt\": \"A02\",\n  \"verification_run\": 1,\n  \"verification_run_limit\": 3,\n  \"workdir\": \"/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\",\n  \"acceptance_command\": \"PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_calc.py -v\",\n  \"launcher_command\": \"PYTHONDONTWRITEBYTECODE=1 python3 -c 'import json, subprocess, sys; result = subprocess.run([\\\"python3\\\", \\\"-m\\\", \\\"unittest\\\", \\\"discover\\\", \\\"-s\\\", \\\"tests\\\", \\\"-p\\\", \\\"test_calc.py\\\", \\\"-v\\\"], capture_output=True, text=True); print(json.dumps({\\\"stdout\\\": result.stdout, \\\"stderr\\\": result.stderr, \\\"exit_code\\\": result.returncode}, ensure_ascii=False)); sys.exit(result.returncode)'\",\n  \"explanation\": \"The Python standard-library launcher captures stdout and stderr separately; PYTHONDONTWRITEBYTECODE=1 is inherited by the single unittest subprocess.\",\n  \"stdout\": \"\",\n  \"stderr\": \"test_empty (test_calc.Checks) ... ok\\ntest_iterator (test_calc.Checks) ... ok\\ntest_numbers_and_input (test_calc.Checks) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.000s\\n\\nOK\\n\",\n  \"exit_code\": 0,\n  \"launcher_output\": \"{\\\"stdout\\\": \\\"\\\", \\\"stderr\\\": \\\"test_empty (test_calc.Checks) ... ok\\\\ntest_iterator (test_calc.Checks) ... ok\\\\ntest_numbers_and_input (test_calc.Checks) ... ok\\\\n\\\\n----------------------------------------------------------------------\\\\nRan 3 tests in 0.000s\\\\n\\\\nOK\\\\n\\\", \\\"exit_code\\\": 0}\\n\",\n  \"launcher_exit_code\": 0,\n  \"source_commit\": \"659e5b8999440c06d3eb22ec86096e0ce6ca4f01\",\n  \"tested_inputs\": [\n    {\n      \"path\": \"src/calc.py\",\n      \"sha256\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n    },\n    {\n      \"path\": \"tests/test_calc.py\",\n      \"sha256\": \"d1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84\"\n    }\n  ],\n  \"plan\": {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n    \"sha256\": \"e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039\"\n  },\n  \"core\": {\n    \"path\": \"plans/core/core-v0.1.0.md\",\n    \"sha256\": \"c1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2\"\n  },\n  \"interrupted_jobs\": [],\n  \"recommendation\": \"Return the retained delivery to root for scoped review; only root records acceptance.\"\n}\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "sha256": "782a7589022250dc72854e8a80358a272017201f16fb24083a11cde916e50120",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nThe selected plan for this local synthetic trial.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "sha256": "c1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Issue pickup fixture\n\nDeliver an iterable numeric sum utility and\nusage documentation. This is a synthetic local workflow trial.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "sha256": "e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"c1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# Sum utility\n\n## T01\nImplement total(values) in src/calc.py.\nAccept an iterable of numbers, return its sum (0 for empty input), and\nleave caller-owned input unchanged. Verify with\npython3 -m unittest discover -s tests -p test_calc.py -v.\nAllowed writes: src/calc.py, reports/T01/, observations/T01/.\n\n## T02\nAfter Manager accepts T01 and supplies its exact retained delivery\nand passing check, write docs/usage.md with a runnable example and empty\ninput behavior. Verify the example against that accepted implementation.\nAllowed writes: docs/usage.md, reports/T02/, observations/T02/.\nT01 has no accepted delivery yet. Do not substitute the initial stub.\n\nKeep tests, planning files, and the other task's scope read-only. Return\nactual commands, exit codes, artifacts and fingerprints to Manager.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "sha256": "31534206ecf1f12ba0f7296b1055622495ecd797018b10f0dd3f7a4447a5c2f9",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"planned\",\n      \"owner\": \"unassigned\",\n      \"next\": \"Manager to assign when inputs are ready\",\n      \"check\": null\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"owner\": \"unassigned\",\n      \"next\": \"Manager to assign when inputs are ready\",\n      \"check\": null\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# Manager progress\n\nNo task has been claimed or accepted.\n"
+    },
+    {
+      "path": "reports/T01/A02.md",
+      "sha256": "16455b52aa83ee33115d39bf609557a2b171c997aef12165f9577532092bca2b",
+      "text": "# P001 / T01 / A02 工作报告\n\n交付已准备供 root 审核。实现使用 `return sum(values)`，约定测试一次运行全部通过。本报告是工作证据与审核建议；任务验收及 progress 更新由 root 决定。\n\n## 领取确认与绑定\n\n- 任务：P001 / T01；owner：`/root/issue_worker_retry`；attempt：`A02`。\n- 领取回执：`/private/tmp/plan-strata-issue-cSe0N6/trial/outbox/T01-A02.md`。\n- 回执内原始 Issue 正文 SHA-256：`a5db166e9a58e33a8866b4ff44e4a914c50e22733d74a36f641428702b185091`，已实际提取并核对。\n- 已读取权威进度 `/private/tmp/plan-strata-issue-cSe0N6/trial/seed/plans/ex-plans/P001/progress.md`：T01 为 in_progress，owner、A02、工作区、计划绑定一致，当前仅 A02 运行。工作副本中的 progress 是历史基线，未作为当前领取凭据。\n- 分配目录：`/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/`。实际检查该目录原先不存在，随后创建独立 source clone 和 workspace worktree。\n- 来源：`/private/tmp/plan-strata-issue-cSe0N6/trial/origin.git`；获取 ref：`refs/tags/trial-baseline`。\n- 固定提交及工作区 HEAD：`659e5b8999440c06d3eb22ec86096e0ce6ca4f01`。初始 `git status --porcelain` 输出为空，退出码 0。\n- 计划：`plans/ex-plans/P001/ex-plan-v0.1.0.md`，SHA-256 `e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039`。\n- Core：`plans/core/core-v0.1.0.md`，SHA-256 `c1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2`。\n- 已完整读取指定 Plan Strata 0.1.0-alpha.2 技能及 protocol、parallel-handoff、development 引用。技能 SHA-256：`d166ffa0c8581a3ce8d4ba6bfe16677693b7459bdffe57b46fcabde57f442bfb`，与 Issue 一致。\n- 已读取固定提交中的 SCENARIO、CURRENT、绑定 core/plan、源码和测试。该尝试继续绑定上述计划。\n\n## 初始输入及受测文件指纹\n\n下列完整字节指纹均与 Issue 相符；测试后除获准修改的源码外仍相同。\n\n| 文件 | 初始 SHA-256 |\n| --- | --- |\n| SCENARIO.md | `dc891082d502a229e2bba16c9d0f8a58ad66fbe6c820530d951f91f51af6fa01` |\n| plans/CURRENT.md | `782a7589022250dc72854e8a80358a272017201f16fb24083a11cde916e50120` |\n| plans/core/core-v0.1.0.md | `c1bd8f0c9b62fff594240b6374826e96bfbe9a7255c00fac05c092f95435f1f2` |\n| plans/ex-plans/P001/ex-plan-v0.1.0.md | `e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039` |\n| src/calc.py | `d869ce83ea0dbefa3ad3dc18e50f8b63e7f86b46f85760bb5d2c965faf1dbc62` |\n| tests/test_calc.py | `d1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84` |\n\n受测源码 SHA-256：`3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad`。受测测试文件 SHA-256：`d1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84`。\n\n## 实现与范围评审\n\n源码差异仅将 `raise NotImplementedError` 替换为 `return sum(values)`。函数签名及 `from src.calc import total` 保持可用。内置 sum 接受数字迭代输入，默认起始值为 0；实现没有写入、排序或移除调用者列表内容。迭代器按求和所需被消费。\n\n工作者 `/root/issue_worker_retry` 同时完成实现、实际测试及此范围检查，没有独立复核者。测试后实际 `git diff` 仅列出上述两行差异；`git diff --check` 无输出，退出码 0。测试、规划记录及 T02 范围未编辑。新增的报告与证据通过 apply_patch 创建；实际源码及完整差异保留在本工作区，没有创建源码提交。\n\n交付中的修改及新增路径：\n\n- 修改 `src/calc.py`。\n- 新增 `reports/T01/A02.md`。\n- 新增 `observations/T01/A02/verification-run-01.json`。\n- 新增 `observations/T01/A02/baseline-and-scope.json`。\n- 新增 `observations/T01/A02/scoped.diff`。\n\n## 实际验证\n\n工作目录：`/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace`。\n\n约定行为命令：\n\n```sh\nPYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_calc.py -v\n```\n\n为分别保留 stdout、stderr 和退出码，实际执行的标准库捕获命令如下。它仅启动一次上述 unittest 子进程，子进程继承禁用字节码写入的环境变量。\n\n```sh\nPYTHONDONTWRITEBYTECODE=1 python3 -c 'import json, subprocess, sys; result = subprocess.run([\"python3\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-p\", \"test_calc.py\", \"-v\"], capture_output=True, text=True); print(json.dumps({\"stdout\": result.stdout, \"stderr\": result.stderr, \"exit_code\": result.returncode}, ensure_ascii=False)); sys.exit(result.returncode)'\n```\n\n实际 stdout 为长度 0 的空字符串。实际 stderr：\n\n```text\ntest_empty (test_calc.Checks) ... ok\ntest_iterator (test_calc.Checks) ... ok\ntest_numbers_and_input (test_calc.Checks) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n```\n\nunittest 退出码 0，捕获进程退出码 0。共运行 3 个给定测试，覆盖空输入、混合数字、列表内容不变和迭代器输入。本尝试已使用 **1 / 3 次行为验证**；没有失败的行为运行，也没有再次运行测试。\n\n创建工作区、基线核对及非行为检查的完整命令、工作目录、实际合并输出和退出码保存在 `baseline-and-scope.json`。行为命令的两个输出流及捕获进程原始输出保存在 `verification-run-01.json`。这些证据是通过 apply_patch 写入的实际观察结果。\n\n## 保留的交付与证据\n\n| 绝对路径 | SHA-256 |\n| --- | --- |\n| `/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace/src/calc.py` | `3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad` |\n| `/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace/observations/T01/A02/verification-run-01.json` | `17dda6cd586c66e396871d048ce680b9bae86fb55259353d9ad4ccfc22531df2` |\n| `/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace/observations/T01/A02/baseline-and-scope.json` | `ea509b54d881e75cdb958d4b69bd8430b446033c267609eddfcf0c3b97d9b85b` |\n| `/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace/observations/T01/A02/scoped.diff` | `9f7724899d9ce6ed7b3893d9209847f719b836d10d12830b5ad73c84fee03885` |\n\n本报告绝对路径：`/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace/reports/T01/A02.md`。报告完整字节 SHA-256 在报告落盘后计算，通过本 host session 的最终回交消息提供，避免自引用。\n\n## 限制、运行状态与下一步\n\n没有阻塞项或中断任务，没有后台进程、待恢复 job handle 或输出流。运行时身份为 `/root/issue_worker_retry`。本尝试的所有进程均已结束。\n\n证据范围为给定的 3 个测试和所述源码/差异评审；没有主张更广泛输入语义或性能结论。元数据验证不替代测试；工作者未运行 validator，也未新增验收 check 或修改 progress。固定计划的 `integration_required` 为 false。\n\n按 Plan Strata 的职责划分，将源码、报告、证据和差异交回 root，建议 root 核对接收工作区输入与交付指纹，审核允许范围内的差异及实际测试证据，保留适用的通过 check 后再独自更新任务验收。T02 的释放需要 root 接受这份精确 T01 交付及其 check。工作区及 clone 均保留原状供收集。\n"
+    },
+    {
+      "path": "src/calc.py",
+      "sha256": "3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad",
+      "text": "def total(values):\n    return sum(values)\n"
+    },
+    {
+      "path": "tests/test_calc.py",
+      "sha256": "d1a19482dbc3b7fa5cf1763d05963397630b62848bebabbfd25bf435fe497c84",
+      "text": "import unittest\nfrom src.calc import total\n\nclass Checks(unittest.TestCase):\n    def test_empty(self):\n        self.assertEqual(total([]), 0)\n\n    def test_numbers_and_input(self):\n        values = [2, -5, 1.5]\n        self.assertEqual(total(values), -1.5)\n        self.assertEqual(values, [2, -5, 1.5])\n\n    def test_iterator(self):\n        self.assertEqual(total(iter([1, 2, 3])), 6)\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "open",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "planned",
+        "effective_state": "planned",
+        "plan": null,
+        "owner": "unassigned",
+        "next": "Manager to assign when inputs are ready"
+      },
+      {
+        "id": "T02",
+        "state": "planned",
+        "effective_state": "planned",
+        "plan": null,
+        "owner": "unassigned",
+        "next": "Manager to assign when inputs are ready"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": []
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}

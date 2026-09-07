@@ -133,8 +133,13 @@ Manager alone maintains progress and decides final acceptance.
 
 If you only want to evaluate the option, ask for the proposal above; that does not
 authorize dispatch. This mode is limited initially to one ex-plan and needs no Git or GitHub.
-Local packets, host delegation messages, and reviewed Issues can carry the same
-assignment; a packet or Issue does not launch an agent. Execution still uses the
+Local packets, host delegation messages, and reviewed Issues carry the same task
+contract. For Issue dispatch, the Issue itself contains the executable brief;
+detailed plans can be linked at fixed, accessible versions. A fresh agent should
+be able to create its worktree from the pinned baseline and perform the task
+without waiting for another brief. A complete task may be unclaimed or blocked
+on dependencies: state those conditions separately, and confirm assignment before
+execution. A packet or Issue does not launch an agent. Execution still uses the
 host's available tools and permissions. The default workflow is unchanged.
 
 See the [handoff guidance](skills/plan-strata/references/parallel-handoff.md),
@@ -201,7 +206,9 @@ from the GitHub checks that must happen after pushing.
 The initial alpha.2 [parallel-handoff trial (Chinese)](docs/validation-parallel.md)
 is historical evidence. Subsequent receiver-baseline and reserved-ID repairs have
 [their own regression record (Chinese)](docs/validation-handoff-fixes.md).
-These checks do not establish GitHub dispatch, runtime orchestration, or production concurrency.
+The [Issue cold-start record (Chinese)](docs/validation-issue-handoff.md) separately
+tracks the local Issue-body → fresh-worktree evaluation and its observed failures.
+These checks do not establish live GitHub dispatch, runtime orchestration, or production concurrency.
 
 - Checks cover explicitly declared local files and dependencies, not implicit ones
   or the truth of their contents. External artifacts need separate verification.

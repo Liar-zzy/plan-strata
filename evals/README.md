@@ -108,3 +108,44 @@ progress writer, and combined evidence—not worker claims—determined completi
 Automated tests also inject failed tasks/integration, stale evidence and conflicting
 retries. Those deterministic tests are not independent Agent trials. Research
 budget rules are documented; this example runs no research experiments.
+
+## Issue cold-start trial
+
+This scenario tests a different entry point: prepare Issue bodies from raw project
+context, then let a fresh worker create its own worktree using the dispatched Issue.
+It uses a local bare Git repository as the accessible source and Markdown as the
+Issue transport. It neither posts to GitHub nor starts agents. Git and Python 3.10+
+are required for this evaluation, not for the installed skill's ordinary workflow.
+
+```sh
+strata_issue_dir=$(mktemp -d)
+python3 -m evals.issue_trial --directory "$strata_issue_dir/trial"
+```
+
+Give a fresh author only `trial/skill/SKILL.md` and `trial/manager-input.md`.
+It writes `outbox/T01.md` and `outbox/T02.md`; keep this README, the generator,
+fixture metadata, prior conversation, and expected results out of its context.
+Inspect whether the actual bodies are usable at their stated readiness: T01 can
+be picked up once assigned; T02 still needs an accepted T01 delivery and exact
+input versions. Neither task initially has an owner or a worker workspace.
+
+For T01, Manager records the owner/attempt and workspace allocation in the seed
+project's authoritative progress, outside frozen inputs. Preserve the author's
+body after the author finishes, then create a dispatch snapshot containing the
+assignment receipt. Calculate fingerprints from the exact retained bytes and
+check the final snapshot before launch; cached draft text may differ from the
+author's final file. Supply a fresh
+worker only that Issue snapshot and the skill entry point, without preparing its
+clone/worktree or adding another task brief. Let it return the report through the
+host. Keep T02 blocked; publication alone is not permission to execute it.
+
+Review the worker's actual Git HEAD (the selected commit, not the newer default
+branch), worktree registration, unchanged baseline inputs outside its write scope,
+implementation, report, and real test output. Re-run the task tests and retain the
+Issue bodies, receipt, skill fingerprints, and worker artifacts with the review.
+`capture.py` can archive the worker worktree; its consistent/open state is expected
+because only Manager accepts work. Preserve failed packets and allocate a new
+attempt/workspace for a corrected dispatch. Changing the fixture or copied skill
+requires a new trial directory. Do not turn documentation/regex checks into claims about
+agent behavior. One successful sample does not validate GitHub APIs, concurrent
+claiming, downstream release, merge conflicts, or runtime cancellation.
