@@ -8,7 +8,7 @@ Plan Strata 是一个用于跨会话工作的开源 Agent skill。它帮助 Agen
 之前约定了什么、任务开始时依据哪个计划、实际检查过什么，以及下一步该做什么。
 开发与科研任务可以共用一份计划，同时保留各自的验收含义。
 
-**状态：`0.1.0-alpha.1` · MIT · 可选校验器需要 Python 3.10+。**
+**状态：`0.1.0-alpha.2` · MIT · 可选校验器需要 Python 3.10+。**
 适合早期试用，尚不承诺生产级工作流可靠性。
 
 > **🙌 Join us! 一起把 Plan Strata 用顺。**
@@ -98,6 +98,39 @@ Agent 使用你的语言撰写项目记录。你提供工作范围和资源边�
 [开发说明](skills/plan-strata/references/development.md)与
 [科研说明](skills/plan-strata/references/research.md)。
 
+## 可选的并行交接
+
+**并行执行默认关闭。** 加载 Plan Strata 或检测到 Git，都不会自动启用。
+技能已安装并可用时，用自然语言告诉 Agent 即可，无需另改技能配置。例如：
+
+> 使用 $plan-strata，为当前这一轮启用并行交接。把已就绪且相互独立的任务交给
+> 最多两个本地 Worker，在隔离的工作目录执行。你作为 Manager 检查交付、安排
+> 最终集成检查，再向我汇报。所有工作保持本地，不创建 Issue、不 push、不合入主分支。
+
+这只启用指定的迭代/批次；任务边界或预算不清楚时，先补齐再派发。Git 指令和
+子 Agent 依赖宿主实际提供的工具与权限，技能不会开启缺失的运行时能力。
+环境不能派发子 Agent 时，可改为手工传递任务单或串行执行。
+
+当任务输入已就绪、共享接口已确定、写入范围可以隔离时，可以选择委派。
+Manager 分配范围明确的任务单，Worker 返回产物和证据，最后由 Integrator
+检查组合后的交付。只有 Manager 维护进度并决定最终接受。
+
+> 使用 $plan-strata，评估当前已确认 ex-plan 内哪些任务适合独立执行。
+> 先给出并行交接方案，写清修改范围、依赖与总体资源预算；让我选择执行者
+> 和交接渠道后再派发。保留最终集成检查以及向 Manager 的交付。
+
+如果只想评估是否适合并行，使用上面的方案请求即可；它不授权实际派发。
+首版限定在一份 ex-plan 内，不要求 Git 或 GitHub。
+本地任务单、宿主的委派消息、经审核的 Issue 都可以承载同一份任务；任务单
+或 Issue 本身不会启动 Agent。执行仍依赖宿主工具与授权，默认工作流不变。
+
+详见[交接说明](skills/plan-strata/references/parallel-handoff.md)、
+[Worker 任务单](skills/plan-strata/assets/task-handoff.md)和
+[Integrator 任务单](skills/plan-strata/assets/integration-handoff.md)。
+贡献者可[重建本地双 Worker 试用](evals/README.md#parallel-handoff-trial)。
+这些 Markdown 任务单是 Agent 指导，不是新增的机器校验记录，也不是内置调度器。
+对外发布任务和合入主分支仍需各自的授权。
+
 ## 可选的只读校验器
 
 完成 Codex 项目级安装后，从**目标项目根目录**运行：
@@ -144,6 +177,10 @@ python3 skills/plan-strata/scripts/strata.py validate --project .
 一次无原会话上下文 Agent 接手的真实文档任务。科研场景数据为合成数据。
 [验证记录](docs/validation.md)链接了保留的证据；[发布准备说明](docs/PUBLISHING.md)
 区分本地安装检查和 push 后仍需进行的 GitHub 检查。
+
+alpha.2 的[首次并行交接试用](docs/validation-parallel.md)保留为历史证据；随后针对
+接收端基线与保留标识的修复，见[最新回归记录](docs/validation-handoff-fixes.md)。
+这些检查不代表 GitHub 派发、运行时编排或生产并发已验证。
 
 - 工具检查显式列出的本地文件与依赖，不推断隐含依赖或内容真实性；外部对象需另行核验。
 - 使用单一进度维护者。并行执行依赖实际环境的隔离和集成方式，技能不提供调度器或锁。

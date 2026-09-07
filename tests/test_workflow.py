@@ -118,6 +118,28 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(self.validate()["overall"], "open")
         self.assertTrue(self.validate()["errors"])
 
+    def test_integration_is_reserved_and_cannot_bypass_research_acceptance(self):
+        self.root = make_case(Path(self.temp.name) / "reserved", "research")
+        self.update(PLAN, lambda d: d.update(
+            tasks=[{"id": "integration", "type": "research", "depends_on": []}],
+            integration_required=True))
+        self.select(PLAN)
+        path = "plans/ex-plans/P001/check/integration-check-001.md"
+        check_record(self.root, path, "integration", ["analysis.py", "results.csv"],
+                     ["observations/analysis.log"])
+        self.update(PROGRESS, lambda d: d.update(
+            tasks=[{"id": "integration", "state": "done", "owner": "root", "next": "Review",
+                    "plan": PLAN, "plan_sha256": sha(self.root, PLAN), "check": path}],
+            integration_check=path))
+        result = self.validate()
+        self.assertIn("RESERVED_TASK_ID", self.codes(result))
+        self.assertEqual(result["overall"], "open")
+
+    def test_integration_is_also_reserved_for_development_tasks(self):
+        self.update(PLAN, lambda d: d["tasks"][0].update(id="integration"))
+        self.select(PLAN)
+        self.assertIn("RESERVED_TASK_ID", self.codes(self.validate()))
+
     def test_acceptance_propagates_through_dependencies(self):
         self.root = make_case(Path(self.temp.name) / "integration", "integration")
         self.update(PROGRESS, lambda d: d["tasks"][0].update(state="needs_review"))

@@ -1,0 +1,120 @@
+{
+  "kind": "parallel-delivery-audit",
+  "created_at": "2026-09-07T08:12:58.177281+00:00",
+  "test_reports": [
+    {
+      "path": "evals/results/parallel-py310-001.json",
+      "source_count": 22,
+      "exit_code": 0
+    },
+    {
+      "path": "evals/results/parallel-py314-001.json",
+      "source_count": 22,
+      "exit_code": 0
+    }
+  ],
+  "captures": [
+    {
+      "path": "evals/results/parallel-worker-T01-001.json",
+      "artifacts": 19,
+      "check_references_retained": 0,
+      "overall": "open"
+    },
+    {
+      "path": "evals/results/parallel-worker-T02-001.json",
+      "artifacts": 19,
+      "check_references_retained": 0,
+      "overall": "open"
+    },
+    {
+      "path": "evals/results/parallel-integration-001.json",
+      "artifacts": 34,
+      "check_references_retained": 23,
+      "overall": "open"
+    },
+    {
+      "path": "evals/results/parallel-manager-001.json",
+      "artifacts": 34,
+      "check_references_retained": 23,
+      "overall": "verified"
+    }
+  ],
+  "local_links_checked": 51,
+  "fragment_anchors_checked": 5,
+  "readme_shell_blocks_unchanged_and_bilingual": 5,
+  "protocol_validator_and_historical_plans_unchanged": true,
+  "private_archive_ignored": true,
+  "diff_whitespace_clean": true,
+  "subjects": [
+    {
+      "path": "README.md",
+      "sha256": "204a563698fc0401195b53c620af5122ce32c11b2c0bae7149429d8568b6d157"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "73a1debe03d54dfd2b687d48fd2e8019ff68a8fb11b41647c6b21c01ca09eb1a"
+    },
+    {
+      "path": "evals/README.md",
+      "sha256": "8b85e1c807d9045ddfe35da891aa93ce10a84a20d206c8ac981ed9c3775ad2f0"
+    },
+    {
+      "path": "docs/validation-parallel.md",
+      "sha256": "f7c93e568c5556e404b68d1873c8336c92221291c270a419e43aa2c32ce94615"
+    },
+    {
+      "path": "docs/evidence/P003-handoff-contract.md",
+      "sha256": "0ce573f5ffd37edf1b9563b529ba7938314fb54a1f11d55a8ec968fadaeb72c5"
+    },
+    {
+      "path": "skills/plan-strata/SKILL.md",
+      "sha256": "c7323f7224aaa48a29ac9d49e90bdc462963c8c9d25a564be2d290df606d3d68"
+    },
+    {
+      "path": "skills/plan-strata/assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "skills/plan-strata/assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "skills/plan-strata/assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "skills/plan-strata/assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "skills/plan-strata/assets/integration-handoff.md",
+      "sha256": "8eef9db68692f5e96bf5883c57ec7a514e0546a3f18fc13b166f84da6beafaa1"
+    },
+    {
+      "path": "skills/plan-strata/assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "skills/plan-strata/assets/task-handoff.md",
+      "sha256": "dc939e4a2bb3f69e508e53f241328822d38c260f1fff6fa5e17d460535792cb2"
+    },
+    {
+      "path": "skills/plan-strata/references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "skills/plan-strata/references/parallel-handoff.md",
+      "sha256": "0a369f8b5765a445f20172119fbbebb3c11f7c2e72020683167423cad167b85a"
+    },
+    {
+      "path": "skills/plan-strata/references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "skills/plan-strata/references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    }
+  ],
+  "method": "Parsed retained JSON; rehashed current test sources, captured text, check references and skill files; resolved local Markdown links/anchors; compared README shell blocks and Git-scoped invariants.",
+  "limits": "Read-only mechanical audit plus separately recorded manual review; no external links, live GitHub actions, runtime scheduling, or scientific claims verified."
+}

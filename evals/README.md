@@ -37,3 +37,74 @@ Use `run_checks.py --output <new-file.json>` to preserve a contract-test run.
 After a worker finishes, `capture.py` can preserve its files, skill fingerprints,
 and a new validator result. Both commands retain earlier reports by refusing to
 overwrite an existing output file.
+
+## Parallel handoff trial
+
+This optional alpha.2 trial uses two independent tasks in one frozen plan, isolated
+directory copies, and a terminal integration gate. It needs Python 3.10+ and the
+full repository, but no Git, network, or installed agent runtime. The fixture
+driver never starts an agent. Obtain approval for the local worker batch first.
+
+Prepare a new trial (existing directories are refused):
+
+```sh
+strata_parallel_dir=$(mktemp -d)
+python3 -m evals.parallel_trial prepare --directory "$strata_parallel_dir/trial"
+```
+
+Give one fresh worker `trial/worker-T01/` and its `handoffs/T01-A01.md`; give another
+`trial/worker-T02/` and `handoffs/T02-A01.md`. Both receive only the copied skill at
+`trial/skill/`, their project directory, and the request to complete that packet.
+Use your host's delegation mechanism, or separate sessions; keep the generator,
+tests in this repository, prior chat, and intended solutions out of their context.
+The workers may execute concurrently, each within the packet's write scope.
+
+Manager inspects the returned code, report identity, and actual logs, then runs:
+
+```sh
+python3 -m evals.parallel_trial collect --directory "$strata_parallel_dir/trial"
+```
+
+This fixture-specific command preflights both the Manager's receiving baseline
+and the workers' allowed diffs, then copies the selected
+artifacts into `trial/manager/`, reruns each task test, and records scoped checks.
+Only passing tasks prepare `trial/integration/`. Task success still leaves overall
+open. Give that directory, `handoffs/integration-A01.md`, and the copied skill to a
+fresh Integrator. It returns its report/log and proposed check, without editing
+code or Manager's progress. Its proposed check must list `INTEGRATION-INPUTS.json`
+and every member of that manifest as subjects with current hashes. The manifest
+excludes live progress; the protocol helper checks those explicit subjects, not
+the contents of arbitrary manifests.
+
+After inspecting that delivery, Manager collects the terminal result:
+
+```sh
+python3 -m evals.parallel_trial finish --directory "$strata_parallel_dir/trial"
+python3 skills/plan-strata/scripts/strata.py validate --project "$strata_parallel_dir/trial/manager"
+```
+
+`finish` exits 0 only for verified completion; a retained failed verdict remains
+open and exits 1. Repeating an unchanged collection is a no-op. Changed attempt
+results, out-of-scope writes, or an interrupted partial collection require review,
+not an automatic overwrite. Both initial and repeated collection/finish reject
+added, removed, or changed Manager input files. Only progress prose and nonempty
+task `next` text may vary; bindings, owners, states, and check references remain
+pinned between driver transitions. Finishing also checks input coverage before
+copying anything. Preserve failed trials; prepare a new directory for
+a repaired attempt. The helper is for this synthetic fixture, not arbitrary
+projects, Issue synchronization, a lock, or an agent scheduler.
+
+The revised receipts contain Manager checkpoints. Older trial directories without
+them are retained as historical evidence and require a new trial, not an in-place
+upgrade. These checks assume exclusive access during each driver command and
+trusted fixture code; they are not a sandbox or protection against forged receipts.
+After delivery, the read-only validator detects changes to listed inputs, not new
+unlisted files or inferred dependencies. Review those before reusing acceptance.
+
+Use `capture.py` on each worker, the integration directory, and Manager's final
+directory to retain actual files and evidence outside the temporary workspaces.
+Judge whether bindings and write scopes survived, Manager remained the only
+progress writer, and combined evidence—not worker claims—determined completion.
+Automated tests also inject failed tasks/integration, stale evidence and conflicting
+retries. Those deterministic tests are not independent Agent trials. Research
+budget rules are documented; this example runs no research experiments.

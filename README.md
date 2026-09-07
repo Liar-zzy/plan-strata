@@ -9,7 +9,7 @@ agent recover what was agreed, which plan a task started under, what was actuall
 checked, and what to do next. Development and research tasks can share one plan
 without sharing the same meaning of success.
 
-**Status: `0.1.0-alpha.1` · MIT · Python 3.10+ for the optional validator.**
+**Status: `0.1.0-alpha.2` · MIT · Python 3.10+ for the optional validator.**
 Ready for early trials, not a production workflow guarantee.
 
 > **🙌 Join us! Help improve Plan Strata through real use.**
@@ -105,6 +105,45 @@ The [protocol](skills/plan-strata/references/protocol.md) defines the records;
 [development](skills/plan-strata/references/development.md) and
 [research](skills/plan-strata/references/research.md) guidance define acceptance.
 
+## Optional parallel handoffs
+
+**Parallel execution is off by default.** Loading Plan Strata or detecting Git
+does not enable it. Once the skill is installed and available, ask in natural
+language; no extra skill configuration is needed. For example:
+
+> Use $plan-strata and enable parallel handoffs for this iteration. Delegate ready,
+> independent tasks to at most two local workers in isolated workspaces. You are
+> the Manager: inspect their deliveries, arrange final integration, then report
+> back. Keep all work local; do not create Issues, push, or merge the default branch.
+
+This enables only the stated iteration/batch. Resolve missing task boundaries or
+budgets before dispatch. Git commands and subagents use the host's available tools
+and permissions; the skill does not enable missing runtime capabilities. If
+delegation is unavailable, the agent can offer manual packets or sequential work.
+
+Choose delegation when tasks have ready inputs, settled shared interfaces, and
+isolated write scopes. A Manager assigns bounded task packets, workers return
+artifacts and evidence, and a terminal Integrator checks the combined delivery.
+Manager alone maintains progress and decides final acceptance.
+
+> Use $plan-strata to assess independent tasks in the current ready ex-plan.
+> First draft a parallel handoff proposal with write scopes, dependencies, and a
+> shared resource budget. Let me choose the workers and delivery channel before
+> dispatch. Keep final integration and the Manager's handoff explicit.
+
+If you only want to evaluate the option, ask for the proposal above; that does not
+authorize dispatch. This mode is limited initially to one ex-plan and needs no Git or GitHub.
+Local packets, host delegation messages, and reviewed Issues can carry the same
+assignment; a packet or Issue does not launch an agent. Execution still uses the
+host's available tools and permissions. The default workflow is unchanged.
+
+See the [handoff guidance](skills/plan-strata/references/parallel-handoff.md),
+[worker packet](skills/plan-strata/assets/task-handoff.md), and
+[integration packet](skills/plan-strata/assets/integration-handoff.md).
+Contributors can [rebuild the local two-worker trial](evals/README.md#parallel-handoff-trial).
+These Markdown packets are agent guidance, not new machine-validated records or
+a bundled scheduler. External posting and default-branch merges need their own authority.
+
 ## Optional read-only validator
 
 After a project-local Codex install, run from the **target project's root**:
@@ -158,6 +197,11 @@ Research results in the scenarios are synthetic. The
 [validation record (Chinese)](docs/validation.md) links the retained evidence.
 [Release preparation](docs/PUBLISHING.md) separates local installation checks
 from the GitHub checks that must happen after pushing.
+
+The initial alpha.2 [parallel-handoff trial (Chinese)](docs/validation-parallel.md)
+is historical evidence. Subsequent receiver-baseline and reserved-ID repairs have
+[their own regression record (Chinese)](docs/validation-handoff-fixes.md).
+These checks do not establish GitHub dispatch, runtime orchestration, or production concurrency.
 
 - Checks cover explicitly declared local files and dependencies, not implicit ones
   or the truth of their contents. External artifacts need separate verification.

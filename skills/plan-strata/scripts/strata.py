@@ -110,6 +110,8 @@ class Validator:
                 f"{ref}: core snapshot changed", "CORE_CHANGED")
         tasks = self.index(data.get("tasks"), f"{ref}: tasks")
         require(tasks, f"{ref}: define at least one bounded task")
+        require("integration" not in tasks, f"{ref}: integration is reserved for the terminal check",
+                "RESERVED_TASK_ID")
         for task in tasks.values():
             require(isinstance(task.get("type"), str) and task["type"] in {"development", "research"},
                     f"{ref}: invalid task type for {task['id']}")

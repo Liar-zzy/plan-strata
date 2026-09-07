@@ -3,7 +3,7 @@ name: plan-strata
 description: Maintain versioned plans, execution handoffs, and evidence for software development and research work across sessions. Use when starting a bounded project iteration, resuming existing plans, revising an execution baseline, or checking completion. Simple questions and isolated small edits usually need no planning files.
 license: MIT
 metadata:
-  version: "0.1.0-alpha.1"
+  version: "0.1.0-alpha.2"
 ---
 
 # Plan Strata
@@ -31,6 +31,12 @@ Use the user's language for project documents.
    overall goals, resources, or external effects when it needs new authority.
 
 ## Execute and hand off
+
+Parallel delegation is **off by default**. A user's explicit choice for the current
+iteration/batch enables it; loading this skill or finding Git does not. For an
+opt-in request, a received assignment in an approved batch, or terminal integration,
+read [parallel handoffs](references/parallel-handoff.md) before assigning or starting
+work. Ordinary work uses the workflow below without extra packets.
 
 - Put task definitions and dependencies in the plan; maintain live state only in
   progress. Record a plan path and content hash when starting a task. That binding

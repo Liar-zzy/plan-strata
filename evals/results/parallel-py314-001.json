@@ -1,0 +1,109 @@
+{
+  "kind": "automated-contract-tests",
+  "created_at": "2026-09-07T07:48:24.201179+00:00",
+  "python_version": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "cwd": ".",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_changed_attempt_is_rejected_before_writing (test_parallel_trial.ParallelTrialTests.test_changed_attempt_is_rejected_before_writing) ... ok\ntest_collection_accepts_tasks_but_waits_for_real_integration (test_parallel_trial.ParallelTrialTests.test_collection_accepts_tasks_but_waits_for_real_integration) ... ok\ntest_deleted_or_symlinked_worker_input_is_rejected (test_parallel_trial.ParallelTrialTests.test_deleted_or_symlinked_worker_input_is_rejected) ... ok\ntest_failed_terminal_verdict_is_retained_and_stays_open (test_parallel_trial.ParallelTrialTests.test_failed_terminal_verdict_is_retained_and_stays_open) ... ok\ntest_failed_worker_is_retained_without_starting_integration (test_parallel_trial.ParallelTrialTests.test_failed_worker_is_retained_without_starting_integration) ... ok\ntest_forbidden_plan_or_shared_file_write_stops_collection (test_parallel_trial.ParallelTrialTests.test_forbidden_plan_or_shared_file_write_stops_collection) ... ok\ntest_integration_failure_then_fresh_pass_preserves_history (test_parallel_trial.ParallelTrialTests.test_integration_failure_then_fresh_pass_preserves_history) ... ok\ntest_integrator_source_repair_is_outside_read_only_review_scope (test_parallel_trial.ParallelTrialTests.test_integrator_source_repair_is_outside_read_only_review_scope) ... ok\ntest_manager_finishes_once_without_replacing_progress_from_integrator (test_parallel_trial.ParallelTrialTests.test_manager_finishes_once_without_replacing_progress_from_integrator) ... ok\ntest_missing_report_cannot_be_collected (test_parallel_trial.ParallelTrialTests.test_missing_report_cannot_be_collected) ... ok\ntest_prepared_trial_is_open_without_git_and_has_pinned_inputs (test_parallel_trial.ParallelTrialTests.test_prepared_trial_is_open_without_git_and_has_pinned_inputs) ... ok\ntest_stale_destination_is_not_overwritten (test_parallel_trial.ParallelTrialTests.test_stale_destination_is_not_overwritten) ... ok\ntest_stale_passing_terminal_evidence_is_rejected (test_parallel_trial.ParallelTrialTests.test_stale_passing_terminal_evidence_is_rejected) ... ok\ntest_unchanged_collection_is_a_no_op (test_parallel_trial.ParallelTrialTests.test_unchanged_collection_is_a_no_op) ... ok\ntest_worker_cannot_replace_manager_progress (test_parallel_trial.ParallelTrialTests.test_worker_cannot_replace_manager_progress) ... ok\ntest_acceptance_propagates_through_dependencies (test_workflow.WorkflowTests.test_acceptance_propagates_through_dependencies) ... ok\ntest_changed_evidence_is_detected (test_workflow.WorkflowTests.test_changed_evidence_is_detected) ... ok\ntest_changed_plan_and_core_are_detected (test_workflow.WorkflowTests.test_changed_plan_and_core_are_detected) ... ok\ntest_changed_subject_revokes_current_acceptance_without_rewriting_history (test_workflow.WorkflowTests.test_changed_subject_revokes_current_acceptance_without_rewriting_history) ... ok\ntest_dependency_cycle_is_rejected (test_workflow.WorkflowTests.test_dependency_cycle_is_rejected) ... ok\ntest_done_requires_check (test_workflow.WorkflowTests.test_done_requires_check) ... ok\ntest_fixture_preparation_refuses_overwrite (test_workflow.WorkflowTests.test_fixture_preparation_refuses_overwrite) ... ok\ntest_local_success_with_failed_integration_stays_open (test_workflow.WorkflowTests.test_local_success_with_failed_integration_stays_open) ... ok\ntest_malformed_metadata_returns_a_diagnostic (test_workflow.WorkflowTests.test_malformed_metadata_returns_a_diagnostic) ... ok\ntest_old_acceptance_cannot_silently_carry_into_new_revision (test_workflow.WorkflowTests.test_old_acceptance_cannot_silently_carry_into_new_revision) ... ok\ntest_path_escape_and_external_symlink_are_rejected (test_workflow.WorkflowTests.test_path_escape_and_external_symlink_are_rejected) ... ok\ntest_research_check_requires_separate_interpretation (test_workflow.WorkflowTests.test_research_check_requires_separate_interpretation) ... ok\ntest_resume_selects_pointer_and_does_not_treat_consistency_as_completion (test_workflow.WorkflowTests.test_resume_selects_pointer_and_does_not_treat_consistency_as_completion) ... ok\ntest_running_task_retains_old_binding_after_switch (test_workflow.WorkflowTests.test_running_task_retains_old_binding_after_switch) ... ok\ntest_selected_draft_is_rejected (test_workflow.WorkflowTests.test_selected_draft_is_rejected) ... ok\ntest_stale_check_on_open_task_is_a_warning (test_workflow.WorkflowTests.test_stale_check_on_open_task_is_a_warning) ... ok\ntest_unrelated_file_does_not_invalidate_a_scoped_check (test_workflow.WorkflowTests.test_unrelated_file_does_not_invalidate_a_scoped_check) ... ok\ntest_valid_negative_research_can_complete (test_workflow.WorkflowTests.test_valid_negative_research_can_complete) ... ok\ntest_validator_is_read_only_and_cli_returns_json (test_workflow.WorkflowTests.test_validator_is_read_only_and_cli_returns_json) ... ok\ntest_wrong_check_cannot_satisfy_another_task (test_workflow.WorkflowTests.test_wrong_check_cannot_satisfy_another_task) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 1.878s\n\nOK\n",
+  "subjects": [
+    {
+      "path": "evals/capture.py",
+      "sha256": "fb366d649d0d210e6096279c927d938f0b6f50be6307a7c4d2b35635f28ffbb0"
+    },
+    {
+      "path": "evals/install_smoke.py",
+      "sha256": "f36ff49e0437ee20c1c3653068f0863aa3434bd97de72b5cba6c39e173b31980"
+    },
+    {
+      "path": "evals/parallel_trial.py",
+      "sha256": "6654e293d132ef1fe950c41d84f8266660fd9bf7fc3e39ff08f640a4914d14bd"
+    },
+    {
+      "path": "evals/prepare.py",
+      "sha256": "7fe8badb85362b10dc87d7eb9ef84fb88419366904a0e250a48ff1148c1a739e"
+    },
+    {
+      "path": "evals/run_checks.py",
+      "sha256": "fea1edd5c57d2f6aa629204ac6809b3c874cf2f9edcc8445455126ffe50e5278"
+    },
+    {
+      "path": "skills/plan-strata/LICENSE",
+      "sha256": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679"
+    },
+    {
+      "path": "skills/plan-strata/SKILL.md",
+      "sha256": "c7323f7224aaa48a29ac9d49e90bdc462963c8c9d25a564be2d290df606d3d68"
+    },
+    {
+      "path": "skills/plan-strata/agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "skills/plan-strata/assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "skills/plan-strata/assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "skills/plan-strata/assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "skills/plan-strata/assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "skills/plan-strata/assets/integration-handoff.md",
+      "sha256": "8eef9db68692f5e96bf5883c57ec7a514e0546a3f18fc13b166f84da6beafaa1"
+    },
+    {
+      "path": "skills/plan-strata/assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "skills/plan-strata/assets/task-handoff.md",
+      "sha256": "dc939e4a2bb3f69e508e53f241328822d38c260f1fff6fa5e17d460535792cb2"
+    },
+    {
+      "path": "skills/plan-strata/references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "skills/plan-strata/references/parallel-handoff.md",
+      "sha256": "0a369f8b5765a445f20172119fbbebb3c11f7c2e72020683167423cad167b85a"
+    },
+    {
+      "path": "skills/plan-strata/references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "skills/plan-strata/references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    },
+    {
+      "path": "skills/plan-strata/scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    },
+    {
+      "path": "tests/test_parallel_trial.py",
+      "sha256": "516ed3f7175d6b36cd3620544e91739767d8b193c9bda8b1015eba725eb10f20"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "sha256": "32156431a1799252ccf83395fd5ebdf77918232d6e67a31093e4e3867867432a"
+    }
+  ],
+  "limits": "Contract tests use synthetic fixtures. They do not establish long-term agent behavior or research validity."
+}
