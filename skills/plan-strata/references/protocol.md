@@ -41,7 +41,9 @@ they are not signatures or evidence of when/how a file was produced.
 | `check` | `id`, `task`, `plan`, `plan_sha256`, `verdict`, `subjects`, `evidence` |
 
 A plan task has `id`, `type` (`development` or `research`), and `depends_on` (task
-IDs). Its prose defines inputs, outputs, scope, and acceptance. A progress task has
+IDs). The exact ID `integration` is reserved for terminal checks and cannot be a
+plan task ID (`RESERVED_TASK_ID`). A task's prose defines inputs, outputs, scope,
+and acceptance. A progress task has
 `id`, `state`, `owner`, `next`, and `check` (path or null). Once started, it also has
 `plan` and `plan_sha256`, binding this task's attempt to an exact revision. The
 bound plan in turn pins core. Completed/cancelled tasks retain this provenance.
@@ -51,6 +53,10 @@ Check `task` is a task ID or `integration`. `verdict` is `pass`, `fail`, or
 are nonempty lists of `{ "path": "...", "sha256": "..." }`: subjects identify
 what was inspected; evidence identifies logs, review notes, or other actual
 observations. A check file cannot be its own subject or evidence.
+For local input manifests, list the relevant member files as explicit subjects
+to validate their bytes too; the manifest's hash alone only pins the list. Keep
+mutable progress outside frozen input sets. Scope completeness remains a review
+responsibility; the helper does not expand manifests or detect unlisted new files.
 
 Check prose records the reviewer, date, method/command, actual results (including
 exit code when applicable), limitations, and next decision. A research task check

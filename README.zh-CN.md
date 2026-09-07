@@ -145,6 +145,9 @@ python3 skills/plan-strata/scripts/strata.py validate --project .
 [验证记录](docs/validation.md)链接了保留的证据；[发布准备说明](docs/PUBLISHING.md)
 区分本地安装检查和 push 后仍需进行的 GitHub 检查。
 
+[主分支 hotfix 记录](docs/validation-main-hotfix.md)说明保留任务标识、循环链接诊断
+及输入清单范围的修复与验证。
+
 - 工具检查显式列出的本地文件与依赖，不推断隐含依赖或内容真实性；外部对象需另行核验。
 - 使用单一进度维护者。并行执行依赖实际环境的隔离和集成方式，技能不提供调度器或锁。
 - 哈希标识文件字节，不是防篡改签名；历史快照通过版本控制和工作约定保留。

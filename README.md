@@ -159,6 +159,9 @@ Research results in the scenarios are synthetic. The
 [Release preparation](docs/PUBLISHING.md) separates local installation checks
 from the GitHub checks that must happen after pushing.
 
+The [main-branch hotfix record (Chinese)](docs/validation-main-hotfix.md) covers
+reserved task IDs, symlink-loop diagnostics, and explicit input-manifest scope.
+
 - Checks cover explicitly declared local files and dependencies, not implicit ones
   or the truth of their contents. External artifacts need separate verification.
 - One writer maintains progress. Concurrent workers need host-level isolation and

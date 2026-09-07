@@ -1,0 +1,60 @@
+{
+  "validator": "/Users/liar/codes/plan-strata/skills/plan-strata/scripts/strata.py",
+  "python": "3.10.9",
+  "results": [
+    {
+      "case": "reserved_task_id",
+      "status": "invalid",
+      "overall": "open",
+      "errors": [
+        {
+          "code": "RESERVED_TASK_ID",
+          "message": "plans/ex-plans/P001/ex-plan-v0.1.0.md: integration is reserved for the terminal check"
+        }
+      ],
+      "research_metadata": null,
+      "same_check_used_for_task_and_final_gate": true
+    },
+    {
+      "case": "manifest_hash_only",
+      "before_overall": "verified",
+      "after_data_changed_overall": "verified",
+      "after_status": "consistent",
+      "diagnostics": [],
+      "interpretation": "Declared-scope limitation, not manifest expansion support."
+    },
+    {
+      "case": "manifest_members_listed",
+      "before_overall": "verified",
+      "after_data_changed_overall": "open",
+      "after_status": "invalid",
+      "diagnostics": [
+        {
+          "code": "STALE_SUBJECTS",
+          "message": "plans/ex-plans/P001/check/T01-check-001.md: changed results.csv"
+        }
+      ],
+      "interpretation": "Declared-scope limitation, not manifest expansion support."
+    },
+    {
+      "case": "symlink_cycle",
+      "python": "3.10.9",
+      "exit_code": 1,
+      "json_output": {
+        "schema": 1,
+        "status": "invalid",
+        "overall": "open",
+        "tasks": [],
+        "errors": [
+          {
+            "code": "INVALID_PATH",
+            "message": "Cannot resolve path: /private/var/folders/g2/8xjpq6l544v6gwm26t0mmqw00000gn/T/strata-main-probes-2mcw9d2d/symlink-loop/cycle.md"
+          }
+        ],
+        "warnings": []
+      },
+      "traceback_instead_of_diagnostic": false,
+      "stderr_tail": []
+    }
+  ]
+}

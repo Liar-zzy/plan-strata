@@ -118,6 +118,28 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(self.validate()["overall"], "open")
         self.assertTrue(self.validate()["errors"])
 
+    def test_integration_is_reserved_and_cannot_bypass_research_acceptance(self):
+        self.root = make_case(Path(self.temp.name) / "reserved", "research")
+        self.update(PLAN, lambda d: d.update(
+            tasks=[{"id": "integration", "type": "research", "depends_on": []}],
+            integration_required=True))
+        self.select(PLAN)
+        path = "plans/ex-plans/P001/check/integration-check-001.md"
+        check_record(self.root, path, "integration", ["analysis.py", "results.csv"],
+                     ["observations/analysis.log"])
+        self.update(PROGRESS, lambda d: d.update(
+            tasks=[{"id": "integration", "state": "done", "owner": "root", "next": "Review",
+                    "plan": PLAN, "plan_sha256": sha(self.root, PLAN), "check": path}],
+            integration_check=path))
+        result = self.validate()
+        self.assertIn("RESERVED_TASK_ID", self.codes(result))
+        self.assertEqual(result["overall"], "open")
+
+    def test_integration_is_also_reserved_for_development_tasks(self):
+        self.update(PLAN, lambda d: d["tasks"][0].update(id="integration"))
+        self.select(PLAN)
+        self.assertIn("RESERVED_TASK_ID", self.codes(self.validate()))
+
     def test_acceptance_propagates_through_dependencies(self):
         self.root = make_case(Path(self.temp.name) / "integration", "integration")
         self.update(PROGRESS, lambda d: d["tasks"][0].update(state="needs_review"))
@@ -145,6 +167,55 @@ class WorkflowTests(unittest.TestCase):
     def test_malformed_metadata_returns_a_diagnostic(self):
         (self.root / "plans/CURRENT.md").write_text("---\nplan: ordinary-yaml\n---\n", encoding="utf-8")
         self.assertIn("INVALID_RECORD", self.codes(self.validate()))
+
+    def loop_path(self):
+        path = self.root / "cycle.md"
+        path.symlink_to("cycle.md")
+        return path
+
+    def cli(self, *args):
+        result = subprocess.run([sys.executable, str(SCRIPT), *args],
+                                capture_output=True, text=True, check=False)
+        self.assertNotIn("Traceback", result.stderr)
+        return result
+
+    def test_looping_plan_reference_returns_json_diagnostic(self):
+        self.loop_path()
+        self.update("plans/CURRENT.md", lambda d: d.update(plan="cycle.md"))
+        result = self.cli("validate", "--project", str(self.root))
+        self.assertEqual(result.returncode, 1)
+        data = json.loads(result.stdout)
+        self.assertEqual((data["status"], data["overall"]), ("invalid", "open"))
+        self.assertTrue(data["errors"])
+
+    def test_looping_check_subject_revokes_acceptance_with_json_diagnostic(self):
+        self.loop_path()
+        data, _ = read_record(self.root, PROGRESS)
+        self.update(data["tasks"][0]["check"], lambda d: d["subjects"][0].update(path="cycle.md"))
+        result = self.cli("validate", "--project", str(self.root))
+        self.assertEqual(result.returncode, 1)
+        data = json.loads(result.stdout)
+        self.assertEqual((data["status"], data["overall"]), ("invalid", "open"))
+        self.assertEqual(data["tasks"][0]["effective_state"], "needs_review")
+
+    def test_fingerprint_of_looping_path_returns_json_error(self):
+        self.loop_path()
+        result = self.cli("fingerprint", "--project", str(self.root), "cycle.md")
+        self.assertEqual(result.returncode, 2)
+        self.assertTrue(json.loads(result.stderr)["error"])
+
+    def test_looping_project_root_returns_json_error(self):
+        result = self.cli("validate", "--project", str(self.loop_path()))
+        self.assertEqual(result.returncode, 2)
+        self.assertTrue(json.loads(result.stderr)["error"])
+
+    def test_internal_symlink_still_fingerprints_its_target(self):
+        path = self.root / "core-link.md"
+        path.symlink_to(CORE)
+        result = self.cli("fingerprint", "--project", str(self.root), path.name)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(json.loads(result.stdout), [{"path": path.name, "sha256": sha(self.root, CORE)}])
+        self.assertTrue(path.is_symlink())
 
     def test_validator_is_read_only_and_cli_returns_json(self):
         before = {p.relative_to(self.root): p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
