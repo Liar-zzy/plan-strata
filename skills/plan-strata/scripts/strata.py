@@ -48,9 +48,17 @@ def hash_value(value):
     return isinstance(value, str) and HASH.fullmatch(value) is not None
 
 
+def resolve_path(path, *, strict=False):
+    try:
+        return path.resolve(strict=strict)
+    except RuntimeError as exc:
+        # Older pathlib versions raise RuntimeError for a symlink loop.
+        raise RecordError("INVALID_PATH", f"Cannot resolve path: {path}") from exc
+
+
 class Validator:
     def __init__(self, project):
-        self.project = Path(project).resolve(strict=True)
+        self.project = resolve_path(Path(project), strict=True)
         require(self.project.is_dir(), "Project must be a directory", "INVALID_PATH")
         self.errors = []
         self.warnings = []
@@ -68,7 +76,7 @@ class Validator:
             and all(p not in {"", ".", ".."} for p in ref.split("/")),
             f"Not a project-relative POSIX path: {ref}", "INVALID_PATH",
         )
-        path = (self.project / ref).resolve()
+        path = resolve_path(self.project / ref)
         require(path.is_relative_to(self.project), f"Path escapes project: {ref}", "INVALID_PATH")
         require(path.is_file(), f"Missing regular file: {ref}", "MISSING_FILE")
         return path
