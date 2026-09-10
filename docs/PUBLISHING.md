@@ -1,5 +1,10 @@
 # Publishing Plan Strata
 
+> The first-release draft and P002 evidence below are historical. For the current
+> dev prerelease, source selection, and schema migration, see
+> [0.2.0-alpha.1](v0.2.0-alpha.1.md). Do not use the old release title or assume
+> the default-branch install fetches dev.
+
 Target: [Liar-zzy/plan-strata](https://github.com/Liar-zzy/plan-strata).
 First release: `v0.1.0-alpha.1`, marked as a **pre-release**.
 This is a standalone Agent Skills package, not a marketplace submission.
@@ -68,7 +73,7 @@ python3 evals/install_smoke.py
 The optional installation check uses `skills@1.5.23`, needs Git, Node.js 22.20+,
 and npm access, and installs only into new temporary projects. It compares the
 complete installed payload for Codex and Claude Code against the local package,
-runs the installed validator and fingerprint command, and checks that existing
+runs the installed structural validator, and checks that existing
 project files remain unchanged. It neither launches either client nor installs
 skills globally. Telemetry is disabled for this check.
 

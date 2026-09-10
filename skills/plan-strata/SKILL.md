@@ -3,7 +3,7 @@ name: plan-strata
 description: Maintain versioned plans, execution handoffs, and evidence for software development and research work across sessions. Use when starting a bounded project iteration, resuming existing plans, revising an execution baseline, or checking completion. Simple questions and isolated small edits usually need no planning files.
 license: MIT
 metadata:
-  version: "0.1.0-alpha.2"
+  version: "0.2.0-alpha.1"
 ---
 
 # Plan Strata
@@ -40,7 +40,7 @@ before publishing, assigning, or starting work. Ordinary work uses the workflow
 below without extra packets.
 
 - Put task definitions and dependencies in the plan; maintain live state only in
-  progress. Record a plan path and content hash when starting a task. That binding
+  progress. Record the versioned plan path when starting a task. That binding
   survives later changes to CURRENT.
 - Keep one progress writer per iteration. Workers share the plan, own distinct
   tasks, and submit separate reports when concurrent execution needs them.
@@ -74,10 +74,12 @@ below without extra packets.
    python3 <skill-directory>/scripts/strata.py validate --project <project-directory>
    ```
 
-   Fix inconsistent records. This read-only command verifies references, selected
-   file hashes, and state consistency. `consistent` does not mean tests ran,
-   evidence is truthful, or the research claim is established. Inspect `overall`
-   separately. Existing alternative formats may be checked manually without
+   Fix inconsistent records. This read-only command checks record structure,
+   path availability, bindings, and state consistency, without reading artifact
+   contents or computing hashes. `validation_scope: structure_only` and
+   `overall: accepted` describe recorded acceptance, not verified behavior.
+   It cannot detect changed contents, omitted inputs, or inadequate tests.
+   Existing alternative formats may be checked manually without
    migration; disclose that the bundled validator was not used on them.
 4. Report the outcome, remaining limitations, and justified next action. Stop or
    replan when the agreed budget or decision boundary is reached.
@@ -90,9 +92,15 @@ update progress for ordinary execution. Change core when project intent or key
 constraints change. Read the protocol's revision rules before changing a selected
 baseline. Write the reason and affected tasks into the new plan.
 
-Keep started revisions available with their exact bytes. Select the new ready
+Keep started revisions unchanged and available. Select the new ready
 revision explicitly, then reconcile pending work and previous acceptance. Running
 tasks retain their bindings until explicitly continued, stopped, or reassigned.
 Use a new check to justify reuse under changed criteria. Preserve historical
 results while marking current acceptance `needs_review` when applicability is
 uncertain.
+
+After relevant code, data, tests, or configuration changes, explicitly reassess
+affected acceptance. Set affected tasks to `needs_review` and clear a no-longer-
+applicable `integration_check` (retain its file and reference in progress prose).
+Rerun affected checks and record a new conclusion before accepting again. The
+helper does not detect these changes; unrelated edits need not reopen a task.

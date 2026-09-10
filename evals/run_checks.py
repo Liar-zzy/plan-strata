@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Run the local contract suite and preserve its output and source fingerprints."""
+"""Run the local contract suite and preserve its output and source path inventory."""
 
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
@@ -27,8 +26,7 @@ def main():
         "kind": "automated-contract-tests", "created_at": datetime.now(timezone.utc).isoformat(),
         "python_version": sys.version, "command": ["python3", *command[1:]], "cwd": ".",
         "exit_code": result.returncode, "stdout": result.stdout, "stderr": result.stderr,
-        "subjects": [{"path": p.relative_to(repo).as_posix(),
-                      "sha256": hashlib.sha256(p.read_bytes()).hexdigest()} for p in files],
+        "subjects": [p.relative_to(repo).as_posix() for p in files],
         "limits": "Contract tests use synthetic fixtures. They do not establish long-term agent behavior or research validity.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)

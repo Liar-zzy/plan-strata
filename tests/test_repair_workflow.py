@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from evals.prepare import CORE, PLAN, PROGRESS, check_record, observe, record, sha, write
+from evals.prepare import CORE, PLAN, PROGRESS, check_record, observe, record, write
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -27,11 +27,11 @@ class RepairWorkflowTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="plan-strata-repair-test-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        record(self.root, CORE, {"schema": 1, "kind": "core", "revision": "v0.1.0"},
+        record(self.root, CORE, {"schema": 2, "kind": "core", "revision": "v0.1.0"},
                "# Synthetic fixture\n\nLocal checks only; no external actions.\n")
         record(self.root, PLAN, {
-            "schema": 1, "kind": "plan", "id": "P001", "revision": "v0.1.0",
-            "core": CORE, "core_sha256": sha(self.root, CORE), "ready": True,
+            "schema": 2, "kind": "plan", "id": "P001", "revision": "v0.1.0",
+            "core": CORE, "ready": True,
             "tasks": [{"id": "T01", "type": "development", "depends_on": []}],
             "integration_required": False,
         }, "# Entry validation\n\nT01: startup and turn entry both reject missing/false\n"
@@ -39,8 +39,7 @@ class RepairWorkflowTests(unittest.TestCase):
            "Acceptance: run tests/check_entry.py. Allow implementation/self-checks\n"
            "and up to two grouped review/repair rounds, at most four test runs.\n")
         record(self.root, "plans/CURRENT.md", {
-            "schema": 1, "kind": "current", "plan": PLAN,
-            "plan_sha256": sha(self.root, PLAN), "progress": PROGRESS,
+            "schema": 2, "kind": "current", "plan": PLAN, "progress": PROGRESS,
         }, "# Current\n\nSelected synthetic task.\n")
         self.progress("in_progress")
         write(self.root, SOURCE, PARTIAL)
@@ -62,10 +61,10 @@ class RepairWorkflowTests(unittest.TestCase):
 
     def progress(self, state, check=None):
         record(self.root, PROGRESS, {
-            "schema": 1, "kind": "progress", "plan_id": "P001", "integration_check": None,
+            "schema": 2, "kind": "progress", "plan_id": "P001", "integration_check": None,
             "tasks": [{"id": "T01", "state": state, "owner": "fixture-manager",
                        "next": "Inspect the current result within the existing task budget",
-                       "check": check, "plan": PLAN, "plan_sha256": sha(self.root, PLAN)}],
+                       "check": check, "plan": PLAN}],
         }, "# Scripted fixture\n\nOne writer; no agents or background jobs.\n")
 
     def verify(self, name, expected_exit):
@@ -75,7 +74,7 @@ class RepairWorkflowTests(unittest.TestCase):
         return log
 
     def freeze(self, name, log, verdict):
-        # Retain actual inspected bytes, not just their old hashes.
+        # This tiny fixture retains inspected source text to exercise history preservation.
         inputs = [f"deliveries/{name}/{path}" for path in (SOURCE, TEST)]
         for path, retained in zip((SOURCE, TEST), inputs):
             write(self.root, retained, (self.root / path).read_text(encoding="utf-8"))
@@ -86,7 +85,7 @@ class RepairWorkflowTests(unittest.TestCase):
 
     def assert_accepted_without_replanning(self):
         result = Validator(self.root).validate()
-        self.assertEqual((result["status"], result["overall"]), ("consistent", "verified"))
+        self.assertEqual((result["status"], result["overall"]), ("consistent", "accepted"))
         self.assertEqual(result["tasks"][0]["id"], "T01")
         self.assertEqual(result["tasks"][0]["plan"], PLAN)
         self.assertEqual(self.snapshot(self.bound), self.bound)
@@ -124,10 +123,11 @@ class RepairWorkflowTests(unittest.TestCase):
         self.assert_accepted_without_replanning()
         write(self.root, SOURCE, REPAIRED.replace("config.get('enabled')", "config.get('enabled', False)"))
         result = Validator(self.root).validate()
-        self.assertEqual((result["status"], result["overall"]), ("invalid", "open"))
-        self.assertEqual(result["tasks"][0]["effective_state"], "needs_review")
-        self.assertIn("STALE_SUBJECTS", {error["code"] for error in result["errors"]})
+        self.assertEqual((result["status"], result["overall"]), ("consistent", "accepted"))
+        self.assertEqual(result["validation_scope"], "structure_only")
+        # Manager knows relevant inputs changed; the structural helper cannot infer that.
         self.progress("needs_review", first)
+        self.assertEqual(Validator(self.root).validate()["overall"], "open")
         log = self.verify("delivery-002", 0)
         second, _ = self.freeze("check-002", log, "pass")
         self.progress("done", second)

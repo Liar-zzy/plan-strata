@@ -28,8 +28,9 @@ push, publication, or default-branch merge authority.
    copies or worktrees for concurrent writers; branches in one directory do not
    isolate files, and worktrees do not isolate shared services or compute resources.
 3. Fill the [worker packet](../assets/task-handoff.md) for each task. Pin the task's
-   plan path/hash and code/input baseline (commit plus retained dirty inputs, or a
-   file manifest). Include only relevant context; material must be readable in the
+   versioned plan path and code/input baseline (an existing commit plus any retained
+   dirty inputs, or an identified delivery copy). No per-file digests are required.
+   Include only relevant context; material must be readable in the
    recipient's environment. External posting additionally needs an identified
    target, permissions, and a privacy review. Apply the [cold-start gate](#cold-start-gate)
    to the actual handoff delivered through the chosen channel.
@@ -42,7 +43,7 @@ push, publication, or default-branch merge authority.
    snapshot so later edits cannot silently change a running attempt. Start only
    within the agreed capacity.
 
-Readiness and write-scope checks here are Manager judgments. Protocol v1's validator
+Readiness and write-scope checks here are Manager judgments. Protocol v2's validator
 checks declared records and acceptance; it does not lock claims, enforce readiness
 at launch, or parse packet Markdown. Cross-ex-plan dependencies are outside this
 first mode. Historical revisions are not additional tasks to dispatch.
@@ -74,9 +75,9 @@ For Issue dispatch, the Issue is the worker packet: put the objective, boundarie
 entry conditions, acceptance, and return contract in its body. Detailed plans and
 supporting context may be linked at exact, retrievable versions. For Git-based
 pickup, identify the repository, a fetchable ref containing the pinned commit,
-and paths/hashes at that commit; a moving branch name alone is not a baseline.
+and paths at that commit; a moving branch name alone is not a baseline.
 Verify required documents are available there. Manager-only paths or uncommitted
-files need an explicit accessible delivery and fingerprint, not just a filename.
+files need an identified accessible delivery, not just a Manager-local filename.
 If required material cannot be delivered within existing authority, explain the
 block; publishing or pushing it needs the corresponding permission.
 
@@ -116,8 +117,8 @@ scope, a changed interface, extra resources, or a new external action.
 Include self-checks and any permitted repairs using [bounded repair](repair-loop.md).
 Manager can continue that loop within the batch's existing scope and budget.
 
-Return the identity/binding, changed paths and retained artifact fingerprints or
-commit, actual verification commands/results, report location, limitations, and
+Return the identity/binding, changed paths, retrievable delivery versions/locations,
+actual verification commands/results, report location, limitations, and
 next recommendation specified by the packet. Distinguish a delivery ready for
 review from an accepted task. Keep any running job handle and output location in
 the report; reaching a time limit is not evidence that the job stopped.
@@ -131,13 +132,14 @@ contracts, data, and configuration. Drift requires review and a fresh applicable
 check, not acceptance under changed inputs. Separate live progress notes from
 frozen inputs, while retaining task bindings and Manager's authority.
 
-Preserve the exact inputs/outputs used for each check. Copy approved artifacts, not
+Keep the inspected delivery retrievable, using existing version control or a
+retained delivery copy as appropriate. Copy approved artifacts, not
 a worker's entire planning directory; evidence at temporary paths must be retained
 or represented by a durable manifest before relying on it.
 
 Reconcile an interrupted attempt from progress, the dispatch receipt, workspace,
 and runtime/task handle before starting another. The same received result is a
-no-op after its identity and hashes are confirmed; a changed result under the same
+no-op after its identity and unchanged delivery are confirmed; a changed result under the same
 attempt requires investigation. Reassign only after the old attempt is stopped or
 otherwise prevented from writing accepted outputs. Preserve its packet, reports,
 and checks; allocate a new attempt. Revisions require explicit reassignment or a
@@ -158,10 +160,12 @@ IDs such as T01 for plan tasks. Existing types remain development and research.
 
 Integrator combines only the selected artifacts using the agreed method and runs
 the acceptance checks on that final combined state. Its report identifies the
-included deliveries, final source/input fingerprint or commit, actual commands,
+included deliveries, final source/input versions and locations, actual commands,
 results, unresolved risks, and a proposed integration check with `task: integration`.
-Include relevant fixed inputs as explicit check subjects; hashing a manifest alone
-does not re-check its listed files. Keep mutable progress out of that input set.
+Include relevant inputs as explicit check subjects. Path lists neither discover
+omissions nor prove unchanged contents; assess both during review. Use existing
+Git diffs or direct inspection/comparison where needed, without digest bookkeeping.
+Keep mutable progress out of that input set. The helper cannot perform this review.
 If conflict resolution changes inspected code, refresh affected task checks before
 accepting the final result. A review that also fixes code records that provenance.
 

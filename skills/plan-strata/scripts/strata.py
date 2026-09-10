@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-"""Read-only checks for Plan Strata protocol v1. Python 3.10+, standard library."""
+"""Read-only structural checks for Plan Strata protocol v2. Python 3.10+."""
 
 import argparse
-import hashlib
 import json
-import re
 import sys
 from pathlib import Path
 
 
 STATES = {"planned", "in_progress", "blocked", "needs_review", "done", "cancelled"}
-HASH = re.compile(r"[0-9a-f]{64}\Z")
 
 
 class RecordError(ValueError):
@@ -32,20 +29,8 @@ def unique_object(pairs):
     return result
 
 
-def digest(path):
-    hasher = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            hasher.update(chunk)
-    return hasher.hexdigest()
-
-
 def nonempty(value):
     return isinstance(value, str) and bool(value.strip())
-
-
-def hash_value(value):
-    return isinstance(value, str) and HASH.fullmatch(value) is not None
 
 
 def resolve_path(path, *, strict=False):
@@ -72,7 +57,7 @@ class Validator:
     def file(self, ref):
         require(nonempty(ref), "Expected a project-relative file path", "INVALID_PATH")
         require(
-            not ref.startswith("/") and "\\" not in ref
+            not ref.startswith("/") and "\\" not in ref and "\x00" not in ref
             and all(p not in {"", ".", ".."} for p in ref.split("/")),
             f"Not a project-relative POSIX path: {ref}", "INVALID_PATH",
         )
@@ -89,8 +74,13 @@ class Validator:
             end = lines.index("---", 1)
             data = json.loads("\n".join(lines[1:end]), object_pairs_hook=unique_object)
             require(isinstance(data, dict), f"{ref}: metadata must be a JSON object")
-            require(type(data.get("schema")) is int and data["schema"] == 1,
-                    f"{ref}: expected schema 1")
+            require(type(data.get("schema")) is int and data["schema"] == 2,
+                    f"{ref}: expected schema 2 (structure only). Preserve legacy records; "
+                    "start a new schema 2 iteration or use the matching legacy validator.",
+                    "UNSUPPORTED_SCHEMA")
+            require(not {"plan_sha256", "core_sha256"}.intersection(data),
+                    f"{ref}: legacy digest fields are not part of schema 2; "
+                    "do not migrate by changing the schema number alone")
             require(data.get("kind") == kind, f"{ref}: expected kind {kind}")
             return data
         except RecordError:
@@ -98,11 +88,8 @@ class Validator:
         except (ValueError, OSError, UnicodeError) as exc:
             raise RecordError("INVALID_RECORD", f"{ref}: {exc}") from exc
 
-    def matches(self, ref, expected):
-        require(hash_value(expected), f"{ref}: expected a lowercase SHA-256 digest")
-        return digest(self.file(ref)) == expected
-
     def plan(self, ref):
+        require(nonempty(ref), "Expected a project-relative plan path", "INVALID_PATH")
         if ref in self.plans:
             return self.plans[ref]
         data = self.record(ref, "plan")
@@ -114,8 +101,6 @@ class Validator:
         core_ref = data.get("core")
         core = self.record(core_ref, "core")
         require(nonempty(core.get("revision")), f"{core_ref}: revision is required")
-        require(self.matches(core_ref, data.get("core_sha256")),
-                f"{ref}: core snapshot changed", "CORE_CHANGED")
         tasks = self.index(data.get("tasks"), f"{ref}: tasks")
         require(tasks, f"{ref}: define at least one bounded task")
         require("integration" not in tasks, f"{ref}: integration is reserved for the terminal check",
@@ -156,37 +141,35 @@ class Validator:
             result[row["id"]] = row
         return result
 
-    def check(self, ref, task_id, plan_ref, plan_hash, accepting):
+    def check(self, ref, task_id, plan_ref, accepting):
         data = self.record(ref, "check")
+        check_file = self.file(ref)
         require(nonempty(data.get("id")), f"{ref}: check id required")
         require(data.get("task") == task_id, f"{ref}: wrong task", "WRONG_CHECK_SCOPE")
-        require(data.get("plan") == plan_ref and data.get("plan_sha256") == plan_hash,
+        require(data.get("plan") == plan_ref,
                 f"{ref}: wrong execution baseline", "WRONG_CHECK_BASIS")
-        require(self.matches(plan_ref, plan_hash), f"{ref}: plan changed", "PLAN_CHANGED")
         _, definitions = self.plan(plan_ref)
         require(task_id == "integration" or task_id in definitions,
                 f"{ref}: task absent from bound plan", "WRONG_CHECK_SCOPE")
         verdict = data.get("verdict")
         require(isinstance(verdict, str) and verdict in {"pass", "fail", "inconclusive"}, f"{ref}: invalid verdict")
-        fresh = True
+        available = True
         for field in ("subjects", "evidence"):
             records = data.get(field)
             require(isinstance(records, list) and records, f"{ref}: {field} must be nonempty")
             seen = set()
-            for item in records:
-                require(isinstance(item, dict), f"{ref}: invalid {field} entry")
-                path = item.get("path")
+            for path in records:
                 require(nonempty(path) and path != ref, f"{ref}: invalid/self-referencing evidence")
                 require(path not in seen, f"{ref}: duplicate {field} path")
                 seen.add(path)
                 try:
-                    same = self.matches(path, item.get("sha256"))
-                    if not same:
-                        fresh = False
-                        self.issue("STALE_" + field.upper(), f"{ref}: changed {path}", not accepting)
-                except RecordError as exc:
-                    fresh = False
-                    self.issue(exc.code, str(exc), not accepting)
+                    artifact = self.file(path)
+                except (RecordError, OSError) as exc:
+                    available = False
+                    self.issue(getattr(exc, "code", "IO_ERROR"), str(exc), not accepting)
+                    continue
+                require(not artifact.samefile(check_file),
+                        f"{ref}: check cannot be its own {field}, including through a file alias")
         if task_id != "integration" and definitions[task_id]["type"] == "research":
             research = data.get("research")
             require(isinstance(research, dict), f"{ref}: research interpretation required")
@@ -198,15 +181,15 @@ class Validator:
                     f"{ref}: invalid research decision")
         if accepting:
             require(verdict == "pass", f"{ref}: completion requires a passing check", "CHECK_NOT_PASSING")
-        return verdict == "pass" and fresh
+        return verdict == "pass" and available
 
     def validate(self, current_ref="plans/CURRENT.md"):
-        output = {"schema": 1, "status": "invalid", "overall": "open", "tasks": []}
+        self.errors, self.warnings, self.plans = [], [], {}
+        output = {"schema": 2, "validation_scope": "structure_only",
+                  "status": "invalid", "overall": "open", "tasks": []}
         try:
             current = self.record(current_ref, "current")
             plan_ref = current.get("plan")
-            plan_hash = current.get("plan_sha256")
-            require(self.matches(plan_ref, plan_hash), "CURRENT's selected plan changed", "PLAN_CHANGED")
             plan, definitions = self.plan(plan_ref)
             progress = self.record(current.get("progress"), "progress")
             require(progress.get("plan_id") == plan["id"], "Progress belongs to another iteration")
@@ -227,18 +210,17 @@ class Validator:
                     if task_id not in definitions:
                         self.issue("HISTORICAL_TASK", f"{task_id}: absent from current plan", True)
                     bound = row.get("plan")
-                    bound_hash = row.get("plan_sha256")
+                    require("plan_sha256" not in row, f"{task_id}: legacy digest binding is not schema 2")
                     if state != "planned" or bound is not None or row["check"] is not None:
-                        require(self.matches(bound, bound_hash), f"{task_id}: bound plan changed", "PLAN_CHANGED")
                         old_plan, old_tasks = self.plan(bound)
                         require(old_plan["id"] == plan["id"] and task_id in old_tasks,
                                 f"{task_id}: invalid task binding", "WRONG_TASK_BASIS")
-                        if bound != plan_ref or bound_hash != plan_hash:
+                        if bound != plan_ref:
                             self.issue("OLDER_BASIS", f"{task_id}: bound to {bound}; CURRENT selects {plan_ref}", True)
                             if state == "done" and task_id in definitions:
                                 self.issue("OLD_ACCEPTANCE", f"{task_id}: assess reuse under the current plan")
                     if row["check"] is not None:
-                        self.check(row["check"], task_id, bound, bound_hash,
+                        self.check(row["check"], task_id, bound,
                                    state == "done" and task_id in definitions)
                     elif state == "done":
                         self.issue("MISSING_CHECK", f"{task_id}: done requires evidence")
@@ -265,13 +247,13 @@ class Validator:
             integrated = not plan["integration_required"]
             integration = progress["integration_check"]
             if integration is not None:
-                integrated = self.check(integration, "integration", plan_ref, plan_hash, False)
+                integrated = self.check(integration, "integration", plan_ref, False)
                 if not integrated:
-                    self.issue("INTEGRATION_OPEN", "Integration is not currently verified", True)
+                    self.issue("INTEGRATION_OPEN", "Integration is not accepted in the records", True)
             elif plan["integration_required"]:
                 self.issue("INTEGRATION_OPEN", "An integration check is still required", True)
             if integrated and all(effective.get(tid) == "done" for tid in definitions) and not self.errors:
-                output["overall"] = "verified"
+                output["overall"] = "accepted"
         except (RecordError, OSError) as exc:
             self.issue(getattr(exc, "code", "IO_ERROR"), str(exc))
         output.update(status="invalid" if self.errors else "consistent",
@@ -285,19 +267,12 @@ def main(argv=None):
     validate = commands.add_parser("validate", help="check active records without changing them")
     validate.add_argument("--project", default=".")
     validate.add_argument("--current", default="plans/CURRENT.md")
-    fingerprint = commands.add_parser("fingerprint", help="print SHA-256 identities of local files")
-    fingerprint.add_argument("--project", default=".")
-    fingerprint.add_argument("files", nargs="+")
     args = parser.parse_args(argv)
     try:
         validator = Validator(args.project)
-        if args.command == "validate":
-            result = validator.validate(args.current)
-            print(json.dumps(result, ensure_ascii=False, indent=2))
-            return 1 if result["errors"] else 0
-        print(json.dumps([{"path": ref, "sha256": digest(validator.file(ref))}
-                          for ref in args.files], ensure_ascii=False, indent=2))
-        return 0
+        result = validator.validate(args.current)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 1 if result["errors"] else 0
     except (RecordError, OSError) as exc:
         print(json.dumps({"error": str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 2

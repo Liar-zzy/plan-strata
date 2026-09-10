@@ -2,7 +2,6 @@
 """Preserve a forward-use workspace and a fresh validator result as one JSON artifact."""
 
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
@@ -17,10 +16,9 @@ def inventory(root, include_text):
             continue
         if path.is_symlink():
             raise ValueError(f"Evaluation artifacts must be regular files: {path}")
-        content = path.read_bytes()
-        item = {"path": path.relative_to(root).as_posix(), "sha256": hashlib.sha256(content).hexdigest()}
+        item = {"path": path.relative_to(root).as_posix()}
         if include_text:
-            item["text"] = content.decode("utf-8")
+            item["text"] = path.read_text(encoding="utf-8")
         records.append(item)
     return records
 

@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from evals.parallel_trial import REPO, collect_trial, collect_worker, files, finish_trial, prepare_trial
-from evals.prepare import PLAN, PROGRESS, check_record, observe, read_record, record, sha, write
+from evals.prepare import PLAN, PROGRESS, check_record, observe, read_record, record, write
 
 
 Validator = runpy.run_path(str(REPO / "skills/plan-strata/scripts/strata.py"))["Validator"]
@@ -34,7 +34,7 @@ class ParallelTrialTests(unittest.TestCase):
         self.assertEqual((result["status"], result["overall"]), ("consistent", "open"))
         self.assertFalse((self.manager / ".git").exists())
         baseline = json.loads((self.base / "BASELINE.json").read_text())
-        self.assertTrue(all(sha(self.base, path) == digest for path, digest in baseline.items()))
+        self.assertTrue(all((self.base / path).read_text() == content for path, content in baseline.items()))
         with self.assertRaises(FileExistsError):
             prepare_trial(self.trial)
 
@@ -144,7 +144,7 @@ class ParallelTrialTests(unittest.TestCase):
     def test_manager_progress_binding_is_not_a_blanket_baseline_exception(self):
         self.finish_workers()
         data, body = read_record(self.manager, PROGRESS)
-        data["tasks"][0]["plan_sha256"] = "0" * 64
+        data["tasks"][0]["plan"] = "plans/ex-plans/P001/ex-plan-v0.2.0.md"
         record(self.manager, PROGRESS, data, body)
         before = files(self.trial)
         with self.assertRaisesRegex(ValueError, "Manager.*baseline"):
@@ -215,9 +215,13 @@ class ParallelTrialTests(unittest.TestCase):
         check_record(root, passed, "integration", subjects, ["observations/pass.log"])
         data["integration_check"] = passed
         record(root, PROGRESS, data, body)
-        self.assertEqual(Validator(root).validate()["overall"], "verified")
+        self.assertEqual(Validator(root).validate()["overall"], "accepted")
         self.assertEqual((root / failed).read_bytes(), old)
         write(root, "src/render.py", "def render_labels(values):\n    return 'changed'\n")
+        self.assertEqual(Validator(root).validate()["overall"], "accepted")
+        self.assertNotEqual(observe(root, command, "observations/changed.log"), 0)
+        data["integration_check"] = None  # Manager explicitly reopens affected acceptance.
+        record(root, PROGRESS, data, body + "\nRelevant input changed; integration requires review.\n")
         self.assertEqual(Validator(root).validate()["overall"], "open")
 
     def propose_integration(self, verdict="pass"):
@@ -252,7 +256,7 @@ class ParallelTrialTests(unittest.TestCase):
         root = self.propose_integration()
         path = "plans/ex-plans/P001/check/integration-check-001.md"
         data, body = read_record(root, path)
-        data["subjects"] = [item for item in data["subjects"] if item["path"] != "src/pipeline.py"]
+        data["subjects"] = [path for path in data["subjects"] if path != "src/pipeline.py"]
         record(root, path, data, body)
         before = files(self.trial)
         with self.assertRaisesRegex(ValueError, "input.*coverage"):
@@ -269,17 +273,18 @@ class ParallelTrialTests(unittest.TestCase):
     def test_final_acceptance_checks_manifest_members_and_allows_progress_notes(self):
         self.propose_integration()
         self.update_manager_next()
-        self.assertEqual(finish_trial(self.trial)["overall"], "verified")
+        self.assertEqual(finish_trial(self.trial)["overall"], "accepted")
         self.update_manager_next()
         before = files(self.trial)
-        self.assertEqual(finish_trial(self.trial)["overall"], "verified")
+        self.assertEqual(finish_trial(self.trial)["overall"], "accepted")
         self.assertEqual(files(self.trial), before)
         collect_trial(self.trial)
         self.assertEqual(files(self.trial), before)
         self.change_manager_input("modify")
         result = Validator(self.manager).validate()
-        self.assertEqual(result["overall"], "open")
-        self.assertIn("STALE_SUBJECTS", {w["code"] for w in result["warnings"]})
+        self.assertEqual(result["overall"], "accepted")
+        self.assertEqual(result["validation_scope"], "structure_only")
+        # Fixture-only retained-text comparison catches this; the installed helper cannot.
         before = files(self.trial)
         with self.assertRaisesRegex(ValueError, "Manager.*baseline"):
             finish_trial(self.trial)
@@ -296,9 +301,9 @@ class ParallelTrialTests(unittest.TestCase):
     def test_manager_finishes_once_without_replacing_progress_from_integrator(self):
         root = self.propose_integration()
         before = (root / PROGRESS).read_bytes()
-        self.assertEqual(finish_trial(self.trial)["overall"], "verified")
+        self.assertEqual(finish_trial(self.trial)["overall"], "accepted")
         snapshot = files(self.trial)
-        self.assertEqual(finish_trial(self.trial)["overall"], "verified")
+        self.assertEqual(finish_trial(self.trial)["overall"], "accepted")
         self.assertEqual(files(self.trial), snapshot)
         self.assertEqual((root / PROGRESS).read_bytes(), before)
 
@@ -317,11 +322,17 @@ class ParallelTrialTests(unittest.TestCase):
             finish_trial(self.trial)
         self.assertEqual(files(self.manager), before)
 
-    def test_stale_passing_terminal_evidence_is_rejected(self):
+    def test_missing_passing_terminal_evidence_is_rejected(self):
         root = self.propose_integration()
-        write(root, "observations/integration/A01.log", "Changed after check\n")
+        (root / "observations/integration/A01.log").unlink()
         with self.assertRaises(ValueError):
             finish_trial(self.trial)
+
+    def test_changed_log_contents_require_review_not_structural_authentication(self):
+        root = self.propose_integration()
+        write(root, "observations/integration/A01.log", "Changed after check\n")
+        result = finish_trial(self.trial)
+        self.assertEqual((result["overall"], result["validation_scope"]), ("accepted", "structure_only"))
 
 
 if __name__ == "__main__":

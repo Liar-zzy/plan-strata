@@ -6,7 +6,8 @@ Implementation details can evolve inside that scope without revising the plan.
 
 Record the actual tested source/configuration and the observed output. A commit
 alone is insufficient when the worktree is dirty: preserve the relevant patch and
-untracked inputs, or fingerprint and retain the actual files. Use the project's
+untracked inputs, or identify a retained delivery and its tested state. No extra
+commit or full-workspace snapshot is required just for bookkeeping. Use the project's
 existing test/build tools. A documentation task can use a documented review with
 specific observations; it need not invent a runtime test.
 

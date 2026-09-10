@@ -5,8 +5,9 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from evals.prepare import CORE, PLAN, PROGRESS, check_record, make_case, read_record, record, sha
+from evals.prepare import CORE, PLAN, PROGRESS, check_record, make_case, read_record, record
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -29,7 +30,7 @@ class WorkflowTests(unittest.TestCase):
         record(self.root, path, data, body)
 
     def select(self, path):
-        self.update("plans/CURRENT.md", lambda d: d.update(plan=path, plan_sha256=sha(self.root, path)))
+        self.update("plans/CURRENT.md", lambda d: d.update(plan=path))
 
     def codes(self, output):
         return {entry["code"] for entry in output["errors"]}
@@ -44,14 +45,14 @@ class WorkflowTests(unittest.TestCase):
         self.select("plans/ex-plans/P001/ex-plan-v0.2.0.md")
         self.assertIn("UNREADY_PLAN", self.codes(self.validate()))
 
-    def test_changed_plan_and_core_are_detected(self):
+    def test_plan_and_core_prose_changes_require_agent_review_not_automatic_detection(self):
         with (self.root / PLAN).open("a") as stream:
             stream.write("Changed acceptance.\n")
-        self.assertIn("PLAN_CHANGED", self.codes(self.validate()))
-        self.select(PLAN)
         with (self.root / CORE).open("a") as stream:
             stream.write("Changed scope.\n")
-        self.assertIn("CORE_CHANGED", self.codes(self.validate()))
+        result = self.validate()
+        self.assertEqual(result["status"], "consistent")
+        self.assertEqual(result["validation_scope"], "structure_only")
 
     def test_running_task_retains_old_binding_after_switch(self):
         self.root = make_case(Path(self.temp.name) / "switch", "switch")
@@ -70,29 +71,109 @@ class WorkflowTests(unittest.TestCase):
         self.update(PROGRESS, lambda d: d["tasks"][0].update(check=None))
         self.assertIn("MISSING_CHECK", self.codes(self.validate()))
 
-    def test_changed_subject_revokes_current_acceptance_without_rewriting_history(self):
+    def test_changed_subject_needs_actual_test_and_explicit_reopening(self):
         self.root = make_case(Path(self.temp.name) / "stale", "stale")
         check = self.root / "plans/ex-plans/P001/check/T01-check-001.md"
         before = check.read_bytes()
         result = self.validate()
-        self.assertIn("STALE_SUBJECTS", self.codes(result))
-        self.assertEqual(result["tasks"][0]["effective_state"], "needs_review")
+        self.assertEqual(result["status"], "consistent")
+        self.assertEqual(result["tasks"][0]["effective_state"], "done")
+        tested = subprocess.run([sys.executable, "-B", "tests/check_total.py"], cwd=self.root,
+                                capture_output=True, text=True, check=False)
+        self.assertNotEqual(tested.returncode, 0)
+        self.update(PROGRESS, lambda d: d["tasks"][0].update(state="needs_review"))
+        self.assertEqual(self.validate()["tasks"][0]["effective_state"], "needs_review")
         self.assertEqual(check.read_bytes(), before)
 
-    def test_changed_evidence_is_detected(self):
+    def test_changed_evidence_contents_are_not_authenticated(self):
         (self.root / "observations/total.log").write_text("passed", encoding="utf-8")
-        self.assertIn("STALE_EVIDENCE", self.codes(self.validate()))
+        self.assertEqual(self.validate()["status"], "consistent")
+
+    def test_missing_evidence_prevents_acceptance(self):
+        (self.root / "observations/total.log").unlink()
+        result = self.validate()
+        self.assertIn("MISSING_FILE", self.codes(result))
+        self.assertEqual(result["tasks"][0]["effective_state"], "needs_review")
+
+    def test_validator_does_not_read_subject_or_evidence_contents(self):
+        original = Path.open
+        artifacts = {self.root / p for p in ("src/calc.py", "tests/check_total.py", "observations/total.log")}
+
+        def record_only(path, *args, **kwargs):
+            if path in artifacts:
+                raise AssertionError(f"Artifact contents must not be read by structural validation: {path}")
+            return original(path, *args, **kwargs)
+
+        with patch.object(Path, "open", record_only):
+            self.assertEqual(self.validate()["status"], "consistent")
+
+    def test_legacy_and_mixed_schema_records_are_rejected_without_rewriting(self):
+        for path in ("plans/CURRENT.md", PLAN, CORE, PROGRESS,
+                     "plans/ex-plans/P001/check/T01-check-001.md"):
+            with self.subTest(path=path):
+                self.update(path, lambda d: d.update(schema=1))
+                before = (self.root / path).read_bytes()
+                result = self.validate()
+                self.assertIn("UNSUPPORTED_SCHEMA", self.codes(result))
+                self.assertEqual((self.root / path).read_bytes(), before)
+                self.update(path, lambda d: d.update(schema=2))
+
+    def test_renumbering_legacy_fields_does_not_silently_migrate_them(self):
+        self.update(PLAN, lambda d: d.update(core_sha256="legacy"))
+        self.assertIn("INVALID_RECORD", self.codes(self.validate()))
+
+    def test_check_paths_are_nonempty_strings_not_legacy_digest_objects(self):
+        path = "plans/ex-plans/P001/check/T01-check-001.md"
+        for subjects in ([], [{"path": "src/calc.py", "sha256": "legacy"}],
+                         ["src/calc.py", "src/calc.py"], [path]):
+            with self.subTest(subjects=subjects):
+                self.update(path, lambda d: d.update(subjects=subjects))
+                self.assertIn("INVALID_RECORD", self.codes(self.validate()))
+
+    def test_malformed_plan_paths_return_diagnostics_instead_of_tracebacks(self):
+        for path in (None, [], {}, 7, "bad\u0000path"):
+            with self.subTest(path=path):
+                self.update("plans/CURRENT.md", lambda d: d.update(plan=path))
+                result = self.cli("validate", "--project", str(self.root))
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("INVALID_PATH", self.codes(json.loads(result.stdout)))
+        self.select(PLAN)
+        self.update(PROGRESS, lambda d: d["tasks"][0].update(plan=[]))
+        result = self.cli("validate", "--project", str(self.root))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("INVALID_PATH", self.codes(json.loads(result.stdout)))
+
+    def test_null_byte_in_subject_path_returns_diagnostic(self):
+        self.update("plans/ex-plans/P001/check/T01-check-001.md",
+                    lambda d: d.update(subjects=["bad\u0000path"]))
+        result = self.cli("validate", "--project", str(self.root))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("INVALID_PATH", self.codes(json.loads(result.stdout)))
+
+    def test_check_cannot_use_symlink_or_hardlink_to_itself_as_evidence(self):
+        check = "plans/ex-plans/P001/check/T01-check-001.md"
+        for link_type in ("symlink", "hardlink"):
+            with self.subTest(link_type=link_type):
+                alias = self.root / f"{link_type}.md"
+                if link_type == "symlink":
+                    alias.symlink_to(check)
+                else:
+                    alias.hardlink_to(self.root / check)
+                self.update(check, lambda d: d.update(evidence=[alias.name]))
+                result = self.validate()
+                self.assertIn("INVALID_RECORD", self.codes(result))
+                self.assertEqual(result["tasks"][0]["effective_state"], "needs_review")
 
     def test_unrelated_file_does_not_invalidate_a_scoped_check(self):
         (self.root / "unrelated.txt").write_text("notes", encoding="utf-8")
         self.assertEqual(self.validate()["status"], "consistent")
 
-    def test_stale_check_on_open_task_is_a_warning(self):
-        self.root = make_case(Path(self.temp.name) / "stale", "stale")
+    def test_missing_evidence_on_open_task_is_a_warning(self):
+        (self.root / "observations/total.log").unlink()
         self.update(PROGRESS, lambda d: d["tasks"][0].update(state="needs_review"))
         result = self.validate()
         self.assertEqual(result["status"], "consistent")
-        self.assertIn("STALE_SUBJECTS", {w["code"] for w in result["warnings"]})
+        self.assertIn("MISSING_FILE", {w["code"] for w in result["warnings"]})
 
     def test_local_success_with_failed_integration_stays_open(self):
         self.root = make_case(Path(self.temp.name) / "integration", "integration")
@@ -108,7 +189,7 @@ class WorkflowTests(unittest.TestCase):
                      ["observations/analysis.log"], research={"mode": "exploratory",
                      "finding": "not_supported", "decision": "stop"})
         self.update(PROGRESS, lambda d: d["tasks"][0].update(state="done", check=path))
-        self.assertEqual(self.validate()["overall"], "verified")
+        self.assertEqual(self.validate()["overall"], "accepted")
 
     def test_research_check_requires_separate_interpretation(self):
         self.root = make_case(Path(self.temp.name) / "research", "research")
@@ -129,7 +210,7 @@ class WorkflowTests(unittest.TestCase):
                      ["observations/analysis.log"])
         self.update(PROGRESS, lambda d: d.update(
             tasks=[{"id": "integration", "state": "done", "owner": "root", "next": "Review",
-                    "plan": PLAN, "plan_sha256": sha(self.root, PLAN), "check": path}],
+                    "plan": PLAN, "check": path}],
             integration_check=path))
         result = self.validate()
         self.assertIn("RESERVED_TASK_ID", self.codes(result))
@@ -204,19 +285,9 @@ class WorkflowTests(unittest.TestCase):
                 self.assertIn(code, self.codes(json.loads(result.stdout)))
 
     def test_project_initialization_failure_is_a_command_error(self):
-        for command in ("validate", "fingerprint"):
-            for project in (self.root / "absent", self.root / CORE):
-                with self.subTest(command=command, project=project):
-                    files = [CORE] if command == "fingerprint" else []
-                    result = self.cli(command, "--project", str(project), *files)
-                    self.assertEqual(result.returncode, 2)
-                    self.assertEqual(result.stdout, "")
-                    self.assertTrue(json.loads(result.stderr)["error"])
-
-    def test_fingerprint_path_failures_are_command_errors(self):
-        for path in ("/plans/CURRENT.md", "../CURRENT.md", "plans/absent.md", "plans"):
-            with self.subTest(path=path):
-                result = self.cli("fingerprint", "--project", str(self.root), path)
+        for project in (self.root / "absent", self.root / CORE):
+            with self.subTest(project=project):
+                result = self.cli("validate", "--project", str(project))
                 self.assertEqual(result.returncode, 2)
                 self.assertEqual(result.stdout, "")
                 self.assertTrue(json.loads(result.stderr)["error"])
@@ -241,15 +312,13 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual((data["status"], data["overall"]), ("consistent", "open"))
         self.assertTrue(data["warnings"])
 
-    def test_help_returns_text_without_running_validation_or_fingerprinting(self):
-        for command in ("validate", "fingerprint"):
-            with self.subTest(command=command):
-                result = self.cli(command, "--project", str(self.root / "absent"), "--help")
-                self.assertEqual(result.returncode, 0)
-                self.assertEqual(result.stderr, "")
-                self.assertTrue(result.stdout)
-                with self.assertRaises(json.JSONDecodeError):
-                    json.loads(result.stdout)
+    def test_help_returns_text_without_running_validation(self):
+        result = self.cli("validate", "--project", str(self.root / "absent"), "--help")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stderr, "")
+        self.assertTrue(result.stdout)
+        with self.assertRaises(json.JSONDecodeError):
+            json.loads(result.stdout)
 
     def test_looping_plan_reference_returns_json_diagnostic(self):
         self.loop_path()
@@ -263,30 +332,25 @@ class WorkflowTests(unittest.TestCase):
     def test_looping_check_subject_revokes_acceptance_with_json_diagnostic(self):
         self.loop_path()
         data, _ = read_record(self.root, PROGRESS)
-        self.update(data["tasks"][0]["check"], lambda d: d["subjects"][0].update(path="cycle.md"))
+        self.update(data["tasks"][0]["check"], lambda d: d.update(subjects=["cycle.md"]))
         result = self.cli("validate", "--project", str(self.root))
         self.assertEqual(result.returncode, 1)
         data = json.loads(result.stdout)
         self.assertEqual((data["status"], data["overall"]), ("invalid", "open"))
         self.assertEqual(data["tasks"][0]["effective_state"], "needs_review")
 
-    def test_fingerprint_of_looping_path_returns_json_error(self):
-        self.loop_path()
-        result = self.cli("fingerprint", "--project", str(self.root), "cycle.md")
-        self.assertEqual(result.returncode, 2)
-        self.assertTrue(json.loads(result.stderr)["error"])
-
     def test_looping_project_root_returns_json_error(self):
         result = self.cli("validate", "--project", str(self.loop_path()))
         self.assertEqual(result.returncode, 2)
         self.assertTrue(json.loads(result.stderr)["error"])
 
-    def test_internal_symlink_still_fingerprints_its_target(self):
+    def test_internal_symlink_can_still_reference_a_record(self):
         path = self.root / "core-link.md"
         path.symlink_to(CORE)
-        result = self.cli("fingerprint", "--project", str(self.root), path.name)
+        self.update(PLAN, lambda d: d.update(core=path.name))
+        result = self.cli("validate", "--project", str(self.root))
         self.assertEqual(result.returncode, 0)
-        self.assertEqual(json.loads(result.stdout), [{"path": path.name, "sha256": sha(self.root, CORE)}])
+        self.assertEqual(json.loads(result.stdout)["status"], "consistent")
         self.assertTrue(path.is_symlink())
 
     def test_validator_is_read_only_and_cli_returns_json(self):

@@ -7,7 +7,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from evals.prepare import CORE, PLAN, PROGRESS, record, sha, write
+from evals.prepare import CORE, PLAN, PROGRESS, record, write
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -49,11 +49,11 @@ def prepare_trial(destination):
           "        self.assertEqual(values, [2, -5, 1.5])\n\n"
           "    def test_iterator(self):\n"
           "        self.assertEqual(total(iter([1, 2, 3])), 6)\n")
-    record(seed, CORE, {"schema": 1, "kind": "core", "revision": "v0.1.0"},
+    record(seed, CORE, {"schema": 2, "kind": "core", "revision": "v0.1.0"},
            "# Issue pickup fixture\n\nDeliver an iterable numeric sum utility and\n"
            "usage documentation. This is a synthetic local workflow trial.\n")
-    record(seed, PLAN, {"schema": 1, "kind": "plan", "id": "P001", "revision": "v0.1.0",
-                       "core": CORE, "core_sha256": sha(seed, CORE), "ready": True,
+    record(seed, PLAN, {"schema": 2, "kind": "plan", "id": "P001", "revision": "v0.1.0",
+                       "core": CORE, "ready": True,
                        "tasks": [{"id": "T01", "type": "development", "depends_on": []},
                                  {"id": "T02", "type": "development", "depends_on": ["T01"]}],
                        "integration_required": False},
@@ -68,28 +68,28 @@ def prepare_trial(destination):
            "Allowed writes: docs/usage.md, reports/T02/, observations/T02/.\n"
            "T01 has no accepted delivery yet. Do not substitute the initial stub.\n\n"
            "Keep tests, planning files, and the other task's scope read-only. Return\n"
-           "actual commands, exit codes, artifacts and fingerprints to Manager.\n")
-    record(seed, PROGRESS, {"schema": 1, "kind": "progress", "plan_id": "P001",
+           "actual commands, exit codes and retrievable artifacts to Manager.\n")
+    record(seed, PROGRESS, {"schema": 2, "kind": "progress", "plan_id": "P001",
                            "tasks": [{"id": task, "state": "planned", "owner": "unassigned",
                                       "next": "Manager to assign when inputs are ready", "check": None}
                                      for task in ("T01", "T02")], "integration_check": None},
            "# Manager progress\n\nNo task has been claimed or accepted.\n")
-    record(seed, "plans/CURRENT.md", {"schema": 1, "kind": "current", "plan": PLAN,
-                                      "plan_sha256": sha(seed, PLAN), "progress": PROGRESS},
+    record(seed, "plans/CURRENT.md", {"schema": 2, "kind": "current", "plan": PLAN,
+                                      "progress": PROGRESS},
            "# Current\n\nThe selected plan for this local synthetic trial.\n")
     git(seed, "init", "--initial-branch=main")
     git(seed, "add", ".")
     git(seed, "commit", "-m", "Freeze synthetic task inputs")
     baseline = git(seed, "rev-parse", "HEAD")
     git(seed, "tag", "trial-baseline")
-    inputs = {path: sha(seed, path) for path in git(seed, "ls-files").splitlines()}
+    inputs = git(seed, "ls-files").splitlines()
     write(seed, "LATER.md", "# Later unrelated work\n\nNot part of the dispatched baseline.\n")
     git(seed, "add", "LATER.md")
     git(seed, "commit", "-m", "Advance default branch after baseline selection")
     git(trial, "clone", "--bare", "--no-hardlinks", seed, trial / "origin.git")
     metadata = {"kind": "synthetic-issue-trial", "baseline": baseline,
                 "default_head": git(seed, "rev-parse", "HEAD"), "ref": "refs/tags/trial-baseline",
-                "plan": PLAN, "plan_sha256": sha(seed, PLAN), "inputs": inputs}
+                "plan": PLAN, "inputs": inputs}
     write(trial, "fixture.json", json.dumps(metadata, indent=2) + "\n")
     write(trial, "manager-input.md", "# User request\n\n"
           "Use the supplied Plan Strata skill to prepare two Issue bodies for the\n"

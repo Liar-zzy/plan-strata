@@ -1,5 +1,5 @@
 ---
-{"schema":1,"kind":"plan","id":"P001","revision":"v0.1.0","core":"plans/core/core-v0.1.0.md","core_sha256":"REPLACE_WITH_HASH","ready":false,"tasks":[{"id":"T01","type":"development","depends_on":[]}],"integration_required":false}
+{"schema":2,"kind":"plan","id":"P001","revision":"v0.1.0","core":"plans/core/core-v0.1.0.md","ready":false,"tasks":[{"id":"T01","type":"development","depends_on":[]}],"integration_required":false}
 ---
 
 # P001 — Bounded iteration

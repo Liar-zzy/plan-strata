@@ -60,7 +60,7 @@ authorization. Never silently replace a received result under its old identity.
 Create a new scoped check when accepting a delivery or changing an acceptance
 decision, preserving old checks and their evidence. Relevant inspected inputs
 changing also requires fresh applicable verification and a new check, even for
-`pass` → `pass`. Updating hashes alone is not verification. Single-agent work can
+`pass` → `pass`. Updating metadata alone is not verification. Single-agent work can
 keep internal progress and observations together without worker packets; freezing
 a check does not make every later local edit a new delegated attempt.
 

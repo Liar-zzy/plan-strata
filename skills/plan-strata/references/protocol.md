@@ -1,134 +1,139 @@
-# Protocol v1
+# Protocol v2 — no-hash records
 
 ## Files and authority
 
 Default layout: `plans/CURRENT.md`, `plans/core/core-v0.1.0.md`, and
-`plans/ex-plans/P001/{ex-plan-v0.1.0.md,progress.md,check/}`. Create checks and worker
-reports when used. One P-number identifies a bounded iteration, with as many tasks
-and agents as that iteration needs. Another iteration gets another identity.
-Plan revisions, iteration identities, software releases, and skill releases differ.
+`plans/ex-plans/P001/{ex-plan-v0.1.0.md,progress.md,check/}`. Create checks and
+worker reports when needed. One P-number identifies a bounded iteration;
+iteration IDs, plan revisions, software releases, and skill releases differ.
 
-CURRENT selects the default plan for new work and its progress file. The plan
-references its core and defines tasks. Progress owns task state, owner, next
-action, execution binding, and applicable check. A check owns its evidence and
-verdict. Prose explains these records without maintaining a second status table.
+CURRENT selects the default plan and progress for new work. The plan references
+core and defines tasks. Progress owns task state, owner, next action, bound plan,
+and applicable check. A check records evidence and verdict. Prose explains these
+records without a second status table. One Manager writes authoritative progress.
 
 ## Portable metadata
 
-The templates have **JSON between `---` delimiters**, followed by ordinary Markdown.
-JSON is a YAML subset; this deliberately restricted frontmatter allows the helper
-to use Python's standard library. Regular YAML is fine for a user's existing
-workflow, but is outside this helper's parser. The installed SKILL.md itself uses
-ordinary Agent Skills YAML and is not a project record.
+Templates use **JSON between `---` delimiters**, followed by Markdown. This YAML
+subset needs only Python's standard library. Ordinary YAML in existing project
+records is outside this parser; SKILL.md uses ordinary Agent Skills YAML.
 
-All records have `schema: 1` and `kind`. All path fields are project-relative POSIX
-file paths, without `..`. The helper checks local regular files inside the project,
-including symlink containment; it neither follows network references nor executes
-commands in records. Large/external artifacts can be represented by a local
-manifest listing durable locations, versions, and known hashes. The helper only
-validates the local manifest; a reviewer verifies the external artifacts separately.
-
-Use `python3 <skill>/scripts/strata.py fingerprint --project <project> <files...>`
-to calculate file fingerprints. Hash the complete bytes. Hashes identify files;
-they are not signatures or evidence of when/how a file was produced.
+All records have integer `schema: 2` and `kind`. Paths are project-relative POSIX
+file paths without `..`. The helper checks existing regular files and symlink
+containment; it does not execute commands or follow network references. For large
+or external artifacts, a local note may list durable locations and versions.
+A reviewer must inspect those artifacts separately.
 
 | Kind | Required metadata beyond schema and kind |
 |---|---|
 | `core` | `revision` |
-| `plan` | `id`, `revision`, `core`, `core_sha256`, `ready`, `tasks`, `integration_required` |
-| `current` | `plan`, `plan_sha256`, `progress` |
+| `plan` | `id`, `revision`, `core`, `ready`, `tasks`, `integration_required` |
+| `current` | `plan`, `progress` |
 | `progress` | `plan_id`, `tasks`, `integration_check` (path or null) |
-| `check` | `id`, `task`, `plan`, `plan_sha256`, `verdict`, `subjects`, `evidence` |
+| `check` | `id`, `task`, `plan`, `verdict`, `subjects`, `evidence` |
 
-A plan task has `id`, `type` (`development` or `research`), and `depends_on` (task
-IDs). The exact ID `integration` is reserved for terminal checks and cannot be a
-plan task ID (`RESERVED_TASK_ID`). A task's prose defines inputs, outputs, scope,
-and acceptance. A progress task has
-`id`, `state`, `owner`, `next`, and `check` (path or null). Once started, it also has
-`plan` and `plan_sha256`, binding this task's attempt to an exact revision. The
-bound plan in turn pins core. Completed/cancelled tasks retain this provenance.
+A plan task has `id`, `type` (`development` or `research`), and `depends_on`
+(task IDs). The exact ID `integration` is reserved for terminal checks, not plan
+tasks. Task prose defines inputs, outputs, scope, budget, and acceptance.
+
+A progress task has `id`, `state`, `owner`, `next`, and `check` (path or null).
+Once started, it also has `plan`, identifying the versioned plan file. Keep this
+binding for completed/cancelled tasks and across later CURRENT changes. The bound
+plan references its versioned core. Paths identify the intended revision; the
+helper cannot detect in-place edits to its contents.
 
 Check `task` is a task ID or `integration`. `verdict` is `pass`, `fail`, or
-`inconclusive` **about the stated acceptance method**. `subjects` and `evidence`
-are nonempty lists of `{ "path": "...", "sha256": "..." }`: subjects identify
-what was inspected; evidence identifies logs, review notes, or other actual
-observations. A check file cannot be its own subject or evidence.
-For local input manifests, list the relevant member files as explicit subjects
-to validate their bytes too; the manifest's hash alone only pins the list. Keep
-mutable progress outside frozen input sets. Scope completeness remains a review
-responsibility; the helper does not expand manifests or detect unlisted new files.
+`inconclusive` about the stated acceptance method. `subjects` and `evidence`
+are nonempty lists of path strings, for example:
 
-Check prose records the reviewer, date, method/command, actual results (including
-exit code when applicable), limitations, and next decision. A research task check
-also has `research` with `mode` (`exploratory` or `confirmatory`), `finding`
-(`supported`, `not_supported`, or `inconclusive`), and `decision` (`continue`,
-`diagnose`, `revise`, or `stop`). These labels do not replace a scientific argument.
+```json
+{"subjects":["src/calc.py","tests/check_total.py"],"evidence":["observations/total-001.log"]}
+```
 
-## State and recovery
+Subjects identify what was inspected; evidence identifies actual logs, review
+notes, or observations. No duplicate paths within a list or self-reference to the
+check file. List relevant inputs explicitly; the helper does not expand manifests
+or discover omitted code, tests, configuration, or dependencies. Live progress is
+not a frozen input. Check prose records reviewer, date, method/command, actual
+results (including exit codes when applicable), limitations, and next decision.
+
+Research checks also have `research`: `mode` (`exploratory` or `confirmatory`),
+`finding` (`supported`, `not_supported`, `inconclusive`), and `decision`
+(`continue`, `diagnose`, `revise`, `stop`). A valid negative finding can pass
+acceptance; these labels do not replace a scientific argument.
+
+## State, change, and recovery
 
 States: `planned`, `in_progress`, `blocked`, `needs_review`, `done`, `cancelled`.
-Typical path: planned → in_progress → needs_review → done. A block retains the
-binding and reason. Resuming or fixing returns to in_progress. Changed evidence
-moves acceptance to needs_review. Cancellation has a reason and leaves the round
-open if its required delivery was not replaced through a plan revision.
+A block retains the binding and reason; a repair can return to in_progress.
+All current plan tasks need progress rows. Historical rows can remain.
+An older running binding produces a warning; decide whether to finish it or
+explicitly reassign it. An older accepted result does not satisfy a new revision:
+assess reuse in a new check bound to that revision, citing the old check in prose.
 
-All tasks in the current plan need a progress row. Historical rows can remain.
-A running task may legitimately bind an older plan; the validator warns and
-preserves that binding. Before new work, resolve whether to finish under that
-basis or explicitly reassign it. An older accepted result does not automatically
-satisfy a new revision: record a new, reasoned reuse check under the new baseline,
-or set the task to needs_review. A reuse check cites the old check in its prose,
-uses the new baseline, and fingerprints the applicable subjects and evidence.
+`done` requires a current-plan passing check, available subject/evidence paths,
+and completed dependencies. These are recorded conditions, not proof of execution.
 
-`done` requires a current-baseline passing check, matching subject and evidence
-hashes, and completed dependencies. A declared scope may omit dependencies;
-the human/agent reviewer must assess its adequacy. The helper cannot infer a full
-dependency graph from source code. Unrelated file changes do not stale a check.
+After relevant code, tests, data, configuration, or acceptance changes, Manager
+explicitly reopens affected tasks as `needs_review`. Clear an affected
+`integration_check` to null and retain its previous reference in progress prose.
+Preserve old checks/logs; rerun affected verification and add a new check before
+accepting again. Unrelated edits need not reopen acceptance. The helper cannot
+detect content changes, determine relevance, or enforce this review step.
 
-CURRENT's selected hash detects accidental in-place edits. The selected plan must
-have `ready: true`; higher numbered drafts stay inactive. `ready` means the plan
-is sufficiently specified for authorized work, not a substitute for user authority.
+Use existing Git versions/diffs when useful. Git is optional: normal single-agent
+work needs no extra commit, full-workspace snapshot, or content digest for record
+bookkeeping. Retain retrievable versions of important deliveries in proportion to
+risk; concurrent handoffs additionally follow the isolation/collection guidance.
 
 ## Revisions and selection
 
-Once used, keep core and plan snapshots byte-stable. A substantive change creates
-a new revision with the predecessor, reason, affected tasks, and reuse decisions in
-prose. Even a cosmetic correction to a started snapshot must preserve the old
-bytes (a new file or a retrievable Git object); this alpha's path-based validator
-uses new files. Ordinary progress and reruns do not revise the plan.
+Keep used core/plan revisions unchanged and available. For changed scope,
+dependencies, methods, or acceptance, add a new versioned file with the reason,
+predecessor, affected tasks, and reuse decisions. Ordinary execution updates
+progress. Cosmetic notes can go in progress without rewriting the bound plan.
 
-Prepare the new files first. Select a ready plan by replacing CURRENT's complete
-metadata in one edit, including its hash. Selection changes the entry point for
-new work; it does not rebind running tasks. Retarget pending tasks deliberately.
-Reconcile existing acceptance separately. Single-writer coordination is assumed;
-for concurrent writers, use host/workspace isolation and an explicit coordinator.
+Prepare new files first, then select the ready plan by replacing CURRENT metadata
+in one edit. Higher-numbered drafts remain inactive. `ready: true` means the plan
+is specified, not that new authority has been granted. Selection does not rebind
+running work. Reconcile pending work and previous acceptance deliberately.
 
 ## Reading validation output
 
-`validate` makes no changes. Its exit codes distinguish a validation result from
-a command that could not start validation:
+`validate` is read-only. Every validation result reports
+`schema: 2` and `validation_scope: structure_only`.
 
 | Exit | Meaning | Output |
 |---|---|---|
-| `0` | No record errors; warnings or unfinished work may remain | Validation JSON on stdout, `status: consistent` |
-| `1` | Invalid records or references, including an invalid/missing `--current` path | Validation JSON on stdout, `status: invalid`, `overall: open` |
-| `2` | Invalid CLI arguments or a project root that cannot be initialized | Diagnostic on stderr; no validation JSON on stdout |
+| `0` | No record errors; warnings or unfinished work may remain | JSON stdout, `status: consistent` |
+| `1` | Invalid records/references, including missing/invalid CURRENT | JSON stdout, `status: invalid`, `overall: open` |
+| `2` | Invalid CLI arguments or unusable project root | stderr diagnostic; no validation JSON |
 
-Path errors encountered after opening the project, including escaping, missing,
-or unreadable record/subject paths, are validation findings (`1`), not command
-startup failures. Project-root failures emit `{"error": "..."}` on stderr;
-argument parsing uses argparse's text diagnostic. `fingerprint` instead emits a
-JSON file/hash list on stdout with exit `0`, or an error JSON on stderr with exit
-`2` for file/path failures; invalid CLI arguments also use argparse's exit `2`.
-Help requests (`--help`) exit `0` with help text, without running either operation.
+Project-root failures emit an error JSON; argument errors use argparse text.
+Help exits 0 with text. Missing subject/evidence paths supporting a done task are
+errors; on an open task they are warnings. A failed or incomplete integration
+check keeps overall open without treating a valid failure record as malformed.
 
-`overall: verified` requires all current tasks done, plus an applicable passing
-integration check if integration is required or an integration check was recorded.
-Otherwise overall is `open`. Invalid records always yield overall open.
+`overall: accepted` means all current tasks are recorded done with eligible
+checks, plus a passing integration check when required or supplied. Otherwise
+overall is `open`; invalid records always stay open. Only selected/bound records
+and referenced checks are inspected, not every historical file.
 
-Only selected/bound records and referenced checks are inspected. Unreferenced
-historical checks are preserved, including failures and once-valid old hashes.
-Stale evidence supporting done is an error; stale evidence attached to an open
-task is a warning. A failed integration check remains an open outcome, not a
-malformed record. No validator output establishes research truth or artifact
-reproducibility beyond the explicitly checked local bytes.
+Neither `consistent` nor `accepted` proves that tests ran, inputs are unchanged,
+evidence is truthful, test coverage is adequate, or research claims are valid.
+The helper reads planning/check records, not artifact contents, and computes no
+hashes. Review actual results before declaring completion.
+
+## Migration from v1
+
+Skill 0.2.0-alpha.1 introduces this breaking schema. The `fingerprint` command and
+digest fields are removed; `overall: verified` becomes `overall: accepted`.
+Schema 1 and mixed active records are rejected with `UNSUPPORTED_SCHEMA`, rather
+than silently interpreting old acceptance under weaker rules.
+
+Preserve old plans, checks, and evidence. Finish an active legacy iteration with
+its matching skill/validator, or deliberately close/hand it off and start a new
+schema 2 iteration from the templates. Reconcile running jobs/ownership first.
+Use a new versioned core, select the new plan explicitly, and recheck any reused
+delivery under it. Do not simply change old schema numbers or rewrite old verdicts.
+Unreferenced legacy history can remain in the project without blocking v2.

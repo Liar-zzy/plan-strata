@@ -1,4 +1,3 @@
-import hashlib
 import json
 import runpy
 import tempfile
@@ -28,10 +27,10 @@ class IssueTrialTests(unittest.TestCase):
         self.assertNotEqual(self.metadata["baseline"], self.metadata["default_head"])
 
     def test_context_is_retrievable_from_pinned_commit(self):
-        for path, digest in self.metadata["inputs"].items():
+        for path in self.metadata["inputs"]:
             content = git(self.trial / "origin.git", "show", f"{self.metadata['baseline']}:{path}",
                           strip_output=False)
-            self.assertEqual(hashlib.sha256(content.encode()).hexdigest(), digest, path)
+            self.assertEqual(content, (self.trial / "seed" / path).read_text(), path)
 
     def test_tasks_are_unclaimed_and_worker_workspace_is_not_prepared(self):
         result = Validator(self.trial / "seed").validate()

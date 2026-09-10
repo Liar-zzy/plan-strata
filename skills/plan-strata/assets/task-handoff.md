@@ -9,7 +9,7 @@ at dispatch; Manager maintains live progress. Return the report to Manager.
 - Repository/source access and workspace or creation instructions: {{project}}
 - Task key (project / plan ID / task ID): {{task_key}}
 - Attempt and worker, or coordinator and allocation procedure: {{attempt}} / {{worker}}
-- Plan path and SHA-256: {{plan}} / {{plan_sha256}}
+- Versioned plan path: {{plan}}
 - Source/input baseline, retrieval, and verification: {{baseline}}
 - Skill location/version: {{skill}}
 - Manager and authoritative progress location: {{manager}}
@@ -32,7 +32,7 @@ at dispatch; Manager maintains live progress. Return the report to Manager.
 ## Return contract
 
 Write {{report}} with this identity and plan binding; changed paths; exact output
-commit or file fingerprints and retrievable locations; commands, actual results
+versions and retrievable locations (existing Git commit/diff when useful); commands, actual results
 and exit codes; this attempt's budget usage in the agreed units (mark unknowns);
 deviations, blockers/running jobs, limitations, and next action.
 Return artifacts for review. Manager maintains task state and acceptance.

@@ -9,12 +9,14 @@ agent recover what was agreed, which plan a task started under, what was actuall
 checked, and what to do next. Development and research tasks can share one plan
 without sharing the same meaning of success.
 
-**Status: `0.1.0-alpha.2` · MIT · Python 3.10+ for the optional validator.**
+**Status: `0.2.0-alpha.1` · MIT · Python 3.10+ for the optional validator.**
 Ready for early trials, not a production workflow guarantee.
 
-> **Dev preview:** the handoff and repair guidance here may be ahead of the default-branch
-> package. A repository install does not automatically select `dev` or include unpublished
-> local edits. Check [source selection](#choose-the-source) and [remaining risks](docs/dev-readiness.md).
+> **Dev preview — no-hash workflow:** schema 2 removes mandatory digests and the
+> `fingerprint` command. The validator checks structure, not unchanged contents or
+> test quality. Existing schema 1 projects need a deliberate transition; see
+> [migration and release notes](docs/v0.2.0-alpha.1.md). The default install below
+> uses `main`, not this preview: [choose the dev source](#choose-the-source).
 
 > **🙌 Join us! Help improve Plan Strata through real use.**
 > Using AI for development or research? [Copy the optional AGENTS.md feedback snippet](#join-us)
@@ -72,7 +74,8 @@ an existing installation.
 
 Record the source branch/commit and any local edits when known. The same alpha
 version label can cover different dev snapshots; if the installed package's source
-is unknown, record that uncertainty and fingerprint its actual files. A separate
+is unknown, record that uncertainty and the installed location/version. No file
+digests or extra commits are required for this bookkeeping. A separate
 repository's HEAD is not proof of what was installed. This is a standalone skill,
 not a marketplace plugin.
 
@@ -124,8 +127,9 @@ parallel work. See [bounded repair](skills/plan-strata/references/repair-loop.md
 | `CURRENT.md` | The explicitly selected entry point for new work |
 
 A task binds to an exact plan when it starts. Switching `CURRENT.md` does not
-silently reassign running tasks. Evidence that no longer matches the inspected
-files needs review. Integration can remain open even when individual tasks pass.
+silently reassign running tasks. After relevant inputs change, the agent explicitly
+reopens affected acceptance and reruns checks; the validator cannot detect those
+changes. Integration can remain open even when individual tasks pass.
 A valid research activity can finish with a negative or inconclusive finding.
 
 The [protocol](skills/plan-strata/references/protocol.md) defines the records;
@@ -192,16 +196,18 @@ python3 .agents/skills/plan-strata/scripts/strata.py validate --project .
 
 The agent must create or adapt the project's planning records first; installation
 alone does not create them. For other install locations, adjust the script path.
-To fingerprint a file, use the same script with
-`fingerprint --project . path/to/file`.
+No hash calculation is part of this workflow.
 
 The helper uses only Python 3.10+ standard-library modules. Its project metadata
 is **JSON between `---` delimiters**, followed by Markdown—not arbitrary YAML.
 Existing workflows can be checked manually without migrating to this format.
 
-`status: consistent` means the declared records agree. `overall: verified` means
+The result explicitly reports `validation_scope: structure_only`.
+`status: consistent` means the declared records agree. `overall: accepted` means
 the current records meet the iteration's acceptance structure. Neither proves
-that tests ran, evidence is truthful, or a scientific claim is established.
+that inputs are unchanged, tests ran or cover enough cases, evidence is truthful,
+or a scientific claim is established. Relevant changes require explicit review;
+keep earlier checks and add a new check after affected verification.
 The command does not execute commands in Markdown, change records, run experiments,
 or upload content.
 
@@ -233,6 +239,10 @@ python3 skills/plan-strata/scripts/strata.py validate --project .
 
 ## Validation and limits
 
+The [0.2.0-alpha.1 notes](docs/v0.2.0-alpha.1.md) describe the no-hash migration,
+current verification, and remaining limitations. Previous validation records below
+are historical, not new acceptance of this version.
+
 The initial alpha passed 20 contract tests on Python 3.10 and 3.14, five scenario
 types, and a real documentation handoff to an agent without the original chat.
 Research results in the scenarios are synthetic. The
@@ -254,8 +264,9 @@ These checks do not establish live GitHub dispatch, runtime orchestration, or pr
   or the truth of their contents. External artifacts need separate verification.
 - One writer maintains progress. Concurrent workers need host-level isolation and
   an integration method; this skill supplies neither a scheduler nor a lock.
-- Hashes identify bytes; they are not tamper-proof signatures. Version control and
-  workflow discipline preserve historical snapshots.
+- No hashes are required. The helper does not read artifact contents, detect drift,
+  or assess test coverage. Review relevant changes and retain useful versions with
+  existing version control or delivery records; Git itself is optional.
 - Long-running production use, real research outcomes, client auto-discovery,
   and cross-client agent behavior have not been established by these trials.
 

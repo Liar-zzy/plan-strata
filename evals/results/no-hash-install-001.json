@@ -1,0 +1,216 @@
+{
+  "kind": "release-install-smoke",
+  "created_at": "2026-09-10T04:23:39.577946+00:00",
+  "installer": "skills@1.5.23",
+  "source": "<source-repository>",
+  "status": "pass",
+  "commands": [
+    {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "cwd": "<temporary-workspace>",
+      "exit_code": 0,
+      "stdout": "v26.7.0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "--version"
+      ],
+      "cwd": "<temporary-workspace>",
+      "exit_code": 0,
+      "stdout": "1.5.23\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "add",
+        "<source-repository>",
+        "--skill",
+        "plan-strata",
+        "--agent",
+        "codex",
+        "--yes"
+      ],
+      "cwd": "<temporary-workspace>/codex",
+      "exit_code": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: <source-repository>\n\u001b[?25h\u001b[?25l│\n◇  Local path validated\n\u001b[?25h\u001b[?25l│\n◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: plan-strata\n\n│\n◇  Installation Summary ─────────╮\n│                                │\n│  ./.agents/skills/plan-strata  │\n│    copy → Codex                │\n│                                │\n├────────────────────────────────╯\n\u001b[?25l│\n◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────────╮\n│                                    │\n│  ✓ plan-strata (copied)            │\n│    → ./.agents/skills/plan-strata  │\n│                                    │\n├────────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/codex/.agents/skills/plan-strata/scripts/strata.py",
+        "validate",
+        "--project",
+        "."
+      ],
+      "cwd": "<temporary-workspace>/codex",
+      "exit_code": 0,
+      "stdout": "{\n  \"schema\": 2,\n  \"validation_scope\": \"structure_only\",\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/npx",
+        "--yes",
+        "skills@1.5.23",
+        "add",
+        "<source-repository>",
+        "--skill",
+        "plan-strata",
+        "--agent",
+        "claude-code",
+        "--yes"
+      ],
+      "cwd": "<temporary-workspace>/claude-code",
+      "exit_code": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: <source-repository>\n\u001b[?25h\u001b[?25l│\n◇  Local path validated\n\u001b[?25h\u001b[?25l│\n◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: plan-strata\n\n│\n◇  Installation Summary ─────────╮\n│                                │\n│  ./.agents/skills/plan-strata  │\n│    copy → Claude Code          │\n│                                │\n├────────────────────────────────╯\n\u001b[?25l│\n◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────────╮\n│                                    │\n│  ✓ plan-strata (copied)            │\n│    → ./.claude/skills/plan-strata  │\n│                                    │\n├────────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "<temporary-workspace>/claude-code/.claude/skills/plan-strata/scripts/strata.py",
+        "validate",
+        "--project",
+        "."
+      ],
+      "cwd": "<temporary-workspace>/claude-code",
+      "exit_code": 0,
+      "stdout": "{\n  \"schema\": 2,\n  \"validation_scope\": \"structure_only\",\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"effective_state\": \"done\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"effective_state\": \"planned\",\n      \"plan\": null,\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+      "stderr": ""
+    }
+  ],
+  "installations": [
+    {
+      "agent": "codex",
+      "path": ".agents/skills/plan-strata",
+      "files": [
+        "LICENSE",
+        "SKILL.md",
+        "agents/openai.yaml",
+        "assets/CURRENT.md",
+        "assets/check.md",
+        "assets/core.md",
+        "assets/ex-plan.md",
+        "assets/integration-handoff.md",
+        "assets/progress.md",
+        "assets/task-handoff.md",
+        "references/development.md",
+        "references/parallel-handoff.md",
+        "references/protocol.md",
+        "references/repair-loop.md",
+        "references/research.md",
+        "scripts/strata.py"
+      ],
+      "validation": {
+        "schema": 2,
+        "validation_scope": "structure_only",
+        "status": "consistent",
+        "overall": "open",
+        "tasks": [
+          {
+            "id": "T01",
+            "state": "done",
+            "effective_state": "done",
+            "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+            "owner": "fixture-worker",
+            "next": "Accepted; continue the dependent documentation"
+          },
+          {
+            "id": "T02",
+            "state": "planned",
+            "effective_state": "planned",
+            "plan": null,
+            "owner": "fixture-worker",
+            "next": "Write and verify docs/usage.md"
+          }
+        ],
+        "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "errors": [],
+        "warnings": []
+      },
+      "existing_project_unchanged": true
+    },
+    {
+      "agent": "claude-code",
+      "path": ".claude/skills/plan-strata",
+      "files": [
+        "LICENSE",
+        "SKILL.md",
+        "agents/openai.yaml",
+        "assets/CURRENT.md",
+        "assets/check.md",
+        "assets/core.md",
+        "assets/ex-plan.md",
+        "assets/integration-handoff.md",
+        "assets/progress.md",
+        "assets/task-handoff.md",
+        "references/development.md",
+        "references/parallel-handoff.md",
+        "references/protocol.md",
+        "references/repair-loop.md",
+        "references/research.md",
+        "scripts/strata.py"
+      ],
+      "validation": {
+        "schema": 2,
+        "validation_scope": "structure_only",
+        "status": "consistent",
+        "overall": "open",
+        "tasks": [
+          {
+            "id": "T01",
+            "state": "done",
+            "effective_state": "done",
+            "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+            "owner": "fixture-worker",
+            "next": "Accepted; continue the dependent documentation"
+          },
+          {
+            "id": "T02",
+            "state": "planned",
+            "effective_state": "planned",
+            "plan": null,
+            "owner": "fixture-worker",
+            "next": "Write and verify docs/usage.md"
+          }
+        ],
+        "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "errors": [],
+        "warnings": []
+      },
+      "existing_project_unchanged": true
+    }
+  ],
+  "subjects": [
+    "skills/plan-strata/LICENSE",
+    "skills/plan-strata/SKILL.md",
+    "skills/plan-strata/agents/openai.yaml",
+    "skills/plan-strata/assets/CURRENT.md",
+    "skills/plan-strata/assets/check.md",
+    "skills/plan-strata/assets/core.md",
+    "skills/plan-strata/assets/ex-plan.md",
+    "skills/plan-strata/assets/integration-handoff.md",
+    "skills/plan-strata/assets/progress.md",
+    "skills/plan-strata/assets/task-handoff.md",
+    "skills/plan-strata/references/development.md",
+    "skills/plan-strata/references/parallel-handoff.md",
+    "skills/plan-strata/references/protocol.md",
+    "skills/plan-strata/references/repair-loop.md",
+    "skills/plan-strata/references/research.md",
+    "skills/plan-strata/scripts/strata.py",
+    "evals/install_smoke.py",
+    "evals/prepare.py"
+  ],
+  "limits": "Checks package bytes and installed CLI behavior, not client discovery or agent behavior. Temporary/source/interpreter paths in output are replaced with labels. A local source does not test GitHub transport. No global skills are installed."
+}

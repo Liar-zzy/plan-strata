@@ -8,7 +8,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from evals.prepare import CORE, PLAN, PROGRESS, check_record, observe, read_record, record, sha, write
+from evals.prepare import CORE, PLAN, PROGRESS, check_record, observe, read_record, record, write
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -16,6 +16,7 @@ TASKS = {"T01": "normalize", "T02": "render"}
 
 
 def files(root):
+    """Retain tiny UTF-8 fixture contents for test comparisons, not a skill requirement."""
     result = {}
     for path in sorted(root.rglob("*")):
         if "__pycache__" in path.parts:
@@ -23,7 +24,7 @@ def files(root):
         if path.is_symlink():
             raise ValueError(f"Symlink outside the trial contract: {path}")
         if path.is_file():
-            result[path.relative_to(root).as_posix()] = sha(root, path.relative_to(root))
+            result[path.relative_to(root).as_posix()] = path.read_text(encoding="utf-8")
     return result
 
 
@@ -98,11 +99,11 @@ def prepare_trial(destination):
     ):
         write(base, f"tests/test_{name}.py", f"import unittest\n{imports}\n\n"
               f"class Checks(unittest.TestCase):\n    def test_contract(self):\n        {assertions}\n")
-    record(base, CORE, {"schema": 1, "kind": "core", "revision": "v0.1.0"},
+    record(base, CORE, {"schema": 2, "kind": "core", "revision": "v0.1.0"},
            "# Local handoff trial\n\nDeliver the frozen label formatter contract.\n"
            "Two isolated workers, one terminal integrator, no external effects.\n")
-    record(base, PLAN, {"schema": 1, "kind": "plan", "id": "P001", "revision": "v0.1.0",
-                       "core": CORE, "core_sha256": sha(base, CORE), "ready": True,
+    record(base, PLAN, {"schema": 2, "kind": "plan", "id": "P001", "revision": "v0.1.0",
+                       "core": CORE, "ready": True,
                        "tasks": [{"id": t, "type": "development", "depends_on": []} for t in TASKS],
                        "integration_required": True},
            "# Parallel label formatter\n\n"
@@ -116,24 +117,24 @@ def prepare_trial(destination):
            "files in an isolated directory and run python3 -m unittest discover -s tests -v.\n"
            "Integrator may only add its report, log, and proposed integration check.\n"
            "A failure goes back to Manager; no source repair or external merge is authorized.\n")
-    record(base, PROGRESS, {"schema": 1, "kind": "progress", "plan_id": "P001",
+    record(base, PROGRESS, {"schema": 2, "kind": "progress", "plan_id": "P001",
                            "tasks": [{"id": t, "state": "in_progress", "owner": f"worker-{t}",
                                       "next": f"Return reports/{t}/A01.md for Manager review", "check": None,
-                                      "plan": PLAN, "plan_sha256": sha(base, PLAN)} for t in TASKS],
+                                      "plan": PLAN} for t in TASKS],
                            "integration_check": None},
            "# Manager handoff\n\nAuthorized batch: T01 and T02, one local attempt A01 each.\n"
            "Dispatch receipts: T01/A01 -> handoffs/T01-A01.md, worker-T01/;\n"
            "T02/A01 -> handoffs/T02-A01.md, worker-T02/. No background jobs yet.\n"
            "These workspace names are relative to the trial directory. Manager owns progress.\n")
-    record(base, "plans/CURRENT.md", {"schema": 1, "kind": "current", "plan": PLAN,
-                                      "plan_sha256": sha(base, PLAN), "progress": PROGRESS},
+    record(base, "plans/CURRENT.md", {"schema": 2, "kind": "current", "plan": PLAN,
+                                      "progress": PROGRESS},
            "# Current\n\nSelected local trial.\n")
     for task, name in TASKS.items():
         write(base, f"handoffs/{task}-A01.md", packet(skill, "task-handoff.md", {
             "task_key": f"label-trial/P001/{task}", "attempt": "A01", "worker": f"worker-{task}",
             "project": f"label-trial at {trial / ('worker-' + task)}", "plan": PLAN,
-            "plan_sha256": sha(base, PLAN), "baseline": "BASELINE.json pins the initial files; verify before writing",
-            "skill": f"{skill} (0.1.0-alpha.2 snapshot)", "manager": f"root; {trial / 'manager' / PROGRESS}",
+            "baseline": "This supplied workspace; BASELINE.json retains the tiny fixture's initial text for comparison",
+            "skill": f"{skill} (0.2.0-alpha.1 snapshot)", "manager": f"root; {trial / 'manager' / PROGRESS}",
             "context": f"SCENARIO.md, CONTRACT.md, {CORE}, {PLAN} section {task}; relevant source and tests",
             "objective": f"Implement {name}_labels in src/{name}.py to satisfy the frozen contract.",
             "dependencies": "None; shared contract and tests are frozen and supplied",
@@ -160,12 +161,12 @@ def collect_artifacts(original, source, destination, allowed, required, *, apply
     if not set(required).issubset(changed):
         raise ValueError("Worker report is missing")
     pending = []
-    for path, fingerprint in changed.items():
+    for path, content in changed.items():
         target = destination / path
         if target.is_symlink() or not target.resolve().is_relative_to(destination.resolve()):
             raise ValueError("Unsafe collection destination")
-        existing = sha(destination, path) if target.is_file() else None
-        if existing == fingerprint:
+        existing = target.read_text(encoding="utf-8") if target.is_file() else None
+        if existing == content:
             continue
         if existing != original.get(path):
             raise ValueError("Conflicting result: preserve the old attempt and investigate")
@@ -224,15 +225,15 @@ def collect_trial(trial):
             {p: h for p, h in files(integration).items() if p != PROGRESS}, indent=2) + "\n")
         write(integration, "handoffs/integration-A01.md", packet(trial / "skill", "integration-handoff.md", {
             "plan_id": "P001", "attempt": "A01", "project": integration, "plan": PLAN,
-            "plan_sha256": sha(manager, PLAN), "skill": f"{trial / 'skill'} (0.1.0-alpha.2 snapshot)",
+            "skill": f"{trial / 'skill'} (0.2.0-alpha.1 snapshot)",
             "manager": f"root; {manager / PROGRESS}",
-            "deliveries": "T01/A01 and T02/A01; task checks in plans/ex-plans/P001/check/; hashes in INTEGRATION-INPUTS.json",
-            "baseline": "INTEGRATION-INPUTS.json pins the collected files; verify before checking",
+            "deliveries": "T01/A01 and T02/A01; task checks in plans/ex-plans/P001/check/; retained input text in INTEGRATION-INPUTS.json",
+            "baseline": "The collected directory; INTEGRATION-INPUTS.json retains this tiny fixture's input text",
             "context": f"SCENARIO.md, CONTRACT.md, {CORE}, {PLAN}, worker reports and task checks",
             "write_scope": "Files already combined by allowlisted copy. Only reports/integration/A01.md, observations/integration/, and plans/ex-plans/P001/check/integration-check-001.md may be added",
             "acceptance": "Inspect both deliveries and run python3 -m unittest discover -s tests -v on this directory. "
                           "The proposed check subjects must include INTEGRATION-INPUTS.json and every file listed in it, "
-                          "with their current hashes. The driver requires this explicit input coverage; live progress is excluded",
+                          "as path strings. The driver requires this explicit input coverage; live progress is excluded",
             "budget": "At most 2 full-suite runs; no source fixes, progress edits, nested agents, network, installs, or merges; return failure to Manager",
             "report": "reports/integration/A01.md",
         }))
@@ -267,16 +268,14 @@ def finish_trial(trial):
     validator = validator_class(integration)
     if validator.validate()["errors"]:
         raise ValueError("Integration input records need review")
-    validator.check(check, "integration", PLAN, sha(manager, PLAN), False)
+    proposal_ok = validator.check(check, "integration", PLAN, False)
     proposed, _ = read_record(integration, check)
     inputs = json.loads((integration / "INTEGRATION-INPUTS.json").read_text(encoding="utf-8"))
-    covered = {item["path"] for item in proposed["subjects"]}
+    covered = set(proposed["subjects"])
     if not (set(inputs) | {"INTEGRATION-INPUTS.json"}).issubset(covered):
         raise ValueError("Integration input coverage is incomplete; list the manifest and every member as subjects")
-    if proposed["verdict"] == "pass" and (validator.errors or any(
-            w["code"].startswith("STALE_") or w["code"] in {"MISSING_FILE", "INVALID_PATH"}
-            for w in validator.warnings)):
-        raise ValueError("Passing integration proposal has stale or missing evidence")
+    if proposed["verdict"] == "pass" and (validator.errors or not proposal_ok):
+        raise ValueError("Passing integration proposal has invalid or missing evidence")
     collect_artifacts(baseline, integration, manager, allowed, [check, report])
     data, body = read_record(manager, PROGRESS)
     if data["integration_check"] != check:
@@ -302,7 +301,7 @@ def main():
         parser.exit(1, f"{exc}\n")
     print(json.dumps(result, indent=2) if isinstance(result, dict) else str(result))
     if args.action == "finish":
-        return 0 if result["overall"] == "verified" else 1
+        return 0 if result["overall"] == "accepted" else 1
     return 1 if isinstance(result, dict) and not result["workers_accepted"] else 0
 
 

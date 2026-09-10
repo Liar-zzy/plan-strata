@@ -1,0 +1,128 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "no-hash-first-use",
+  "worker": "root-command-walkthrough",
+  "captured_at": "2026-09-10T04:26:55.672649+00:00",
+  "skill_files": [
+    {
+      "path": "LICENSE"
+    },
+    {
+      "path": "SKILL.md"
+    },
+    {
+      "path": "agents/openai.yaml"
+    },
+    {
+      "path": "assets/CURRENT.md"
+    },
+    {
+      "path": "assets/check.md"
+    },
+    {
+      "path": "assets/core.md"
+    },
+    {
+      "path": "assets/ex-plan.md"
+    },
+    {
+      "path": "assets/integration-handoff.md"
+    },
+    {
+      "path": "assets/progress.md"
+    },
+    {
+      "path": "assets/task-handoff.md"
+    },
+    {
+      "path": "references/development.md"
+    },
+    {
+      "path": "references/parallel-handoff.md"
+    },
+    {
+      "path": "references/protocol.md"
+    },
+    {
+      "path": "references/repair-loop.md"
+    },
+    {
+      "path": "references/research.md"
+    },
+    {
+      "path": "scripts/strata.py"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "SCENARIO.md",
+      "text": "# Synthetic workflow fixture\n\nFiles describe a deliberately small demonstration project. Any research\ndata are synthetic. Commands and logs can be verified locally.\n"
+    },
+    {
+      "path": "observations/total.log",
+      "text": "$ /opt/homebrew/opt/python@3.14/bin/python3.14 tests/check_total.py\nempty input and numeric sum passed\n\nexit_code: 0\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nSelected for this bounded synthetic demonstration.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Core\n\nComplete a bounded demonstration and retain accurate evidence.\nUse local files only. No new dependencies, external services, or real experiments.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/check/T01-check-001.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"check\",\n  \"id\": \"T01-check-001\",\n  \"task\": \"T01\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"verdict\": \"pass\",\n  \"subjects\": [\n    \"src/calc.py\",\n    \"tests/check_total.py\"\n  ],\n  \"evidence\": [\n    \"observations/total.log\"\n  ]\n}\n---\n\n# Fixture check\n\nReviewer: scenario preparation script.\n\nThe linked evidence records the actual local command result. This is a\nsynthetic demonstration project; no real research result is claimed.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# P001 — Sum utility and usage documentation\n\n## T01\nImplement total(values), including empty input, in src/calc.py.\nValidate with python3 tests/check_total.py.\n\n## T02\nWrite docs/usage.md with an actual import/run command, empty-input\nbehavior, and a numeric example. Verify the example and record evidence.\nKeep the existing arithmetic behavior.\n\n## Integration\nWhen integration is required, verify the public wrapper\nusing python3 tests/check_integration.py. Local task success alone is insufficient.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.2.0.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.2.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"ready\": false,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": [\n        \"T01\"\n      ]\n    }\n  ],\n  \"integration_required\": false\n}\n---\n\n# Unselected proposal\n\nExplore replacing the sum utility with multiplication.\nThis draft has not been selected for execution.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "text": "---\n{\n  \"schema\": 2,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"done\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Accepted; continue the dependent documentation\",\n      \"check\": \"plans/ex-plans/P001/check/T01-check-001.md\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"owner\": \"fixture-worker\",\n      \"next\": \"Write and verify docs/usage.md\",\n      \"check\": null\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# Handoff\n\nRead the task metadata and relevant observation files.\nThere are no background jobs. Synthetic fixture preparation produced the existing files.\n"
+    },
+    {
+      "path": "src/calc.py",
+      "text": "def total(values):\n    return sum(values)\n"
+    },
+    {
+      "path": "tests/check_total.py",
+      "text": "import sys\nfrom pathlib import Path\nsys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))\nfrom calc import total\nassert total([]) == 0\nassert total([1, 2, 3]) == 6\nprint('empty input and numeric sum passed')\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 2,
+    "validation_scope": "structure_only",
+    "status": "consistent",
+    "overall": "open",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "done",
+        "effective_state": "done",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "fixture-worker",
+        "next": "Accepted; continue the dependent documentation"
+      },
+      {
+        "id": "T02",
+        "state": "planned",
+        "effective_state": "planned",
+        "plan": null,
+        "owner": "fixture-worker",
+        "next": "Write and verify docs/usage.md"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": []
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}
