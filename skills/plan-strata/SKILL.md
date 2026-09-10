@@ -46,6 +46,9 @@ below without extra packets.
   tasks, and submit separate reports when concurrent execution needs them.
   Concurrent code writers also need an explicit integration method and isolated
   outputs; the skill does not supply a scheduler or a lock.
+- Use a complete observable outcome as the task unit. For task budgeting,
+  review-driven repairs, or resuming a repair loop, read [bounded repair](references/repair-loop.md).
+  Internal patches and milestones are not automatic human approval gates.
 - At a meaningful milestone, blocker, or handoff, record what changed, where the
   artifacts are, what was checked, what remains uncertain, and the next action.
   Record a running job's identifier and output location before yielding it.
@@ -57,10 +60,10 @@ below without extra packets.
 
 ## Check and decide
 
-1. Inspect the actual result using the plan's acceptance method. An execution
-   report is a starting point for verification. Record a scoped conclusion in a
-   new [check](assets/check.md), including the bound plan, inspected subjects,
-   evidence, method, limitations, and next decision. Preserve earlier checks.
+1. At an acceptance decision, inspect the actual result using the plan's acceptance
+   method. An execution report is a starting point for verification. Record a
+   scoped conclusion in a new [check](assets/check.md), including the bound plan,
+   inspected subjects, evidence, method, limitations, and next decision. Preserve earlier checks.
 2. Mark a task `done` only when its applicable check passes and dependencies allow
    acceptance. A valid research activity can be done with an inconclusive or
    negative finding. Check integrated behavior separately when the plan requires

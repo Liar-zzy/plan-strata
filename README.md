@@ -12,6 +12,10 @@ without sharing the same meaning of success.
 **Status: `0.1.0-alpha.2` · MIT · Python 3.10+ for the optional validator.**
 Ready for early trials, not a production workflow guarantee.
 
+> **Dev preview:** the handoff and repair guidance here may be ahead of the default-branch
+> package. A repository install does not automatically select `dev` or include unpublished
+> local edits. Check [source selection](#choose-the-source) and [remaining risks](docs/dev-readiness.md).
+
 > **🙌 Join us! Help improve Plan Strata through real use.**
 > Using AI for development or research? [Copy the optional AGENTS.md feedback snippet](#join-us)
 > and [share one sanitized case](https://github.com/Liar-zzy/plan-strata/issues/new).
@@ -57,9 +61,20 @@ existing installation before replacing it. Codex discovers that project-local
 location; restart it if the skill does not appear. See the
 [official installation and discovery guidance](https://learn.chatgpt.com/docs/build-skills).
 
-The GitHub commands require the repository to contain this package. Before the
-first push, replace `Liar-zzy/plan-strata` with the absolute path to this checkout.
-This is a standalone skill, not a marketplace plugin.
+### Choose the source
+
+The repository shorthand above uses the remote default branch, currently `main`.
+To try `dev`, first obtain and review a checkout of that branch, then copy its entire
+`skills/plan-strata/` directory using the manual-install method above. A remote
+checkout contains only pushed changes; use the reviewed local checkout for changes
+that have not been published. Updating the repository does not automatically update
+an existing installation.
+
+Record the source branch/commit and any local edits when known. The same alpha
+version label can cover different dev snapshots; if the installed package's source
+is unknown, record that uncertainty and fingerprint its actual files. A separate
+repository's HEAD is not proof of what was installed. This is a standalone skill,
+not a marketplace plugin.
 
 ## Start using it
 
@@ -85,6 +100,18 @@ the agent to load `plan-strata`. For example:
 The agent writes project records in your language. You provide the scope and
 resource limits; the skill guides the file and evidence bookkeeping. Ordinary
 questions and isolated small edits usually do not need a planning directory.
+
+For implementation, you can include a finite repair allowance in the same task:
+
+> Complete the agreed capability, self-check it, and fix defects against its
+> existing acceptance criteria within at most two review/repair rounds and the
+> agreed resource budget. Report back when accepted, blocked, or at that limit.
+> Keep new requirements separate; do not push or publish.
+
+Internal patches do not each require a new plan, report, or human approval.
+Already returned deliveries and checks stay frozen; changed inspected inputs need
+fresh verification even if the verdict remains `pass`. This does not enable
+parallel work. See [bounded repair](skills/plan-strata/references/repair-loop.md).
 
 ## How the records fit together
 
@@ -142,6 +169,12 @@ on dependencies: state those conditions separately, and confirm assignment befor
 execution. A packet or Issue does not launch an agent. Execution still uses the
 host's available tools and permissions. The default workflow is unchanged.
 
+An explicit user assignment can identify the worker without a second brief or
+repeat approval. Manager normally records ownership before execution. Delayed
+progress recording needs an explicit coordination agreement that prevents duplicate
+dispatch; a worktree or stale `planned` row is not a claim lock. See
+[ownership and bookkeeping](skills/plan-strata/references/parallel-handoff.md#ownership-and-progress-bookkeeping).
+
 See the [handoff guidance](skills/plan-strata/references/parallel-handoff.md),
 [worker packet](skills/plan-strata/assets/task-handoff.md), and
 [integration packet](skills/plan-strata/assets/integration-handoff.md).
@@ -171,6 +204,10 @@ the current records meet the iteration's acceptance structure. Neither proves
 that tests ran, evidence is truthful, or a scientific claim is established.
 The command does not execute commands in Markdown, change records, run experiments,
 or upload content.
+
+For automation, consult the [exit-code contract](skills/plan-strata/references/protocol.md#reading-validation-output):
+validation findings, including an invalid `--current` path, use exit `1`; argument
+or project-root startup failures use `2`. Exit `0` alone does not mean completion.
 
 ## Try a small example
 
@@ -208,6 +245,9 @@ is historical evidence. Subsequent receiver-baseline and reserved-ID repairs hav
 [their own regression record (Chinese)](docs/validation-handoff-fixes.md).
 The [Issue cold-start record (Chinese)](docs/validation-issue-handoff.md) separately
 tracks the local Issue-body → fresh-worktree evaluation and its observed failures.
+The [bounded-repair regression record (Chinese)](docs/validation-repair-loop.md)
+covers evidence preservation and CLI classifications, not autonomous-agent behavior
+or a measured reduction in human handoffs.
 These checks do not establish live GitHub dispatch, runtime orchestration, or production concurrency.
 
 - Checks cover explicitly declared local files and dependencies, not implicit ones
@@ -241,6 +281,8 @@ project task as the priority.
 - Record the available skill version or source, development/research context,
   expected and actual behavior, task impact, workaround, and local evidence
   references or a sanitized minimal example.
+  Include the source commit and local edits when known; otherwise mark the source
+  unknown and identify the actual installed files, rather than assuming a checkout matches.
 - Separate observations from suspected causes. Mark uncertain attribution
   as "needs confirmation"; environment or usage issues may also be responsible.
 - Keep task state in the project's existing progress records. The feedback

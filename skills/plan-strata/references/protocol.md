@@ -105,8 +105,23 @@ for concurrent writers, use host/workspace isolation and an explicit coordinator
 
 ## Reading validation output
 
-`validate` returns JSON and makes no changes. Exit 0 means the records are
-consistent, exit 1 means discrepancies, and exit 2 means invocation/path failure.
+`validate` makes no changes. Its exit codes distinguish a validation result from
+a command that could not start validation:
+
+| Exit | Meaning | Output |
+|---|---|---|
+| `0` | No record errors; warnings or unfinished work may remain | Validation JSON on stdout, `status: consistent` |
+| `1` | Invalid records or references, including an invalid/missing `--current` path | Validation JSON on stdout, `status: invalid`, `overall: open` |
+| `2` | Invalid CLI arguments or a project root that cannot be initialized | Diagnostic on stderr; no validation JSON on stdout |
+
+Path errors encountered after opening the project, including escaping, missing,
+or unreadable record/subject paths, are validation findings (`1`), not command
+startup failures. Project-root failures emit `{"error": "..."}` on stderr;
+argument parsing uses argparse's text diagnostic. `fingerprint` instead emits a
+JSON file/hash list on stdout with exit `0`, or an error JSON on stderr with exit
+`2` for file/path failures; invalid CLI arguments also use argparse's exit `2`.
+Help requests (`--help`) exit `0` with help text, without running either operation.
+
 `overall: verified` requires all current tasks done, plus an applicable passing
 integration check if integration is required or an integration check was recorded.
 Otherwise overall is `open`. Invalid records always yield overall open.

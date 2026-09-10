@@ -33,7 +33,7 @@ push, publication, or default-branch merge authority.
    recipient's environment. External posting additionally needs an identified
    target, permissions, and a privacy review. Apply the [cold-start gate](#cold-start-gate)
    to the actual handoff delivered through the chosen channel.
-4. At assignment, before execution, confirm the owner, attempt, binding, and workspace
+4. By default, before execution, confirm the owner, attempt, binding, and workspace
    allocation in authoritative progress. Publishing an unclaimed task does not start it. In its
    handoff prose record task/attempt → packet, workspace/output location, and any
    runtime/job or external task handle. This is a dispatch receipt, not another
@@ -46,6 +46,21 @@ Readiness and write-scope checks here are Manager judgments. Protocol v1's valid
 checks declared records and acceptance; it does not lock claims, enforce readiness
 at launch, or parse packet Markdown. Cross-ex-plan dependencies are outside this
 first mode. Historical revisions are not additional tasks to dispatch.
+
+## Ownership and progress bookkeeping
+
+An explicit user assignment can supply the owner; Manager records that allocation
+without asking the user to repeat it or issuing a second task brief. Opening an
+Issue or creating a worktree alone supplies neither exclusivity nor permission.
+
+Delayed progress recording is a project-specific opt-in, not the default workflow.
+Use it only with an agreed allocating coordinator that reserves the task/attempt,
+workspace, and shared resources before execution. Retain a recoverable assignment
+receipt and packet/start snapshot in the chosen channel; every dispatcher must
+reconcile that reservation before launch or retry. Manager remains the sole
+progress writer and reconciles the receipt before acceptance or further dispatch.
+A stale `planned` row is not proof that a task is free. Without those guarantees,
+use the default pre-execution registration or return the ownership ambiguity.
 
 ## Cold-start gate
 
@@ -67,7 +82,8 @@ block; publishing or pushing it needs the corresponding permission.
 
 Describe packet completeness, dependency readiness, and assignment separately in
 handoff prose; these are not new protocol states or a second progress table.
-A complete, ready task can be unclaimed: specify how Manager confirms ownership
+A complete, ready task can be unclaimed: specify the allocating coordinator and
+how ownership is confirmed, following [the coordination rule](#ownership-and-progress-bookkeeping),
 and how the worker creates its workspace, instead of requiring an existing worker
 directory. Execution waits for that confirmation, not for another task brief.
 An authorized draft or dependency-blocked Issue can be created early, with the
@@ -96,6 +112,9 @@ core, plans, CURRENT, and progress; return proposed changes to those records ins
 of editing them from a worker copy. Checks or reports belong in the allocated
 attempt location. Stop and return a blocker if the task needs another worker's
 scope, a changed interface, extra resources, or a new external action.
+
+Include self-checks and any permitted repairs using [bounded repair](repair-loop.md).
+Manager can continue that loop within the batch's existing scope and budget.
 
 Return the identity/binding, changed paths and retained artifact fingerprints or
 commit, actual verification commands/results, report location, limitations, and

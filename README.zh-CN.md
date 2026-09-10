@@ -11,6 +11,10 @@ Plan Strata 是一个用于跨会话工作的开源 Agent skill。它帮助 Agen
 **状态：`0.1.0-alpha.2` · MIT · 可选校验器需要 Python 3.10+。**
 适合早期试用，尚不承诺生产级工作流可靠性。
 
+> **Dev 预览提醒：**这里的交接与返修指引可能领先于默认分支的安装包。
+> 按仓库安装不会自动选择 `dev`，也不会包含尚未推送的本地修改。
+> 请先看[安装来源](#选择安装来源)与[剩余风险](docs/dev-readiness.md)。
+
 > **🙌 Join us! 一起把 Plan Strata 用顺。**
 > 欢迎用 AI 做项目、做科研的小伙伴参与试用！[复制可选的 AGENTS.md 反馈约定](#join-us)，
 > 记录实际遇到的问题，再[提交一个脱敏案例](https://github.com/Liar-zzy/plan-strata/issues/new)。
@@ -53,9 +57,16 @@ $skill-installer 从 https://github.com/Liar-zzy/plan-strata 安装 plan-strata�
 Codex 支持从这个项目级位置发现技能；如果未显示，重启客户端。安装和发现规则见
 [官方说明](https://learn.chatgpt.com/docs/build-skills)。
 
-GitHub 安装命令需要远端已经包含技能文件。首次 push 前，可将命令中的
-`Liar-zzy/plan-strata` 替换为本地仓库的绝对路径。本项目是独立 skill，
-不是已经上架的插件市场包。
+### 选择安装来源
+
+上面的仓库简写使用远端默认分支，目前是 `main`。要试用 `dev`，先取得并检查该
+分支的 checkout，再按上面的手动安装方式复制整个 `skills/plan-strata/` 目录。
+远端 checkout 只包含已推送的修改；尚未发布的改动需从已审查的本地 checkout
+试用。仓库更新也不会自行升级你已安装的副本。
+
+来源可确定时，记录分支、commit 和本地修改。同一个 alpha 版本号可能对应不同
+dev 快照；安装包来源不明时，明确记录不确定性并对实际文件计算指纹，不能用另一个
+仓库的 HEAD 冒充安装版本。本项目是独立 skill，不是已经上架的插件市场包。
 
 ## 开始使用
 
@@ -79,6 +90,16 @@ GitHub 安装命令需要远端已经包含技能文件。首次 push 前，可�
 
 Agent 使用你的语言撰写项目记录。你提供工作范围和资源边界，技能指导文件与证据
 维护。普通问答和孤立的小修改通常不需要建立计划目录。
+
+实施任务时，可以把有限返修包含在同一个任务内：
+
+> 完成已约定的完整能力并自检；在最多两轮审核返修和已定资源预算内，修复不符合
+> 原验收标准的问题。通过、阻塞或达到限额时向我汇报。新增需求单独列出，不 push、
+> 不发布。
+
+内部补丁不必各自新增计划、报告或人工审批。已经返回的交付与检查保持冻结；
+被检输入改变后，即使仍然 pass，也需要重新验证。这不启用并行，详见
+[有限修复指引](skills/plan-strata/references/repair-loop.md)。
 
 ## 文件如何分工
 
@@ -127,6 +148,11 @@ Manager 分配范围明确的任务单，Worker 返回产物和证据，最后�
 任务说明完整不等于依赖已就绪或已被领取：分别写清条件，执行前确认分配。
 任务单或 Issue 本身不会启动 Agent。执行仍依赖宿主工具与授权，默认工作流不变。
 
+用户明确指定执行人可以作为分配依据，不需要再补一份任务单或重复确认。
+默认仍由 Manager 开工前登记；延后登记需要显式协调约定来防止重复派发，
+worktree 或过时的 `planned` 状态不等于认领锁。详见
+[独占分配与进度登记](skills/plan-strata/references/parallel-handoff.md#ownership-and-progress-bookkeeping)。
+
 详见[交接说明](skills/plan-strata/references/parallel-handoff.md)、
 [Worker 任务单](skills/plan-strata/assets/task-handoff.md)和
 [Integrator 任务单](skills/plan-strata/assets/integration-handoff.md)。
@@ -152,6 +178,10 @@ python3 .agents/skills/plan-strata/scripts/strata.py validate --project .
 `status: consistent` 表示声明的记录一致；`overall: verified` 表示当前记录满足
 本轮验收结构。两者都不能证明测试实际运行过、证据真实或科学结论成立。
 工具不会执行 Markdown 中的命令、修改记录、启动实验或上传内容。
+
+自动化调用请按[退出码契约](skills/plan-strata/references/protocol.md#reading-validation-output)
+处理：记录校验问题（包括非法 `--current` 路径）使用 `1`，参数解析或项目根目录
+初始化失败使用 `2`。退出 `0` 本身不代表任务完成。
 
 ## 小场景试用
 
@@ -186,6 +216,8 @@ alpha.2 的[首次并行交接试用](docs/validation-parallel.md)保留为历�
 [Issue 冷启动记录](docs/validation-issue-handoff.md)另行保留“本地 Issue 正文 →
 新 worktree”的独立接手过程及实际失败。这些检查不代表真实 GitHub 派发、
 运行时编排或生产并发已验证。
+[有限修复回归记录](docs/validation-repair-loop.md)覆盖证据保留和 CLI 分类，
+不代表自主 Agent 的闭环行为或人工交接成本下降已得到验证。
 
 - 工具检查显式列出的本地文件与依赖，不推断隐含依赖或内容真实性；外部对象需另行核验。
 - 使用单一进度维护者。并行执行依赖实际环境的隔离和集成方式，技能不提供调度器或锁。
@@ -211,6 +243,8 @@ alpha.2 的[首次并行交接试用](docs/validation-parallel.md)保留为历�
   首次发现问题再创建文件，同类问题合并。
 - 记录可获得的技能版本或来源、开发/科研场景、预期与实际行为、
   任务影响、临时处理方式，以及本地证据引用或脱敏后的最小复现。
+  来源可确定时补充 commit 和本地修改；否则标为未知并标识实际安装文件，
+  不默认认为某个 checkout 与安装副本相同。
 - 将观察事实与原因推测分开；无法确定是否属于技能问题时标为
   “待确认”，保留环境或使用方式导致问题的可能。
 - 任务状态仍以项目原有进度记录为准，反馈文件只记录技能问题，

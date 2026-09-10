@@ -179,6 +179,78 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn("Traceback", result.stderr)
         return result
 
+    def test_invalid_or_missing_current_is_a_validation_finding(self):
+        for path, code in (("/plans/CURRENT.md", "INVALID_PATH"),
+                           ("../CURRENT.md", "INVALID_PATH"),
+                           ("", "INVALID_PATH"),
+                           ("plans/absent.md", "MISSING_FILE"),
+                           ("plans", "MISSING_FILE")):
+            with self.subTest(path=path):
+                result = self.cli("validate", "--project", str(self.root), "--current", path)
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(result.stderr, "")
+                data = json.loads(result.stdout)
+                self.assertEqual((data["status"], data["overall"]), ("invalid", "open"))
+                self.assertIn(code, self.codes(data))
+
+    def test_invalid_record_reference_is_also_a_validation_finding(self):
+        for path, code in (("/plans/plan.md", "INVALID_PATH"),
+                           ("plans/absent.md", "MISSING_FILE")):
+            with self.subTest(path=path):
+                self.update("plans/CURRENT.md", lambda d: d.update(plan=path))
+                result = self.cli("validate", "--project", str(self.root))
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(result.stderr, "")
+                self.assertIn(code, self.codes(json.loads(result.stdout)))
+
+    def test_project_initialization_failure_is_a_command_error(self):
+        for command in ("validate", "fingerprint"):
+            for project in (self.root / "absent", self.root / CORE):
+                with self.subTest(command=command, project=project):
+                    files = [CORE] if command == "fingerprint" else []
+                    result = self.cli(command, "--project", str(project), *files)
+                    self.assertEqual(result.returncode, 2)
+                    self.assertEqual(result.stdout, "")
+                    self.assertTrue(json.loads(result.stderr)["error"])
+
+    def test_fingerprint_path_failures_are_command_errors(self):
+        for path in ("/plans/CURRENT.md", "../CURRENT.md", "plans/absent.md", "plans"):
+            with self.subTest(path=path):
+                result = self.cli("fingerprint", "--project", str(self.root), path)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, "")
+                self.assertTrue(json.loads(result.stderr)["error"])
+
+    def test_argument_errors_use_stderr_without_validation_json(self):
+        for args in (("validate", "--current"), ("fingerprint",),
+                     ("validate", "--unknown-flag")):
+            with self.subTest(args=args):
+                result = self.cli(*args)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, "")
+                self.assertTrue(result.stderr)
+                with self.assertRaises(json.JSONDecodeError):
+                    json.loads(result.stderr)
+
+    def test_zero_exit_with_warnings_does_not_mean_completion(self):
+        self.root = make_case(Path(self.temp.name) / "open-integration", "integration")
+        result = self.cli("validate", "--project", str(self.root))
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stderr, "")
+        data = json.loads(result.stdout)
+        self.assertEqual((data["status"], data["overall"]), ("consistent", "open"))
+        self.assertTrue(data["warnings"])
+
+    def test_help_returns_text_without_running_validation_or_fingerprinting(self):
+        for command in ("validate", "fingerprint"):
+            with self.subTest(command=command):
+                result = self.cli(command, "--project", str(self.root / "absent"), "--help")
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(result.stderr, "")
+                self.assertTrue(result.stdout)
+                with self.assertRaises(json.JSONDecodeError):
+                    json.loads(result.stdout)
+
     def test_looping_plan_reference_returns_json_diagnostic(self):
         self.loop_path()
         self.update("plans/CURRENT.md", lambda d: d.update(plan="cycle.md"))

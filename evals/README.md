@@ -149,3 +149,25 @@ attempt/workspace for a corrected dispatch. Changing the fixture or copied skill
 requires a new trial directory. Do not turn documentation/regex checks into claims about
 agent behavior. One successful sample does not validate GitHub APIs, concurrent
 claiming, downstream release, merge conflicts, or runtime cancellation.
+
+## Bounded repair regressions
+
+Run the deterministic evidence-transition tests from a full clone:
+
+```sh
+python3 -m unittest discover -s tests -p test_repair_workflow.py -v
+```
+
+They run a tiny startup/turn configuration check in fresh temporary directories:
+internal self-check failure → repair → one acceptance check; formal failed delivery
+→ repair with retained inputs/log/check; passing-input change → stale acceptance
+→ fresh passing check; and a scripted exhausted repair budget with an unresolved
+defect that cannot be accepted. The task, core, and selected plan stay unchanged.
+The existing parallel tests separately reject a changed result under one received
+attempt identity. CLI exit-code regressions live in `test_workflow.py`.
+
+These tests prescribe the edits, finite schedule, and recording actions. They
+exercise the actual validator and tiny project checks, not an agent's planning,
+scope judgment, communication, or budget enforcement. No new agents are launched;
+fewer human interventions or lower elapsed cost require a separate behavioral
+evaluation. See the [validation record](../docs/validation-repair-loop.md).
