@@ -1,5 +1,5 @@
 ---
-{"schema":2,"kind":"progress","plan_id":"P009","tasks":[{"id":"T01","state":"needs_review","owner":"root","next":"本地 77 项与安装检查通过；提交并推送 origin/dev，再核对远端 CI","check":null,"plan":"plans/ex-plans/P009/ex-plan-v0.1.0.md"}],"integration_check":null}
+{"schema":2,"kind":"progress","plan_id":"P009","tasks":[{"id":"T01","state":"done","owner":"root","next":"已交付 dev 预览版；按需试用并收集反馈，不自动升级已有安装","check":"plans/ex-plans/P009/check/T01-check-001.md","plan":"plans/ex-plans/P009/ex-plan-v0.1.0.md"}],"integration_check":null}
 ---
 
 # P009 交接
@@ -10,5 +10,8 @@
 检查通过。正式审核返修预算：已用 1/2，剩余 1。当前无 Worker、运行中任务或资源预留。
 旧 P008 结果保留，不把其 schema 1 验收直接用于新版本。仅 root 维护本记录。
 
-最终本地证据与限制见 docs/v0.2.0-alpha.1.md；发布及远端 CI 尚未完成，故不记 done。
+实现提交 10779b6 已正常推送 origin/dev，GitHub Checks 34437294166 的双 Python
+测试与记录校验全部成功；GitHub dev 来源的 Codex/Claude Code 临时安装也通过。
+最终证据与限制见 docs/v0.2.0-alpha.1.md；依据 check-001 接受并交付。随后仅同步
+发布记录和已验证的快捷安装命令，不改技能包或测试代码。无遗留运行中作业。
 不改写用户的 .gitignore，不上传原始反馈；不合入 main 或升级已安装的技能。

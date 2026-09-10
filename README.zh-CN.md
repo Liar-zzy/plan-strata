@@ -60,8 +60,15 @@ Codex 支持从这个项目级位置发现技能；如果未显示，重启客�
 
 ### 选择安装来源
 
-上面的仓库简写使用远端默认分支，目前是 `main`。要试用 `dev`，先取得并检查该
-分支的 checkout，再按上面的手动安装方式复制整个 `skills/plan-strata/` 目录。
+上面的仓库简写使用远端默认分支，目前是 `main`。安装 **dev 预览版**可使用已验证
+的 Codex 项目级命令：
+
+```sh
+npx --yes skills@1.5.23 add https://github.com/Liar-zzy/plan-strata/tree/dev --skill plan-strata --agent codex --yes
+```
+
+已有同名安装请先检查并备份。若要先审查源码，取得 dev checkout 后，按上面的
+手动安装方式复制整个 `skills/plan-strata/` 目录。
 远端 checkout 只包含已推送的修改；尚未发布的改动需从已审查的本地 checkout
 试用。仓库更新也不会自行升级你已安装的副本。
 

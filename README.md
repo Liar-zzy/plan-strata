@@ -66,7 +66,14 @@ location; restart it if the skill does not appear. See the
 ### Choose the source
 
 The repository shorthand above uses the remote default branch, currently `main`.
-To try `dev`, first obtain and review a checkout of that branch, then copy its entire
+For the **dev preview**, this project-local Codex command has also been tested:
+
+```sh
+npx --yes skills@1.5.23 add https://github.com/Liar-zzy/plan-strata/tree/dev --skill plan-strata --agent codex --yes
+```
+
+Review/back up an existing same-name installation first. To inspect the source
+before installing, obtain and review a dev checkout, then copy its entire
 `skills/plan-strata/` directory using the manual-install method above. A remote
 checkout contains only pushed changes; use the reviewed local checkout for changes
 that have not been published. Updating the repository does not automatically update
