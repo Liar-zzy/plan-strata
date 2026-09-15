@@ -1,5 +1,5 @@
 ---
-{"schema":1,"kind":"current","plan":"plans/ex-plans/P001/ex-plan-v0.1.0.md","plan_sha256":"REPLACE_WITH_HASH","progress":"plans/ex-plans/P001/progress.md"}
+{"schema":2,"kind":"current","plan":"plans/ex-plans/P001/ex-plan-v0.1.0.md","progress":"plans/ex-plans/P001/progress.md"}
 ---
 
 # Current iteration

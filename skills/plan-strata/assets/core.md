@@ -1,5 +1,5 @@
 ---
-{"schema":1,"kind":"core","revision":"v0.1.0"}
+{"schema":2,"kind":"core","revision":"v0.1.0"}
 ---
 
 # Project core

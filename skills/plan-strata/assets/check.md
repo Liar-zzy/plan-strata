@@ -1,5 +1,5 @@
 ---
-{"schema":1,"kind":"check","id":"T01-check-001","task":"T01","plan":"plans/ex-plans/P001/ex-plan-v0.1.0.md","plan_sha256":"REPLACE_WITH_HASH","verdict":"inconclusive","subjects":[{"path":"REPLACE_WITH_SUBJECT","sha256":"REPLACE_WITH_HASH"}],"evidence":[{"path":"REPLACE_WITH_EVIDENCE","sha256":"REPLACE_WITH_HASH"}]}
+{"schema":2,"kind":"check","id":"T01-check-001","task":"T01","plan":"plans/ex-plans/P001/ex-plan-v0.1.0.md","verdict":"inconclusive","subjects":["REPLACE_WITH_SUBJECT_PATH"],"evidence":["REPLACE_WITH_EVIDENCE_PATH"]}
 ---
 
 # Scoped check

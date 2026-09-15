@@ -1,0 +1,199 @@
+{
+  "kind": "forward-use-capture",
+  "scenario": "parallel-worker-T01",
+  "worker": "/root/parallel_worker_one",
+  "captured_at": "2026-09-07T07:50:41.822277+00:00",
+  "skill_files": [
+    {
+      "path": "LICENSE",
+      "sha256": "7b5a822173a1122da41fe373b929cf386c04b9347ac08e127401514c79005679"
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "c7323f7224aaa48a29ac9d49e90bdc462963c8c9d25a564be2d290df606d3d68"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "0f8a379169d45cfd2750d7a8a23b8a863aacf27384742002113ba9a9e99d5876"
+    },
+    {
+      "path": "assets/CURRENT.md",
+      "sha256": "407be11482609337686361b339d2cc255437deaa3f15d69fcd8fdc9c97fc8c6f"
+    },
+    {
+      "path": "assets/check.md",
+      "sha256": "bde0fa9ac14f67ec9eaa5e7d710206b28049d2271c63838272fdba3a1f85a5d0"
+    },
+    {
+      "path": "assets/core.md",
+      "sha256": "cee2c0aba4bf6dfe7e886881c6ee69614387aa9acb61f6a97da5b3dcb58748a7"
+    },
+    {
+      "path": "assets/ex-plan.md",
+      "sha256": "2f89e8bc085609844a56ef4da2815a7ee8a1e14b3ace69d18764f4d4d51ec3f6"
+    },
+    {
+      "path": "assets/integration-handoff.md",
+      "sha256": "8eef9db68692f5e96bf5883c57ec7a514e0546a3f18fc13b166f84da6beafaa1"
+    },
+    {
+      "path": "assets/progress.md",
+      "sha256": "00c2414b00f0394103f8133278bc8bfc255ebcfb8728d81aac09b24317d529fa"
+    },
+    {
+      "path": "assets/task-handoff.md",
+      "sha256": "dc939e4a2bb3f69e508e53f241328822d38c260f1fff6fa5e17d460535792cb2"
+    },
+    {
+      "path": "references/development.md",
+      "sha256": "d91ec715e6f1f837f4f68ef5851c61acc3e6557cd77095f4d459f59e752713f2"
+    },
+    {
+      "path": "references/parallel-handoff.md",
+      "sha256": "0a369f8b5765a445f20172119fbbebb3c11f7c2e72020683167423cad167b85a"
+    },
+    {
+      "path": "references/protocol.md",
+      "sha256": "f9f00ee951f31c88d512fc15b86db49fcab1f7d1ec8662d92d461da8b3d6855b"
+    },
+    {
+      "path": "references/research.md",
+      "sha256": "688c4e57e1e19509fa433a0568afec4d462d5328cf3f4abe6f84415b2a1ec805"
+    },
+    {
+      "path": "scripts/strata.py",
+      "sha256": "4e4d12a0578ea2cf4fd986a84d24020565243ceb47c9dec8253f2231e909f382"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "BASELINE.json",
+      "sha256": "849bb82d1f36dba30e3cc246c3c777bb2afe55ea8a25085a3482d19b82362643",
+      "text": "{\n  \"CONTRACT.md\": \"634b9f3dd3733fb6c82b75f1986d8b04b3f6399aa3fa0a4d22466111f578e5fe\",\n  \"SCENARIO.md\": \"8a4aefb8eaf500a779a1af0766e52c471a05d1e0a22f038093d93e80a24d855d\",\n  \"handoffs/T01-A01.md\": \"48b4ad3e43dafd9f7cea1eff18c7c20e231fb0625dfbc4e840a9b56ddbdb48eb\",\n  \"handoffs/T02-A01.md\": \"5ec03013ea484a9b9d5a2c4fa344334d52430a5f0c909539649f899d3f4083b1\",\n  \"plans/CURRENT.md\": \"dd433681e2a5b4c608f8c126942976119506f67d1a431bcf4403984641a183e5\",\n  \"plans/core/core-v0.1.0.md\": \"294ae3503838d7124c38aa2dcc7f36fac3780ca031c757ede84f6547cc0d28aa\",\n  \"plans/ex-plans/P001/ex-plan-v0.1.0.md\": \"f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\",\n  \"plans/ex-plans/P001/progress.md\": \"959d6863a47e421537e672c2f7869809616ba9d97f83122ec65cd0287732f0cf\",\n  \"src/normalize.py\": \"fb0eee4aaa9e896f79be2def2670be34b5376ebf460c7d77292daafe187899ca\",\n  \"src/pipeline.py\": \"e957a92ef19a16e4dea51e4e58b57a0604cc21c3b29c365c2215682b87b0a44d\",\n  \"src/render.py\": \"95d8bba0faa0eaf8bdfd889e23d0ba92c9b9224b46fd651e417fa62c1b45c582\",\n  \"tests/test_integration.py\": \"933ef838be6953c50fdd6ac2162c3617e036bd174898978b95e0055940a17f23\",\n  \"tests/test_normalize.py\": \"a4c894badfd9a182c94460eafe82658613d635ec12f4f9a1f8c77c461f41c224\",\n  \"tests/test_render.py\": \"e2e9e73ccce788cd88d672359a3d00711c773a46cb626c6e3a7d1de0ca713b46\"\n}\n"
+    },
+    {
+      "path": "CONTRACT.md",
+      "sha256": "634b9f3dd3733fb6c82b75f1986d8b04b3f6399aa3fa0a4d22466111f578e5fe",
+      "text": "# Frozen interface\n\nnormalize_labels(values) returns a new list of stripped, lowercase, nonempty\nstrings, preserving order and duplicates. Input contains strings only.\nrender_labels(values) joins the supplied strings with ', ', or returns\n'(empty)' for empty input. It does not normalize or sort.\nsummarize_labels(values) composes normalization then rendering.\nUse Python standard library only. Tests and this interface are read-only.\n"
+    },
+    {
+      "path": "SCENARIO.md",
+      "sha256": "8a4aefb8eaf500a779a1af0766e52c471a05d1e0a22f038093d93e80a24d855d",
+      "text": "# Synthetic parallel trial\n\nA tiny label formatter, not a production project or scientific result.\nThe user authorized two isolated local workers and a final integrator.\nNo Git, network, package installation, nested agents, or paid jobs are needed.\n"
+    },
+    {
+      "path": "handoffs/T01-A01.md",
+      "sha256": "48b4ad3e43dafd9f7cea1eff18c7c20e231fb0625dfbc4e840a9b56ddbdb48eb",
+      "text": "# Worker handoff — label-trial/P001/T01 / A01\n\nThis is an assignment snapshot, not a second progress record. Follow the installed\nPlan Strata skill and its parallel-handoff guidance. Return the report to Manager.\n\n## Identity and baseline\n\n- Project and accessible workspace: label-trial at /private/tmp/plan-strata-parallel.jn8suh/trial/worker-T01\n- Task key (project / plan ID / task ID): label-trial/P001/T01\n- Attempt and assigned worker: A01 / worker-T01\n- Plan path and SHA-256: plans/ex-plans/P001/ex-plan-v0.1.0.md / f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\n- Source/input baseline and how to verify it: BASELINE.json pins the initial files; verify before writing\n- Skill location/version: /private/tmp/plan-strata-parallel.jn8suh/trial/skill (0.1.0-alpha.2 snapshot)\n- Manager and authoritative progress location: root; /private/tmp/plan-strata-parallel.jn8suh/trial/manager/plans/ex-plans/P001/progress.md\n\n## Read first\n\nSCENARIO.md, CONTRACT.md, plans/core/core-v0.1.0.md, plans/ex-plans/P001/ex-plan-v0.1.0.md section T01; relevant source and tests\n\n## Bounded task\n\nImplement normalize_labels in src/normalize.py to satisfy the frozen contract.\n\n- Required accepted inputs/dependencies: None; shared contract and tests are frozen and supplied\n- Allowed writes, including the attempt's evidence/report location: src/normalize.py, reports/T01/, observations/T01/ only\n- Shared interface and resource constraints: Read-only tests, other worker's source, and planning files; no shared mutable services\n- Verification and acceptance method: python3 -m unittest discover -s tests -p test_normalize.py -v; preserve actual output\n- Budget, stop/block conditions, and authorized external effects: One task/attempt, at most 3 task-test runs; no nested agents, network, installs, or other effects; report blocks\n\n## Return contract\n\nWrite reports/T01/A01.md with this identity and plan binding; changed paths; exact output\ncommit or file fingerprints and retrievable locations; commands, actual results\nand exit codes; deviations, blockers/running jobs, limitations, and next action.\nReturn artifacts for review. Manager maintains task state and acceptance.\n"
+    },
+    {
+      "path": "handoffs/T02-A01.md",
+      "sha256": "5ec03013ea484a9b9d5a2c4fa344334d52430a5f0c909539649f899d3f4083b1",
+      "text": "# Worker handoff — label-trial/P001/T02 / A01\n\nThis is an assignment snapshot, not a second progress record. Follow the installed\nPlan Strata skill and its parallel-handoff guidance. Return the report to Manager.\n\n## Identity and baseline\n\n- Project and accessible workspace: label-trial at /private/tmp/plan-strata-parallel.jn8suh/trial/worker-T02\n- Task key (project / plan ID / task ID): label-trial/P001/T02\n- Attempt and assigned worker: A01 / worker-T02\n- Plan path and SHA-256: plans/ex-plans/P001/ex-plan-v0.1.0.md / f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\n- Source/input baseline and how to verify it: BASELINE.json pins the initial files; verify before writing\n- Skill location/version: /private/tmp/plan-strata-parallel.jn8suh/trial/skill (0.1.0-alpha.2 snapshot)\n- Manager and authoritative progress location: root; /private/tmp/plan-strata-parallel.jn8suh/trial/manager/plans/ex-plans/P001/progress.md\n\n## Read first\n\nSCENARIO.md, CONTRACT.md, plans/core/core-v0.1.0.md, plans/ex-plans/P001/ex-plan-v0.1.0.md section T02; relevant source and tests\n\n## Bounded task\n\nImplement render_labels in src/render.py to satisfy the frozen contract.\n\n- Required accepted inputs/dependencies: None; shared contract and tests are frozen and supplied\n- Allowed writes, including the attempt's evidence/report location: src/render.py, reports/T02/, observations/T02/ only\n- Shared interface and resource constraints: Read-only tests, other worker's source, and planning files; no shared mutable services\n- Verification and acceptance method: python3 -m unittest discover -s tests -p test_render.py -v; preserve actual output\n- Budget, stop/block conditions, and authorized external effects: One task/attempt, at most 3 task-test runs; no nested agents, network, installs, or other effects; report blocks\n\n## Return contract\n\nWrite reports/T02/A01.md with this identity and plan binding; changed paths; exact output\ncommit or file fingerprints and retrievable locations; commands, actual results\nand exit codes; deviations, blockers/running jobs, limitations, and next action.\nReturn artifacts for review. Manager maintains task state and acceptance.\n"
+    },
+    {
+      "path": "observations/T01/baseline-fingerprints.json",
+      "sha256": "0aa4974c0ddb089145fa4de96628bba2e7857b28137cd399c629fc504abca48d",
+      "text": "[\n  {\n    \"path\": \"CONTRACT.md\",\n    \"sha256\": \"634b9f3dd3733fb6c82b75f1986d8b04b3f6399aa3fa0a4d22466111f578e5fe\"\n  },\n  {\n    \"path\": \"SCENARIO.md\",\n    \"sha256\": \"8a4aefb8eaf500a779a1af0766e52c471a05d1e0a22f038093d93e80a24d855d\"\n  },\n  {\n    \"path\": \"handoffs/T01-A01.md\",\n    \"sha256\": \"48b4ad3e43dafd9f7cea1eff18c7c20e231fb0625dfbc4e840a9b56ddbdb48eb\"\n  },\n  {\n    \"path\": \"handoffs/T02-A01.md\",\n    \"sha256\": \"5ec03013ea484a9b9d5a2c4fa344334d52430a5f0c909539649f899d3f4083b1\"\n  },\n  {\n    \"path\": \"plans/CURRENT.md\",\n    \"sha256\": \"dd433681e2a5b4c608f8c126942976119506f67d1a431bcf4403984641a183e5\"\n  },\n  {\n    \"path\": \"plans/core/core-v0.1.0.md\",\n    \"sha256\": \"294ae3503838d7124c38aa2dcc7f36fac3780ca031c757ede84f6547cc0d28aa\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n    \"sha256\": \"f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\"\n  },\n  {\n    \"path\": \"plans/ex-plans/P001/progress.md\",\n    \"sha256\": \"959d6863a47e421537e672c2f7869809616ba9d97f83122ec65cd0287732f0cf\"\n  },\n  {\n    \"path\": \"src/normalize.py\",\n    \"sha256\": \"fb0eee4aaa9e896f79be2def2670be34b5376ebf460c7d77292daafe187899ca\"\n  },\n  {\n    \"path\": \"src/pipeline.py\",\n    \"sha256\": \"e957a92ef19a16e4dea51e4e58b57a0604cc21c3b29c365c2215682b87b0a44d\"\n  },\n  {\n    \"path\": \"src/render.py\",\n    \"sha256\": \"95d8bba0faa0eaf8bdfd889e23d0ba92c9b9224b46fd651e417fa62c1b45c582\"\n  },\n  {\n    \"path\": \"tests/test_integration.py\",\n    \"sha256\": \"933ef838be6953c50fdd6ac2162c3617e036bd174898978b95e0055940a17f23\"\n  },\n  {\n    \"path\": \"tests/test_normalize.py\",\n    \"sha256\": \"a4c894badfd9a182c94460eafe82658613d635ec12f4f9a1f8c77c461f41c224\"\n  },\n  {\n    \"path\": \"tests/test_render.py\",\n    \"sha256\": \"e2e9e73ccce788cd88d672359a3d00711c773a46cb626c6e3a7d1de0ca713b46\"\n  }\n]\n"
+    },
+    {
+      "path": "observations/T01/records-validation.json",
+      "sha256": "936872ed1624f5e0fbd56587f3aee49386d95204f0191bfe42f29e50919df165",
+      "text": "{\n  \"schema\": 1,\n  \"status\": \"consistent\",\n  \"overall\": \"open\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"in_progress\",\n      \"effective_state\": \"in_progress\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"worker-T01\",\n      \"next\": \"Return reports/T01/A01.md for Manager review\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"in_progress\",\n      \"effective_state\": \"in_progress\",\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"owner\": \"worker-T02\",\n      \"next\": \"Return reports/T02/A01.md for Manager review\"\n    }\n  ],\n  \"current_plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"code\": \"INTEGRATION_OPEN\",\n      \"message\": \"An integration check is still required\"\n    }\n  ]\n}\n"
+    },
+    {
+      "path": "observations/T01/task-test-01.log",
+      "sha256": "f5471d9c58f8eb338445f5efb3a17f2ab89458edc5de5838ced22be8eb598f91",
+      "text": "test_contract (test_normalize.Checks.test_contract) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n"
+    },
+    {
+      "path": "plans/CURRENT.md",
+      "sha256": "dd433681e2a5b4c608f8c126942976119506f67d1a431bcf4403984641a183e5",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"current\",\n  \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n  \"plan_sha256\": \"f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\",\n  \"progress\": \"plans/ex-plans/P001/progress.md\"\n}\n---\n\n# Current\n\nSelected local trial.\n"
+    },
+    {
+      "path": "plans/core/core-v0.1.0.md",
+      "sha256": "294ae3503838d7124c38aa2dcc7f36fac3780ca031c757ede84f6547cc0d28aa",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"core\",\n  \"revision\": \"v0.1.0\"\n}\n---\n\n# Local handoff trial\n\nDeliver the frozen label formatter contract.\nTwo isolated workers, one terminal integrator, no external effects.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+      "sha256": "f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"plan\",\n  \"id\": \"P001\",\n  \"revision\": \"v0.1.0\",\n  \"core\": \"plans/core/core-v0.1.0.md\",\n  \"core_sha256\": \"294ae3503838d7124c38aa2dcc7f36fac3780ca031c757ede84f6547cc0d28aa\",\n  \"ready\": true,\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"T02\",\n      \"type\": \"development\",\n      \"depends_on\": []\n    }\n  ],\n  \"integration_required\": true\n}\n---\n\n# Parallel label formatter\n\n## T01\nImplement src/normalize.py against CONTRACT.md. Verify with\npython3 -m unittest discover -s tests -p test_normalize.py -v.\n\n## T02\nImplement src/render.py against CONTRACT.md. Verify with\npython3 -m unittest discover -s tests -p test_render.py -v.\n\nWorkers share read-only inputs but have distinct write scopes and no dependencies.\nManager alone updates progress; workers return reports and real logs.\n\n## Integration\nAfter Manager accepts both task deliveries, combine the exact\nfiles in an isolated directory and run python3 -m unittest discover -s tests -v.\nIntegrator may only add its report, log, and proposed integration check.\nA failure goes back to Manager; no source repair or external merge is authorized.\n"
+    },
+    {
+      "path": "plans/ex-plans/P001/progress.md",
+      "sha256": "959d6863a47e421537e672c2f7869809616ba9d97f83122ec65cd0287732f0cf",
+      "text": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"in_progress\",\n      \"owner\": \"worker-T01\",\n      \"next\": \"Return reports/T01/A01.md for Manager review\",\n      \"check\": null,\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"in_progress\",\n      \"owner\": \"worker-T02\",\n      \"next\": \"Return reports/T02/A01.md for Manager review\",\n      \"check\": null,\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867\"\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# Manager handoff\n\nAuthorized batch: T01 and T02, one local attempt A01 each.\nDispatch receipts: T01/A01 -> handoffs/T01-A01.md, worker-T01/;\nT02/A01 -> handoffs/T02-A01.md, worker-T02/. No background jobs yet.\nThese workspace names are relative to the trial directory. Manager owns progress.\n"
+    },
+    {
+      "path": "reports/T01/A01.md",
+      "sha256": "7494807473a975eefc11ef5bb8587b9fe69dc2de01ec58db9c7141b574962a16",
+      "text": "# T01 / A01 交付报告\n\n任务 `label-trial/P001/T01`，尝试 `A01`，执行者 `worker-T01`。\n工作目录：`/private/tmp/plan-strata-parallel.jn8suh/trial/worker-T01`。\n任务单：`handoffs/T01-A01.md`。\n使用技能：`/private/tmp/plan-strata-parallel.jn8suh/trial/skill`（0.1.0-alpha.2 快照）。\n\n绑定计划：`plans/ex-plans/P001/ex-plan-v0.1.0.md`；\nSHA-256：`f662fce2c36e9b2780eab31c940c651fb1d1c65f71ec186d4e4c8f81935e9867`。\n绑定 core：`plans/core/core-v0.1.0.md`；\nSHA-256：`294ae3503838d7124c38aa2dcc7f36fac3780ca031c757ede84f6547cc0d28aa`。\n\n已按冻结接口实现 `normalize_labels`：逐项去除两端空白并转小写，丢弃空字符串，保留原顺序和重复项，返回新列表。指定测试通过，交付等待 Manager 验收；集成检查尚待进行。\n\n基线与范围：写入前使用技能 fingerprint 命令核对 `BASELINE.json` 的全部 14 个文件，全部匹配，退出码 0。原始命令输出保存在 `observations/T01/baseline-fingerprints.json`。交付前再次计算这 14 个文件及日志的指纹，退出码 0；基线文件中仅 `src/normalize.py` 改变。未修改规划记录、冻结接口、测试或其他 Worker 的源码。\n\n全部改动路径：\n\n- `src/normalize.py`\n- `observations/T01/baseline-fingerprints.json`\n- `observations/T01/task-test-01.log`\n- `observations/T01/records-validation.json`\n- `reports/T01/A01.md`\n\n所有交付物均保留在以上工作目录，以下路径均相对该目录。实际文件指纹：\n\n| 文件 | SHA-256 |\n|---|---|\n| `src/normalize.py` | `ccbbd7eca36b8df3ce8699c90e47c182a07b45e77f5d755b3969599763348edf` |\n| `observations/T01/baseline-fingerprints.json` | `0aa4974c0ddb089145fa4de96628bba2e7857b28137cd399c629fc504abca48d` |\n| `observations/T01/task-test-01.log` | `f5471d9c58f8eb338445f5efb3a17f2ab89458edc5de5838ced22be8eb598f91` |\n| `observations/T01/records-validation.json` | `936872ed1624f5e0fbd56587f3aee49386d95204f0191bfe42f29e50919df165` |\n\n验收命令，在工作目录执行：\n\n```text\nenv PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_normalize.py -v\n```\n\n退出码 0；实际输出保存在 `observations/T01/task-test-01.log`：\n\n```text\ntest_contract (test_normalize.Checks.test_contract) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n```\n\n任务测试共运行 1 次，预算上限为 3 次。环境变量仅禁止写入 Python 字节码缓存，确保不产生范围外文件；使用的 unittest 参数与任务单一致。该测试覆盖去空白、转小写、移除空字符串、顺序和重复项、输入不变，以及空输入。\n\n记录校验命令：\n\n```text\npython3 -B /private/tmp/plan-strata-parallel.jn8suh/trial/skill/scripts/strata.py validate --project /private/tmp/plan-strata-parallel.jn8suh/trial/worker-T01\n```\n\n退出码 0，`status: consistent`、`overall: open`，无错误；唯一警告为 `INTEGRATION_OPEN`。完整实际输出保存在 `observations/T01/records-validation.json`。Worker 副本中的任务状态仍为 `in_progress`，Manager 保有更新进展与验收的权限。\n\n偏离与阻塞：无。运行中作业：无。所有命令已退出。外部影响：无；未访问主仓库，未使用网络、安装、Git、额外资源或其他 Agent。\n\n限制与下一步：本次证据只支持 T01 的指定验收范围；未运行整体验收。建议 Manager 核对任务绑定、允许的改动与实际证据，保留上述精确产物后创建适用的任务检查；任务交付被接受后，再按计划组织最终集成。\n"
+    },
+    {
+      "path": "src/normalize.py",
+      "sha256": "ccbbd7eca36b8df3ce8699c90e47c182a07b45e77f5d755b3969599763348edf",
+      "text": "def normalize_labels(values):\n    \"\"\"Return stripped, lowercase, nonempty labels in input order.\"\"\"\n    labels = []\n    for value in values:\n        label = value.strip().lower()\n        if label:\n            labels.append(label)\n    return labels\n"
+    },
+    {
+      "path": "src/pipeline.py",
+      "sha256": "e957a92ef19a16e4dea51e4e58b57a0604cc21c3b29c365c2215682b87b0a44d",
+      "text": "from src.normalize import normalize_labels\nfrom src.render import render_labels\n\ndef summarize_labels(values):\n    return render_labels(normalize_labels(values))\n"
+    },
+    {
+      "path": "src/render.py",
+      "sha256": "95d8bba0faa0eaf8bdfd889e23d0ba92c9b9224b46fd651e417fa62c1b45c582",
+      "text": "def render_labels(values):\n    raise NotImplementedError\n"
+    },
+    {
+      "path": "tests/test_integration.py",
+      "sha256": "933ef838be6953c50fdd6ac2162c3617e036bd174898978b95e0055940a17f23",
+      "text": "import unittest\nfrom src.pipeline import summarize_labels\n\nclass Checks(unittest.TestCase):\n    def test_contract(self):\n        self.assertEqual(summarize_labels([' Alpha ', '', 'BETA']), 'alpha, beta')\n        self.assertEqual(summarize_labels([' ', '']), '(empty)')\n"
+    },
+    {
+      "path": "tests/test_normalize.py",
+      "sha256": "a4c894badfd9a182c94460eafe82658613d635ec12f4f9a1f8c77c461f41c224",
+      "text": "import unittest\nfrom src.normalize import normalize_labels\n\nclass Checks(unittest.TestCase):\n    def test_contract(self):\n        values = [' A ', '', '  ', 'B', ' A ']\n        self.assertEqual(normalize_labels(values), ['a', 'b', 'a'])\n        self.assertEqual(values, [' A ', '', '  ', 'B', ' A '])\n        self.assertEqual(normalize_labels([]), [])\n"
+    },
+    {
+      "path": "tests/test_render.py",
+      "sha256": "e2e9e73ccce788cd88d672359a3d00711c773a46cb626c6e3a7d1de0ca713b46",
+      "text": "import unittest\nfrom src.render import render_labels\n\nclass Checks(unittest.TestCase):\n    def test_contract(self):\n        self.assertEqual(render_labels([' A ', 'B', 'B']), ' A , B, B')\n        self.assertEqual(render_labels([]), '(empty)')\n"
+    }
+  ],
+  "validation_exit_code": 0,
+  "validation": {
+    "schema": 1,
+    "status": "consistent",
+    "overall": "open",
+    "tasks": [
+      {
+        "id": "T01",
+        "state": "in_progress",
+        "effective_state": "in_progress",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "worker-T01",
+        "next": "Return reports/T01/A01.md for Manager review"
+      },
+      {
+        "id": "T02",
+        "state": "in_progress",
+        "effective_state": "in_progress",
+        "plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+        "owner": "worker-T02",
+        "next": "Return reports/T02/A01.md for Manager review"
+      }
+    ],
+    "current_plan": "plans/ex-plans/P001/ex-plan-v0.1.0.md",
+    "errors": [],
+    "warnings": [
+      {
+        "code": "INTEGRATION_OPEN",
+        "message": "An integration check is still required"
+      }
+    ]
+  },
+  "validation_stderr": "",
+  "limits": "A record of one observed workspace, not a success-rate estimate. Artifact prose is worker-authored; inspect the evidence itself."
+}

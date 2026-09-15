@@ -1,0 +1,30 @@
+{
+  "kind": "issue-cold-start-final-review",
+  "reviewer": "root (skill author, fixture preparer and independent delivery reviewer)",
+  "reviewed_at": "2026-09-07 11:43:41 UTC",
+  "worker": "/root/issue_worker_retry",
+  "attempt": "A02",
+  "manager_test": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_calc.py -v",
+    "workdir": "/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace",
+    "chunk_id": "4b9bd1",
+    "wall_time_seconds": 0.000008167,
+    "exit_code": 0,
+    "original_token_count": 68,
+    "output": "test_empty (test_calc.Checks.test_empty) ... ok\ntest_iterator (test_calc.Checks.test_iterator) ... ok\ntest_numbers_and_input (test_calc.Checks.test_numbers_and_input) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  "scope_and_git_inspection": {
+    "chunk_id": "ef906e",
+    "wall_time_seconds": 0.00000225,
+    "exit_code": 0,
+    "original_token_count": 276,
+    "output": "{\n  \"baseline\": \"659e5b8999440c06d3eb22ec86096e0ce6ca4f01\",\n  \"default_branch_head\": \"6dfc571e3f53f0ec2160902db658870e50660747\",\n  \"unchanged_baseline_files\": 6,\n  \"changed_or_added\": {\n    \"observations/T01/A02/baseline-and-scope.json\": \"ea509b54d881e75cdb958d4b69bd8430b446033c267609eddfcf0c3b97d9b85b\",\n    \"observations/T01/A02/scoped.diff\": \"9f7724899d9ce6ed7b3893d9209847f719b836d10d12830b5ad73c84fee03885\",\n    \"observations/T01/A02/verification-run-01.json\": \"17dda6cd586c66e396871d048ce680b9bae86fb55259353d9ad4ccfc22531df2\",\n    \"reports/T01/A02.md\": \"16455b52aa83ee33115d39bf609557a2b171c997aef12165f9577532092bca2b\",\n    \"src/calc.py\": \"3251dbf18617cd67c47707cb9bd1611dbac212ff0ee9814a75b8ce1f34b85aad\"\n  },\n  \"worktrees\": \"worktree /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/source\\nHEAD 659e5b8999440c06d3eb22ec86096e0ce6ca4f01\\ndetached\\n\\nworktree /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/workspace\\nHEAD 659e5b8999440c06d3eb22ec86096e0ce6ca4f01\\ndetached\\n\\n\",\n  \"a01_workspace_absent\": true,\n  \"t02_not_launched\": true,\n  \"verdict\": \"pass\"\n}\n"
+  },
+  "manager_progress_after_handoff": "---\n{\n  \"schema\": 1,\n  \"kind\": \"progress\",\n  \"plan_id\": \"P001\",\n  \"tasks\": [\n    {\n      \"id\": \"T01\",\n      \"state\": \"needs_review\",\n      \"owner\": \"/root/issue_worker_retry\",\n      \"next\": \"A02 delivery retained and cold-start evaluation inspected; no task acceptance/release recorded in this fixture\",\n      \"check\": null,\n      \"plan\": \"plans/ex-plans/P001/ex-plan-v0.1.0.md\",\n      \"plan_sha256\": \"e955f141ca48587eec388fbe57e91551e97edf3346a239db9885f7b221f67039\"\n    },\n    {\n      \"id\": \"T02\",\n      \"state\": \"planned\",\n      \"owner\": \"unassigned\",\n      \"next\": \"Manager to assign when inputs are ready\",\n      \"check\": null\n    }\n  ],\n  \"integration_check\": null\n}\n---\n\n# Manager progress\n\nRoot assigned T01/A01 to /root/issue_worker_trial before launch. No task is accepted.\nDispatch snapshot: /private/tmp/plan-strata-issue-cSe0N6/trial/outbox/T01-A01.md.\nOriginal Issue body SHA-256: a5db166e9a58e33a8866b4ff44e4a914c50e22733d74a36f641428702b185091.\nSource baseline: 659e5b8999440c06d3eb22ec86096e0ce6ca4f01.\nAllocated attempt area: /private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A01/.\nThe worker creates source/ and workspace/ there. Report: workspace/reports/T01/A01.md.\nCapacity: one local worker. Runtime handle: /root/issue_worker_trial.\nT02 remains unassigned and blocked on an accepted T01 delivery/check; it is not launched.\n\nRecovery: A01 ended without workspace creation, task writes, tests, or background jobs.\nRoot had combined an earlier cached Issue body with the final body's fingerprint.\nThe worker rejected that mismatch. Preserve outbox/T01-A01.md and the failed archive.\nRoot reread the frozen author's final body and assigned a new attempt A02 to\n/root/issue_worker_retry. Current dispatch: outbox/T01-A02.md. Current allocation:\n/private/tmp/plan-strata-issue-cSe0N6/trial/worker-area/T01/A02/ (source/ and workspace/).\nCurrent report: workspace/reports/T01/A02.md. Plan/source binding and task scope are\nunchanged. Original final Issue body SHA-256 remains a5db166e9a58e33a8866b4ff44e4a914c50e22733d74a36f641428702b185091.\nOnly A02 is active; /root/issue_worker_trial has ended. Runtime: /root/issue_worker_retry.\n\nFinal handoff: A02 has ended with no background jobs. Root received its report and\nretained source, checked all five changed/added artifacts and six unchanged baseline\nfiles, and independently reran the three task tests successfully (one Manager run,\ntwo behavioral runs including the worker's one run). The cold-start evaluation is\ncomplete; this fixture is not advanced through task acceptance or downstream release.\nT01 stays needs_review without a recorded task check; T02 stays unassigned/unreleased.\nNo agent or runtime is still active in this fixture.\n",
+  "method": "After worker completion, inspect actual worktree registration and HEAD; compare all baseline files except the allowed source change; match the exact five returned artifact hashes; verify the local source ref stayed unchanged and no T02/A01 workspace exists; rerun the assigned unittest command once.",
+  "verdict": "pass for the bounded cold-start handoff evaluation",
+  "failed_attempt_preserved": "evals/results/issue-cold-start-blocked-001.json",
+  "accepted_author_capture": "evals/results/issue-author-002.json",
+  "worker_capture": "evals/results/issue-worker-A02-001.json",
+  "limits": "Local bare Git and Markdown stand in for GitHub transport. No API posting, concurrent claim, downstream execution, source integration, production or research claim. Root prepared the fixture and reviewed the result; the author and two worker attempts had fresh context. A01 was stopped; only A02 completed task execution. The synthetic two-task project is deliberately not marked accepted/complete."
+}

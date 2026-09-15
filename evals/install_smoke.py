@@ -2,7 +2,6 @@
 """Check Skills CLI installation in temporary projects; never install globally."""
 
 import argparse
-import hashlib
 import json
 import os
 import shutil
@@ -22,7 +21,7 @@ INSTALLER = "skills@1.5.23"
 
 def snapshot(directory):
     return {
-        path.relative_to(directory).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        path.relative_to(directory).as_posix(): path.read_bytes()
         for path in sorted(directory.rglob("*"))
         if path.is_file() and "__pycache__" not in path.parts
     }
@@ -47,13 +46,8 @@ def main():
         "kind": "release-install-smoke", "created_at": datetime.now(timezone.utc).isoformat(),
         "installer": INSTALLER, "source": args.source, "status": "fail",
         "commands": [], "installations": [],
-        "subjects": [
-            {"path": f"skills/plan-strata/{path}", "sha256": digest}
-            for path, digest in expected.items()
-        ] + [
-            {"path": path, "sha256": hashlib.sha256((REPO / path).read_bytes()).hexdigest()}
-            for path in ("evals/install_smoke.py", "evals/prepare.py")
-        ],
+        "subjects": [f"skills/plan-strata/{path}" for path in expected]
+                    + ["evals/install_smoke.py", "evals/prepare.py"],
         "limits": "Checks package bytes and installed CLI behavior, not client discovery or agent behavior. "
                   "Temporary/source/interpreter paths in output are replaced with labels. "
                   "A local source does not test GitHub transport. No global skills are installed.",
@@ -86,15 +80,13 @@ def main():
                 validation = json.loads(run([sys.executable, script, "validate", "--project", "."], project))
                 if (validation["status"], validation["overall"]) != ("consistent", "open"):
                     raise RuntimeError(f"{agent}: unexpected validation result")
-                fingerprints = json.loads(run([sys.executable, script, "fingerprint", "--project",
-                                              str(installed), "SKILL.md"], project))
-                if fingerprints != [{"path": "SKILL.md", "sha256": expected["SKILL.md"]}]:
-                    raise RuntimeError(f"{agent}: installed fingerprint command differs")
+                if validation.get("validation_scope") != "structure_only" or validation.get("schema") != 2:
+                    raise RuntimeError(f"{agent}: installed validator uses an unexpected protocol")
                 after = snapshot(project)
-                if any(after.get(path) != digest for path, digest in before.items()):
+                if any(after.get(path) != content for path, content in before.items()):
                     raise RuntimeError(f"{agent}: existing project files changed")
                 report["installations"].append({"agent": agent, "path": relative,
-                                                "files": actual, "validation": validation,
+                                                "files": list(actual), "validation": validation,
                                                 "existing_project_unchanged": True})
             report["status"] = "pass"
         except (OSError, RuntimeError, ValueError, subprocess.TimeoutExpired) as error:

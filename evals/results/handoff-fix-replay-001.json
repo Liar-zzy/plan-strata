@@ -1,0 +1,36 @@
+{
+  "kind": "original-adversarial-probe-replay",
+  "source_sha256": "4f892bbb14010a16b941a40e312623e8262920e92a43795b403e8ba5afa6b841",
+  "method": "Run each original probe section unchanged in isolation, catching the newly expected rejection. Fixture setup uses current code.",
+  "results": [
+    {
+      "case": "receiver_before_collect",
+      "outcome": "rejected_before_acceptance",
+      "diagnostic": "Manager baseline changed; preserve this trial and review the receiving inputs/progress"
+    },
+    {
+      "case": "receiver_before_finish",
+      "outcome": "rejected_before_acceptance",
+      "diagnostic": "Manager baseline changed; preserve this trial and review the receiving inputs/progress"
+    },
+    {
+      "case": "reserved_integration_task_id_collides_with_gate",
+      "status": "invalid",
+      "overall": "open",
+      "errors": [
+        {
+          "code": "RESERVED_TASK_ID",
+          "message": "plans/ex-plans/P001/ex-plan-v0.1.0.md: integration is reserved for the terminal check"
+        }
+      ],
+      "research_metadata_present": false,
+      "same_check_used_for_task_and_integration": true
+    }
+  ],
+  "limits": "Three deterministic synthetic probes, not fresh agent behavior or research validation.",
+  "regression_tests": [
+    "tests/test_parallel_trial.py:test_collection_rejects_weakened_manager_test_before_any_write",
+    "tests/test_parallel_trial.py:test_finish_rejects_added_deleted_or_changed_manager_inputs_before_any_write",
+    "tests/test_workflow.py:test_integration_is_reserved_and_cannot_bypass_research_acceptance"
+  ]
+}

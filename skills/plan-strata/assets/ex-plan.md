@@ -1,12 +1,13 @@
 ---
-{"schema":1,"kind":"plan","id":"P001","revision":"v0.1.0","core":"plans/core/core-v0.1.0.md","core_sha256":"REPLACE_WITH_HASH","ready":false,"tasks":[{"id":"T01","type":"development","depends_on":[]}],"integration_required":false}
+{"schema":2,"kind":"plan","id":"P001","revision":"v0.1.0","core":"plans/core/core-v0.1.0.md","ready":false,"tasks":[{"id":"T01","type":"development","depends_on":[]}],"integration_required":false}
 ---
 
 # P001 — Bounded iteration
 
-## Outcome and budget
+## Outcome and constraints
 
-Specify this round's useful outcome, limits, and stopping rule.
+Specify this round's useful outcome and applicable resource/stop boundaries.
+Leave implementation choices flexible within the commitments below.
 
 ## T01
 

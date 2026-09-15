@@ -2,7 +2,6 @@
 """Generate small isolated workflow scenarios. Fixtures are explicitly synthetic."""
 
 import argparse
-import hashlib
 import json
 import subprocess
 import sys
@@ -32,14 +31,6 @@ def read_record(root, path):
     return json.loads(metadata), body.strip()
 
 
-def sha(root, path):
-    return hashlib.sha256((root / path).read_bytes()).hexdigest()
-
-
-def ref(root, path):
-    return {"path": path, "sha256": sha(root, path)}
-
-
 def observe(root, command, log):
     result = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
     write(root, log, "$ " + " ".join(command) + "\n" + result.stdout + result.stderr
@@ -50,15 +41,14 @@ def observe(root, command, log):
 def task_row(root, task_id, state, next_action, check=None):
     row = {"id": task_id, "state": state, "owner": "fixture-worker", "next": next_action, "check": check}
     if state != "planned":
-        row.update(plan=PLAN, plan_sha256=sha(root, PLAN))
+        row.update(plan=PLAN)
     return row
 
 
 def check_record(root, path, task_id, subjects, evidence, verdict="pass", research=None):
-    data = {"schema": 1, "kind": "check", "id": Path(path).stem, "task": task_id,
-            "plan": PLAN, "plan_sha256": sha(root, PLAN), "verdict": verdict,
-            "subjects": [ref(root, p) for p in subjects],
-            "evidence": [ref(root, p) for p in evidence]}
+    data = {"schema": 2, "kind": "check", "id": Path(path).stem, "task": task_id,
+            "plan": PLAN, "verdict": verdict,
+            "subjects": list(subjects), "evidence": list(evidence)}
     if research is not None:
         data["research"] = research
     record(root, path, data,
@@ -75,7 +65,7 @@ def make_case(destination, case):
     write(root, "SCENARIO.md", "# Synthetic workflow fixture\n\n"
           "Files describe a deliberately small demonstration project. Any research\n"
           "data are synthetic. Commands and logs can be verified locally.\n")
-    record(root, CORE, {"schema": 1, "kind": "core", "revision": "v0.1.0"},
+    record(root, CORE, {"schema": 2, "kind": "core", "revision": "v0.1.0"},
            "# Core\n\nComplete a bounded demonstration and retain accurate evidence.\n"
            "Use local files only. No new dependencies, external services, or real experiments.\n")
     research_case = case == "research"
@@ -99,8 +89,8 @@ def make_case(destination, case):
             "Keep the existing arithmetic behavior.\n\n"
             "## Integration\nWhen integration is required, verify the public wrapper\n"
             "using python3 tests/check_integration.py. Local task success alone is insufficient.\n")
-    record(root, PLAN, {"schema": 1, "kind": "plan", "id": "P001", "revision": "v0.1.0",
-                       "core": CORE, "core_sha256": sha(root, CORE), "ready": True,
+    record(root, PLAN, {"schema": 2, "kind": "plan", "id": "P001", "revision": "v0.1.0",
+                       "core": CORE, "ready": True,
                        "tasks": tasks, "integration_required": case == "integration"}, body)
     integration_check = None
     if research_case:
@@ -156,13 +146,13 @@ def make_case(destination, case):
             integration_check = "plans/ex-plans/P001/check/integration-check-001.md"
             check_record(root, integration_check, "integration", ["src/calc.py", "src/public.py",
                          "tests/check_integration.py"], ["observations/integration.log"], "fail")
-    record(root, PROGRESS, {"schema": 1, "kind": "progress", "plan_id": "P001",
+    record(root, PROGRESS, {"schema": 2, "kind": "progress", "plan_id": "P001",
                            "tasks": rows, "integration_check": integration_check},
            "# Handoff\n\nRead the task metadata and relevant observation files.\n"
            "There are no background jobs. Synthetic fixture preparation produced the existing files.\n")
     selected = "plans/ex-plans/P001/ex-plan-v0.2.0.md" if case == "switch" else PLAN
-    record(root, "plans/CURRENT.md", {"schema": 1, "kind": "current", "plan": selected,
-                                      "plan_sha256": sha(root, selected), "progress": PROGRESS},
+    record(root, "plans/CURRENT.md", {"schema": 2, "kind": "current", "plan": selected,
+                                      "progress": PROGRESS},
            "# Current\n\nSelected for this bounded synthetic demonstration.\n")
     return root
 

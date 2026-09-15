@@ -6,3 +6,4 @@ __pycache__/
 .first-use.*/
 # Original private design conversation stays local.
 agent-plan-session-export/
+feedback
