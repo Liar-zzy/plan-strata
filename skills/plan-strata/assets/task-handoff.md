@@ -1,38 +1,30 @@
 # Worker handoff — {{task_key}} / {{attempt}}
 
-Use this as the Issue body, delegation message, or local packet. Follow the
-specified Plan Strata skill and its parallel-handoff guidance. Retain a snapshot
-at dispatch; Manager maintains live progress. Return the report to Manager.
+Optional fallback: an existing host assignment and bound task card can supply this
+contract directly. Follow {{skill}}; retain the dispatched assignment revision.
 
-## Identity and baseline
+## Assignment
 
-- Repository/source access and workspace or creation instructions: {{project}}
-- Task key (project / plan ID / task ID): {{task_key}}
-- Attempt and worker, or coordinator and allocation procedure: {{attempt}} / {{worker}}
-- Versioned plan path: {{plan}}
-- Source/input baseline, retrieval, and verification: {{baseline}}
-- Skill location/version: {{skill}}
-- Manager and authoritative progress location: {{manager}}
-
-## Read first
-
-{{context}}
-
-## Bounded task
+- Source access and workspace/location or creation instructions: {{project}}
+- Worker, or allocating coordinator and pickup procedure: {{worker}}
+- Plan binding: {{plan}}
+- Retrievable source/input baseline, including relevant dirty inputs: {{baseline}}
+- Manager, designated progress writer, and record location: {{manager}}
+- Relevant context not already recovered: {{context}}
 
 {{objective}}
 
-- Input/dependency readiness, accepted versions, and any release conditions: {{dependencies}}
-- Allowed writes, including the attempt's evidence/report location: {{write_scope}}
-- Shared interface and resource constraints: {{constraints}}
-- Verification and acceptance method: {{acceptance}}
-- Budget for implementation/self-checks and any finite review/repair allowance;
-  stop/block conditions and authorized external effects: {{budget}}
+- Inputs, accepted dependency versions, and release conditions: {{dependencies}}
+- Allowed writes and report/evidence locations: {{write_scope}}
+- Shared interfaces/resources and other constraints: {{constraints}}
+- Acceptance and verification: {{acceptance}}
+- Applicable user/host limits, stop conditions, and external permissions: {{budget}}
 
-## Return contract
+## Return
 
-Write {{report}} with this identity and plan binding; changed paths; exact output
-versions and retrievable locations (existing Git commit/diff when useful); commands, actual results
-and exit codes; this attempt's budget usage in the agreed units (mark unknowns);
-deviations, blockers/running jobs, limitations, and next action.
-Return artifacts for review. Manager maintains task state and acceptance.
+Return via {{report}}: task/attempt, delivery revision and binding; changed paths
+and retrievable versions; actual checks/results/exit codes; limitations and next
+recommendation. Include usage where budgeted and any unfinished job handles/outputs.
+This completes the Worker delivery for review, not task acceptance. Continue
+authorized repairs under the same assignment with new delivery/report versions;
+preserve earlier returns. Only the designated writer updates progress.

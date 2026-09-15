@@ -4,9 +4,10 @@
 
 # P001 — Bounded iteration
 
-## Outcome and budget
+## Outcome and constraints
 
-Specify this round's useful outcome, limits, and stopping rule.
+Specify this round's useful outcome and applicable resource/stop boundaries.
+Leave implementation choices flexible within the commitments below.
 
 ## T01
 

@@ -2,27 +2,30 @@
 
 ## Files and authority
 
-Default layout: `plans/CURRENT.md`, `plans/core/core-v0.1.0.md`, and
-`plans/ex-plans/P001/{ex-plan-v0.1.0.md,progress.md,check/}`. Create checks and
-worker reports when needed. One P-number identifies a bounded iteration;
-iteration IDs, plan revisions, software releases, and skill releases differ.
+Prefer the project's existing task cards, PR/CI evidence, and progress records.
+Use their declared bindings and acceptance conventions; do not migrate or duplicate
+status merely to adopt this skill. The bundled format below is an optional adapter,
+not a claim that the validator understands alternative formats.
 
-CURRENT selects the default plan and progress for new work. The plan references
-core and defines tasks. Progress owns task state, owner, next action, bound plan,
-and applicable check. A check records evidence and verdict. Prose explains these
-records without a second status table. One Manager writes authoritative progress.
+Bundled layout: `plans/CURRENT.md`, `plans/core/core-v0.1.0.md`, and
+`plans/ex-plans/P001/{ex-plan-v0.1.0.md,progress.md,check/}`. Templates:
+[core](../assets/core.md), [plan](../assets/ex-plan.md), [progress](../assets/progress.md),
+[pointer](../assets/CURRENT.md), [check](../assets/check.md). Reuse an unchanged core.
+CURRENT selects new managed work; plan defines tasks; progress alone owns live
+state; checks record scoped evidence. P-numbers identify iterations, not plan or
+software revisions. All writes follow [role authority](../SKILL.md#scope-and-authority).
 
 ## Portable metadata
 
-Templates use **JSON between `---` delimiters**, followed by Markdown. This YAML
-subset needs only Python's standard library. Ordinary YAML in existing project
-records is outside this parser; SKILL.md uses ordinary Agent Skills YAML.
+Bundled records use **JSON between `---` delimiters**, followed by Markdown.
+This YAML subset needs only Python's standard library; arbitrary project YAML is
+outside the parser. SKILL.md itself uses ordinary Agent Skills YAML.
 
 All records have integer `schema: 2` and `kind`. Paths are project-relative POSIX
 file paths without `..`. The helper checks existing regular files and symlink
-containment; it does not execute commands or follow network references. For large
-or external artifacts, a local note may list durable locations and versions.
-A reviewer must inspect those artifacts separately.
+containment, not network references. For external artifacts, a local note may
+identify durable locations/versions; reviewers still inspect those artifacts.
+Using existing remote evidence does not remove bundled local record requirements.
 
 | Kind | Required metadata beyond schema and kind |
 |---|---|
@@ -33,107 +36,116 @@ A reviewer must inspect those artifacts separately.
 | `check` | `id`, `task`, `plan`, `verdict`, `subjects`, `evidence` |
 
 A plan task has `id`, `type` (`development` or `research`), and `depends_on`
-(task IDs). The exact ID `integration` is reserved for terminal checks, not plan
-tasks. Task prose defines inputs, outputs, scope, budget, and acceptance.
+(task IDs). Reserve `integration` for check.task, not plan tasks. Prose specifies
+inputs, outcome, scope, acceptance, and applicable resource limits.
+A progress task has `id`, `state`, `owner`, `next`, `check` (path or null), and,
+once started, `plan` identifying the versioned plan file.
 
-A progress task has `id`, `state`, `owner`, `next`, and `check` (path or null).
-Once started, it also has `plan`, identifying the versioned plan file. Keep this
-binding for completed/cancelled tasks and across later CURRENT changes. The bound
-plan references its versioned core. Paths identify the intended revision; the
-helper cannot detect in-place edits to its contents.
-
-Check `task` is a task ID or `integration`. `verdict` is `pass`, `fail`, or
-`inconclusive` about the stated acceptance method. `subjects` and `evidence`
-are nonempty lists of path strings, for example:
+Check `task` is a task ID or `integration`; `verdict` is `pass`, `fail`, or
+`inconclusive` about acceptance. `subjects` and `evidence` are nonempty path lists:
 
 ```json
 {"subjects":["src/calc.py","tests/check_total.py"],"evidence":["observations/total-001.log"]}
 ```
 
-Subjects identify what was inspected; evidence identifies actual logs, review
-notes, or observations. No duplicate paths within a list or self-reference to the
-check file. List relevant inputs explicitly; the helper does not expand manifests
-or discover omitted code, tests, configuration, or dependencies. Live progress is
-not a frozen input. Check prose records reviewer, date, method/command, actual
-results (including exit codes when applicable), limitations, and next decision.
+Subjects identify inspected inputs; evidence identifies actual logs/observations.
+No duplicate paths within a list or self-reference to the check, including aliases.
+List relevant inputs explicitly: the helper neither expands manifests nor discovers
+omissions. Mutable progress is not a frozen subject. Check prose records reviewer,
+date, method/command, actual results/exit codes, limitations, and next decision.
 
-Research checks also have `research`: `mode` (`exploratory` or `confirmatory`),
+Research checks additionally have `research.mode` (`exploratory` or `confirmatory`),
 `finding` (`supported`, `not_supported`, `inconclusive`), and `decision`
-(`continue`, `diagnose`, `revise`, `stop`). A valid negative finding can pass
-acceptance; these labels do not replace a scientific argument.
+(`continue`, `diagnose`, `revise`, `stop`) in the `research` object.
+A valid negative/inconclusive finding can pass; labels do not replace an argument.
 
-## State, change, and recovery
+## Acceptance
+
+Use the project's proportionate test/build/review method and inspect actual evidence.
+Documentation can use a documented review; no artificial runtime test is needed.
+Identify the tested state, including relevant dirty/untracked inputs—a commit alone
+may not identify it. Git, extra commits, full-workspace snapshots, and hashes are
+not required. Preserve retrievable delivery versions appropriate to the risk.
+
+An authorized Manager accepts; the designated writer records `done` with a
+current-plan passing check and completed dependencies. Worker delivery or a
+Reviewer verdict alone is not acceptance. Overall acceptance additionally needs a
+passing integration check when required or supplied; existing CI can verify the
+final combined state. The validator checks records, not authority or execution.
+
+## State and recovery
 
 States: `planned`, `in_progress`, `blocked`, `needs_review`, `done`, `cancelled`.
-A block retains the binding and reason; a repair can return to in_progress.
-All current plan tasks need progress rows. Historical rows can remain.
-An older running binding produces a warning; decide whether to finish it or
-explicitly reassign it. An older accepted result does not satisfy a new revision:
-assess reuse in a new check bound to that revision, citing the old check in prose.
+All current tasks need progress rows; historical rows can remain. A block retains
+binding/reason and affects the whole task only when its acceptance-critical path
+cannot proceed. Repair can return it to `in_progress`.
 
-`done` requires a current-plan passing check, available subject/evidence paths,
-and completed dependencies. These are recorded conditions, not proof of execution.
-
-After relevant code, tests, data, configuration, or acceptance changes, Manager
-explicitly reopens affected tasks as `needs_review`. Clear an affected
-`integration_check` to null and retain its previous reference in progress prose.
-Preserve old checks/logs; rerun affected verification and add a new check before
-accepting again. Unrelated edits need not reopen acceptance. The helper cannot
-detect content changes, determine relevance, or enforce this review step.
-
-Use existing Git versions/diffs when useful. Git is optional: normal single-agent
-work needs no extra commit, full-workspace snapshot, or content digest for record
-bookkeeping. Retain retrievable versions of important deliveries in proportion to
-risk; concurrent handoffs additionally follow the isolation/collection guidance.
+An older running binding warns; decide whether to finish or explicitly reassign.
+An older accepted result does not satisfy a new revision without a new reuse check
+bound to that revision, citing the old check. After relevant code, tests, data,
+configuration, or criteria changes, the writer sets affected tasks to `needs_review`,
+clears an affected `integration_check` to null, and retains the old reference in
+progress prose. Preserve checks/logs; rerun affected verification and add a new
+check before accepting again. Unrelated changes need not reopen acceptance.
 
 ## Revisions and selection
 
-Keep used core/plan revisions unchanged and available. For changed scope,
-dependencies, methods, or acceptance, add a new versioned file with the reason,
-predecessor, affected tasks, and reuse decisions. Ordinary execution updates
-progress. Cosmetic notes can go in progress without rewriting the bound plan.
+Keep used core/plan revisions unchanged and available. Revise committed scope,
+acceptance, key interfaces/dependencies, resource boundaries, or fixed research
+methods in a new file with reason, predecessor, affected tasks, and reuse decisions.
+Implementation choices, debug order, and test strategy can evolve within those
+commitments without a revision; record useful execution notes in progress.
+Change core only for changed project intent or key constraints.
 
-Prepare new files first, then select the ready plan by replacing CURRENT metadata
-in one edit. Higher-numbered drafts remain inactive. `ready: true` means the plan
-is specified, not that new authority has been granted. Selection does not rebind
-running work. Reconcile pending work and previous acceptance deliberately.
+Prepare new records, then select a ready plan by replacing CURRENT metadata in one
+edit. Higher-numbered drafts stay inactive. `ready` means specified, not authorized.
+Selection does not rebind running work; reconcile affected work/acceptance explicitly.
+
+## Plan bindings
+
+Retain each started task's declared immutable binding, including completed/cancelled
+tasks and across CURRENT changes. Bundled schema 2 uses the versioned plan path and
+referenced core; keep both unchanged and available. Paths do not prove immutability.
+An alternative format can use its retained task-card revision or fixed repository
+reference. Disclose missing bindings; do not invent hashes or silently migrate.
 
 ## Reading validation output
 
-`validate` is read-only. Every validation result reports
-`schema: 2` and `validation_scope: structure_only`.
+```text
+python3 <skill-directory>/scripts/strata.py validate --project <project-directory>
+```
+
+This optional command is read-only. Report inconsistencies first; repair only within
+the current role/write scope. Check alternative formats manually and disclose that
+the bundled validator was not used on them. Results include `schema: 2` and
+`validation_scope: structure_only`.
 
 | Exit | Meaning | Output |
 |---|---|---|
-| `0` | No record errors; warnings or unfinished work may remain | JSON stdout, `status: consistent` |
-| `1` | Invalid records/references, including missing/invalid CURRENT | JSON stdout, `status: invalid`, `overall: open` |
-| `2` | Invalid CLI arguments or unusable project root | stderr diagnostic; no validation JSON |
+| `0` | No record errors; warnings/unfinished work may remain | JSON stdout, `status: consistent` |
+| `1` | Invalid records/references, including invalid CURRENT | JSON stdout, `status: invalid`, `overall: open` |
+| `2` | Invalid arguments or unusable project root | stderr diagnostic; no validation result |
 
-Project-root failures emit an error JSON; argument errors use argparse text.
-Help exits 0 with text. Missing subject/evidence paths supporting a done task are
-errors; on an open task they are warnings. A failed or incomplete integration
-check keeps overall open without treating a valid failure record as malformed.
+Root failures emit error JSON on stderr; argument errors use argparse text.
+Help exits 0 with text. Missing subject/evidence paths are errors for done tasks,
+warnings for open tasks. A valid failed/incomplete integration check keeps overall
+open without being malformed. Only selected/bound records and referenced checks
+are inspected, not all historical files.
 
-`overall: accepted` means all current tasks are recorded done with eligible
-checks, plus a passing integration check when required or supplied. Otherwise
-overall is `open`; invalid records always stay open. Only selected/bound records
-and referenced checks are inspected, not every historical file.
-
-Neither `consistent` nor `accepted` proves that tests ran, inputs are unchanged,
-evidence is truthful, test coverage is adequate, or research claims are valid.
-The helper reads planning/check records, not artifact contents, and computes no
-hashes. Review actual results before declaring completion.
+`overall: accepted` means all current tasks have eligible recorded acceptance and
+any required/supplied integration check passes; otherwise overall is `open`.
+Neither `consistent` nor `accepted` proves unchanged inputs, actual/sufficient tests,
+truthful evidence, or valid research claims. The helper reads records, not artifact
+contents, and computes no hashes. Review actual results before declaring completion.
 
 ## Migration from v1
 
-Skill 0.2.0-alpha.1 introduces this breaking schema. The `fingerprint` command and
-digest fields are removed; `overall: verified` becomes `overall: accepted`.
-Schema 1 and mixed active records are rejected with `UNSUPPORTED_SCHEMA`, rather
-than silently interpreting old acceptance under weaker rules.
+Skill 0.2.0-alpha.1 removes `fingerprint` and digest fields; `overall: verified`
+becomes `overall: accepted`. Schema 1/mixed active records fail with
+`UNSUPPORTED_SCHEMA`; no silent migration.
 
-Preserve old plans, checks, and evidence. Finish an active legacy iteration with
-its matching skill/validator, or deliberately close/hand it off and start a new
-schema 2 iteration from the templates. Reconcile running jobs/ownership first.
-Use a new versioned core, select the new plan explicitly, and recheck any reused
-delivery under it. Do not simply change old schema numbers or rewrite old verdicts.
-Unreferenced legacy history can remain in the project without blocking v2.
+Preserve history. Finish legacy work with its matching skill/validator, or
+deliberately close/hand it off and start schema 2 with a new versioned core and
+explicit plan selection. Reconcile running jobs/ownership and recheck reused
+deliveries. Do not relabel old schemas or verdicts. Unreferenced legacy history
+does not block v2.

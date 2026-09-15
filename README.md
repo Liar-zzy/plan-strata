@@ -107,23 +107,30 @@ the agent to load `plan-strata`. For example:
 > Use $plan-strata to recover this project's current iteration from its files,
 > then continue the next authorized task and leave a checked handoff.
 
-The agent writes project records in your language. You provide the scope and
-resource limits; the skill guides the file and evidence bookkeeping. Ordinary
-questions and isolated small edits usually do not need a planning directory.
+The agent writes project records in your language. Use the skill when explicitly
+establishing Plan Strata planning or executing, resuming, revising, or accepting work it
+already manages. Unbound questions, diagnosis, and small edits do not trigger it.
+The current request or an assignment traceable to an approved batch supplies
+authority within its scope; CURRENT, `ready`, and tool availability do not.
 
-For implementation, you can include a finite repair allowance in the same task:
+Implementation and in-scope repair can remain one task:
 
 > Complete the agreed capability, self-check it, and fix defects against its
-> existing acceptance criteria within at most two review/repair rounds and the
-> agreed resource budget. Report back when accepted, blocked, or at that limit.
-> Keep new requirements separate; do not push or publish.
+> existing acceptance criteria. Continue within the current scope and resource
+> limits; report the result or a blocker needing my decision. Keep new requirements
+> separate; do not push or publish.
 
-Internal patches do not each require a new plan, report, or human approval.
-Already returned deliveries and checks stay frozen; changed inspected inputs need
-fresh verification even if the verdict remains `pass`. This does not enable
-parallel work. See [bounded repair](skills/plan-strata/references/repair-loop.md).
+Ordinary local repair needs no invented round/test quota or budget ledger; explicit
+limits and material resource use still have boundaries. The same worker can continue
+under the same assignment, returning new delivery versions without redispatch.
+Preserve earlier deliveries/checks and reverify changed inputs. See
+[repair and delivery](skills/plan-strata/references/repair-loop.md).
 
 ## How the records fit together
+
+Prefer existing project task cards, PR/CI evidence, and progress records. The table
+describes the optional bundled format; it is not a second tracking system to add
+alongside them. Alternative formats are checked manually, not by the bundled parser.
 
 | Record | Owns |
 |---|---|
@@ -131,67 +138,64 @@ parallel work. See [bounded repair](skills/plan-strata/references/repair-loop.md
 | `ex-plan` | One iteration's tasks, dependencies, methods, and acceptance criteria |
 | `progress` | Live state, owner, exact execution binding, next action, and check reference |
 | `check/` | Inspected artifacts, evidence, scoped verdict, and limitations |
-| `CURRENT.md` | The explicitly selected entry point for new work |
+| `CURRENT.md` | The explicitly selected entry point for new Plan-Strata-managed work |
 
-A task binds to an exact plan when it starts. Switching `CURRENT.md` does not
-silently reassign running tasks. After relevant inputs change, the agent explicitly
-reopens affected acceptance and reruns checks; the validator cannot detect those
-changes. Integration can remain open even when individual tasks pass.
+A task retains its declared plan binding when it starts: a versioned plan path
+in bundled schema 2, or the project's explicit alternative. No hashes are required
+by schema 2. Switching `CURRENT.md` does not silently reassign running tasks.
+After relevant inputs change, the designated writer reopens affected acceptance;
+authorized reviewers rerun checks. The validator cannot detect those changes.
+Integration can remain open even when individual tasks pass.
 A valid research activity can finish with a negative or inconclusive finding.
 
-The [protocol](skills/plan-strata/references/protocol.md) defines the records;
-[development](skills/plan-strata/references/development.md) and
-[research](skills/plan-strata/references/research.md) guidance define acceptance.
+Recover missing or stale context, not the entire record set on every turn.
+Implementation, debugging, and test choices can evolve within committed scope,
+acceptance, interfaces/dependencies, and resource boundaries. Revise the plan only
+when those commitments or fixed research methods change; reuse an unchanged core.
+
+See the [protocol](skills/plan-strata/references/protocol.md) for records and
+[acceptance](skills/plan-strata/references/protocol.md#acceptance) for reviews;
+[research guidance](skills/plan-strata/references/research.md) adds research-specific rules.
 
 ## Optional parallel handoffs
 
-**Parallel execution is off by default.** Loading Plan Strata or detecting Git
-does not enable it. Once the skill is installed and available, ask in natural
-language; no extra skill configuration is needed. For example:
+Parallel execution is off unless explicitly authorized for the iteration/batch.
+An approved assignment reuses that authority; a proposal request does not authorize
+dispatch. No extra skill switch is needed. For example:
 
 > Use $plan-strata and enable parallel handoffs for this iteration. Delegate ready,
-> independent tasks to at most two local workers in isolated workspaces. You are
-> the Manager: inspect their deliveries, arrange final integration, then report
-> back. Keep all work local; do not create Issues, push, or merge the default branch.
+> independent tasks to at most two local workers. You are the Manager: inspect
+> deliveries and verify the final combined state. Keep work local; do not create
+> Issues, push, or merge the default branch.
 
-This enables only the stated iteration/batch. Resolve missing task boundaries or
-budgets before dispatch. Git commands and subagents use the host's available tools
-and permissions; the skill does not enable missing runtime capabilities. If
-delegation is unavailable, the agent can offer manual packets or sequential work.
+Use the host's available tools and allocation adapter. A host assignment message
+plus its bound task card can be the complete handoff, without another packet.
+When an existing adapter guarantees exclusive allocation, the designated writer
+records the receipt after the host returns the Agent ID; otherwise record allocation
+before execution. Shared interfaces, conflicting writes, and actual resource limits
+still need coordination. If delegation is unavailable, use an authorized manual
+handoff or sequential execution.
 
-Choose delegation when tasks have ready inputs, settled shared interfaces, and
-isolated write scopes. A Manager assigns bounded task packets, workers return
-artifacts and evidence, and a terminal Integrator checks the combined delivery.
-Manager alone maintains progress and decides final acceptance.
+Workers return artifacts, self-checks, and reports ready for review; Reviewers
+complete scoped checks. Only an authorized Manager accepts; only the designated
+writer updates progress (Manager by default). One agent may fill authorized roles.
+Existing CI or a suitable environment can verify the final combined state without
+a separate Integrator agent or workspace; actual write conflicts still need isolation.
 
-> Use $plan-strata to assess independent tasks in the current ready ex-plan.
-> First draft a parallel handoff proposal with write scopes, dependencies, and a
-> shared resource budget. Let me choose the workers and delivery channel before
-> dispatch. Keep final integration and the Manager's handoff explicit.
+This mode covers one ex-plan and does not require Git/GitHub. An Issue can carry
+the executable task contract with fixed, accessible references. Completeness,
+dependency readiness, and allocation are distinct; a packet or Issue does not
+launch an agent. External posting, paid jobs, and merges require their own authority.
 
-If you only want to evaluate the option, ask for the proposal above; that does not
-authorize dispatch. This mode is limited initially to one ex-plan and needs no Git or GitHub.
-Local packets, host delegation messages, and reviewed Issues carry the same task
-contract. For Issue dispatch, the Issue itself contains the executable brief;
-detailed plans can be linked at fixed, accessible versions. A fresh agent should
-be able to create its worktree from the pinned baseline and perform the task
-without waiting for another brief. A complete task may be unclaimed or blocked
-on dependencies: state those conditions separately, and confirm assignment before
-execution. A packet or Issue does not launch an agent. Execution still uses the
-host's available tools and permissions. The default workflow is unchanged.
+Pause only actions affected by missing inputs, scope conflicts, or new authority;
+continue independent authorized work. Block the task only when its acceptance-critical
+path cannot proceed. Explicit stops and shared resource limits still apply.
 
-An explicit user assignment can identify the worker without a second brief or
-repeat approval. Manager normally records ownership before execution. Delayed
-progress recording needs an explicit coordination agreement that prevents duplicate
-dispatch; a worktree or stale `planned` row is not a claim lock. See
-[ownership and bookkeeping](skills/plan-strata/references/parallel-handoff.md#ownership-and-progress-bookkeeping).
-
-See the [handoff guidance](skills/plan-strata/references/parallel-handoff.md),
-[worker packet](skills/plan-strata/assets/task-handoff.md), and
-[integration packet](skills/plan-strata/assets/integration-handoff.md).
+See [handoff guidance](skills/plan-strata/references/parallel-handoff.md) and the
+optional [worker](skills/plan-strata/assets/task-handoff.md) /
+[integration](skills/plan-strata/assets/integration-handoff.md) templates.
 Contributors can [rebuild the local two-worker trial](evals/README.md#parallel-handoff-trial).
-These Markdown packets are agent guidance, not new machine-validated records or
-a bundled scheduler. External posting and default-branch merges need their own authority.
+These Markdown contracts are guidance, not machine-validated records or a scheduler.
 
 ## Optional read-only validator
 
@@ -216,7 +220,9 @@ that inputs are unchanged, tests ran or cover enough cases, evidence is truthful
 or a scientific claim is established. Relevant changes require explicit review;
 keep earlier checks and add a new check after affected verification.
 The command does not execute commands in Markdown, change records, run experiments,
-or upload content.
+or upload content. Report inconsistencies first; repair records only when the
+current role and write scope authorize it. Other roles return findings to the
+responsible writer.
 
 For automation, consult the [exit-code contract](skills/plan-strata/references/protocol.md#reading-validation-output):
 validation findings, including an invalid `--current` path, use exit `1`; argument

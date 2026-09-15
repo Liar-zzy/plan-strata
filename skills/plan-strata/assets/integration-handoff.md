@@ -1,31 +1,21 @@
 # Integration handoff — {{plan_id}} / {{attempt}}
 
-This terminal assignment proposes an integration verdict to Manager. Follow the
-installed Plan Strata skill and its parallel-handoff guidance.
+Use only when a separate handoff is useful; existing CI or the responsible agent
+can perform integration without another agent/workspace. Follow {{skill}}.
 
-## Bound inputs
-
-- Project and integration workspace: {{project}}
-- Versioned plan path: {{plan}}
-- Skill location/version: {{skill}}
-- Manager and authoritative progress location: {{manager}}
-- Required deliveries, accepted task checks, retained versions/locations: {{deliveries}}
-- Final input/source location and version to verify: {{baseline}}
-- Relevant instructions, core, plan sections, and prior reports: {{context}}
-
-## Integration assignment
-
+- Project and verification environment/workspace: {{project}}
+- Plan binding: {{plan}}
+- Manager, designated progress writer, and record location: {{manager}}
+- Selected deliveries, applicable task checks, and retrievable versions: {{deliveries}}
+- Final source/input state to verify: {{baseline}}
+- Relevant context not already recovered: {{context}}
 - Combination method and allowed writes: {{write_scope}}
 - Whole-delivery acceptance checks: {{acceptance}}
-- Resource budget, reruns, repair/stop boundary, and external permissions: {{budget}}
+- Applicable limits, rerun/stop conditions, and external permissions: {{budget}}
 
-## Return contract
-
-Write {{report}} identifying the incorporated deliveries, final source/input
-versions/locations, methods, actual results/exit codes, unresolved risks, and
-next recommendation. Preserve evidence and propose a scoped check with
-`task: integration`; a failed result remains a failed result. List the relevant
-input files as check subjects; path lists do not prove coverage or unchanged contents.
-If relevant inputs change, identify the task checks needing renewal. Manager compares the
-receiving final state with the inspected inputs before accepting, then updates
-progress and decides delivery or repair.
+Return via {{report}}: included deliveries, inspected final state, actual methods,
+results/exit codes, review provenance, limitations, and proposed verdict. Retain
+failed evidence. For bundled records, propose a check with `task: integration`
+and explicit relevant input paths; identify task checks invalidated by changes.
+Manager confirms the receiving state matches the checked state and decides
+acceptance; only the designated writer records progress.

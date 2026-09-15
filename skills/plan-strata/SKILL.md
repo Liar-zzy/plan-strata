@@ -1,6 +1,6 @@
 ---
 name: plan-strata
-description: Maintain versioned plans, execution handoffs, and evidence for software development and research work across sessions. Use when starting a bounded project iteration, resuming existing plans, revising an execution baseline, or checking completion. Simple questions and isolated small edits usually need no planning files.
+description: Maintain versioned plans, task handoffs, and acceptance evidence for development and research across sessions. Use when explicitly asked to establish Plan Strata planning, or when executing, resuming, revising, or accepting Plan-Strata-managed work. Unbound questions, diagnosis, and small edits do not trigger this skill.
 license: MIT
 metadata:
   version: "0.2.0-alpha.1"
@@ -8,99 +8,71 @@ metadata:
 
 # Plan Strata
 
-Keep project intent, execution, and evidence connected across sessions. A single
-execution plan can contain development and research tasks shared by several agents.
-Use the user's language for project documents.
+Keep intent, task bindings, progress, and acceptance evidence recoverable across
+sessions. Use the user's language and the project's existing records and tools;
+bundled templates are a fallback, not a required parallel tracking system.
 
-## Start or resume
+## Scope and authority
 
-1. Inspect project instructions and existing planning files. Preserve the project's
-   established locations and terminology. Read [the protocol](references/protocol.md)
-   when creating records, selecting a revision, or using the validator.
-2. For an existing task, recover its recorded plan binding and handoff. For new
-   work, follow `plans/CURRENT.md`. If the pointer is missing or inconsistent,
-   report the ambiguity and resolve it from explicit project/user context;
-   version ordering and modification time do not select a plan.
-3. Read the selected core, execution plan, progress, and the evidence needed for
-   the next action. Inspect actual files and running jobs where relevant to
-   reconcile an interrupted handoff. State the next bounded action.
-4. For a new iteration, adapt the [core](assets/core.md), [plan](assets/ex-plan.md),
-   [progress](assets/progress.md), and [pointer](assets/CURRENT.md) templates.
-   Fill actual goals and acceptance criteria before selecting a ready plan.
-   Use existing authorization for work already in scope. Escalate a change in
-   overall goals, resources, or external effects when it needs new authority.
+Act on the current user request or an assignment traceable to a user-approved
+batch, within its scope, resources, and external permissions. Reuse that authority
+without repeat confirmation. CURRENT, `ready`, Git, skills, and tools grant none;
+inspection or proposal requests do not authorize implementation or dispatch.
 
-## Execute and hand off
+Only the project's designated writer edits progress; Manager is the default.
+Other roles return findings or proposed changes through their permitted channel.
+One agent may fill multiple authorized roles without artificial handoff stages.
 
-Parallel delegation is **off by default**. A user's explicit choice for the current
-iteration/batch enables it; loading this skill or finding Git does not. For an
-opt-in request, preparing or picking up an Issue/task handoff in an approved batch,
-or terminal integration, read [parallel handoffs](references/parallel-handoff.md)
-before publishing, assigning, or starting work. Ordinary work uses the workflow
-below without extra packets.
+Missing inputs, scope conflicts, or new authority pause the affected action, not
+independent authorized work. Block the task only when its acceptance-critical path
+cannot proceed. Honor explicit stops and shared resource limits wherever they apply.
 
-- Put task definitions and dependencies in the plan; maintain live state only in
-  progress. Record the versioned plan path when starting a task. That binding
-  survives later changes to CURRENT.
-- Keep one progress writer per iteration. Workers share the plan, own distinct
-  tasks, and submit separate reports when concurrent execution needs them.
-  Concurrent code writers also need an explicit integration method and isolated
-  outputs; the skill does not supply a scheduler or a lock.
-- Use a complete observable outcome as the task unit. For task budgeting,
-  review-driven repairs, or resuming a repair loop, read [bounded repair](references/repair-loop.md).
-  Internal patches and milestones are not automatic human approval gates.
-- At a meaningful milestone, blocker, or handoff, record what changed, where the
-  artifacts are, what was checked, what remains uncertain, and the next action.
-  Record a running job's identifier and output location before yielding it.
-  Single-agent work can keep this in progress; create `reports/` when needed.
-- For development tasks, read [development guidance](references/development.md)
-  before defining acceptance or accepting a delivery. For research tasks, read
-  [research guidance](references/research.md) before planning or interpreting
-  evidence. Mixed plans use both; each task retains its own acceptance meaning.
+## Work and recover
 
-## Check and decide
+Recover the task's existing binding; use CURRENT only to select new managed work.
+Read missing, stale, or relevant context needed for the next action, not the whole
+record set on every turn. Reconcile interrupted work with actual files and job
+handles. Resolve ambiguous selection from explicit project/user context, never
+version ordering or modification time. Report the next bounded action and carry
+it out only when authorized.
 
-1. At an acceptance decision, inspect the actual result using the plan's acceptance
-   method. An execution report is a starting point for verification. Record a
-   scoped conclusion in a new [check](assets/check.md), including the bound plan,
-   inspected subjects, evidence, method, limitations, and next decision. Preserve earlier checks.
-2. Mark a task `done` only when its applicable check passes and dependencies allow
-   acceptance. A valid research activity can be done with an inconclusive or
-   negative finding. Check integrated behavior separately when the plan requires
-   it. Record review provenance; another agent is optional, not proof by itself.
-3. For the bundled metadata format, run:
+Work toward a complete observable outcome. Choose implementation, debugging, and
+verification methods within the agreed constraints; ordinary patches need no new
+plan, packet, approval, or invented repair-round quota. At meaningful milestones
+or handoffs, retain changed artifacts, checks, uncertainty, next action, and any
+running job's handle/output location. Avoid duplicate status records.
 
-   ```text
-   python3 <skill-directory>/scripts/strata.py validate --project <project-directory>
-   ```
+Parallel delegation stays off unless explicitly authorized for the batch. Reuse
+an approved host assignment and bound task card; do not add a separate packet or
+role merely to follow this skill. Concurrent writes still need safe allocation
+and isolation, and combined deliveries need applicable integration verification.
 
-   Fix inconsistent records. This read-only command checks record structure,
-   path availability, bindings, and state consistency, without reading artifact
-   contents or computing hashes. `validation_scope: structure_only` and
-   `overall: accepted` describe recorded acceptance, not verified behavior.
-   It cannot detect changed contents, omitted inputs, or inadequate tests.
-   Existing alternative formats may be checked manually without
-   migration; disclose that the bundled validator was not used on them.
-4. Report the outcome, remaining limitations, and justified next action. Stop or
-   replan when the agreed budget or decision boundary is reached.
+## Accept and revise
 
-## Revise
+Inspect actual results against the agreed acceptance criteria. Worker delivery
+ends with artifacts, self-checks, and a report ready for review; Reviewer completes
+the scoped check. Only an authorized Manager accepts, and the designated writer
+records `done` after checks pass and dependencies are satisfied. Record provenance,
+inspected inputs, evidence, limitations, and the decision in the project's record
+or permitted response. Preserve previous deliveries and checks. Existing CI can
+verify the final combined state; no separate agent or workspace is mandatory.
 
-Keep a round's identity (for example `P001`) separate from its revision. Add a new
-plan revision for changed scope, dependencies, methods, or acceptance criteria;
-update progress for ordinary execution. Change core when project intent or key
-constraints change. Read the protocol's revision rules before changing a selected
-baseline. Write the reason and affected tasks into the new plan.
+Revise a plan for changes to committed scope, acceptance, interfaces/dependencies,
+resource boundaries, or fixed research methods—not ordinary implementation choices.
+Change core only when project intent or key constraints change. Keep used revisions
+immutable and running tasks bound; explicitly select revisions and assess reuse.
+After relevant input changes, the writer reopens affected acceptance (`needs_review`
+in schema 2) and clears stale integration acceptance, retaining its reference.
+Verify the changed result and record a new conclusion before accepting it again.
 
-Keep started revisions unchanged and available. Select the new ready
-revision explicitly, then reconcile pending work and previous acceptance. Running
-tasks retain their bindings until explicitly continued, stopped, or reassigned.
-Use a new check to justify reuse under changed criteria. Preserve historical
-results while marking current acceptance `needs_review` when applicability is
-uncertain.
+## Read when needed
 
-After relevant code, data, tests, or configuration changes, explicitly reassess
-affected acceptance. Set affected tasks to `needs_review` and clear a no-longer-
-applicable `integration_check` (retain its file and reference in progress prose).
-Rerun affected checks and record a new conclusion before accepting again. The
-helper does not detect these changes; unrelated edits need not reopen a task.
+- [Protocol](references/protocol.md): record formats/templates, bindings, revision
+  selection, or the optional read-only validator. It checks structure, not behavior.
+  Report inconsistencies first; repair only within the current role/write scope.
+- [Repair and delivery](references/repair-loop.md): review-driven repair, delivery
+  versions, or resource-bound recovery.
+- [Parallel handoffs](references/parallel-handoff.md): approved delegation, pickup,
+  collection, or multi-worker integration; read before dispatch or task writes.
+- [Research](references/research.md): research planning or interpretation, including
+  fixed methods, budgets, and valid negative or inconclusive findings.

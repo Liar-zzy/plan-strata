@@ -97,20 +97,24 @@ dev 快照；安装包来源不明时，记录不确定性、安装位置与可�
 > 使用 $plan-strata，从本项目的文件恢复当前迭代，继续下一项已授权任务，
 > 并留下经过检查的交接记录。
 
-Agent 使用你的语言撰写项目记录。你提供工作范围和资源边界，技能指导文件与证据
-维护。普通问答和孤立的小修改通常不需要建立计划目录。
+Agent 使用你的语言撰写项目记录。明确要求建立 Plan Strata 计划，或执行、恢复、修订、
+验收已纳入其管理的工作时使用本技能。未绑定的普通问答、诊断和小改不自动触发。
+当前请求或可追溯到用户批准批次的派工，在原范围内提供授权；CURRENT、`ready`
+和工具可用性本身不构成授权。
 
-实施任务时，可以把有限返修包含在同一个任务内：
+实施与范围内返修可以保留在同一个任务内：
 
-> 完成已约定的完整能力并自检；在最多两轮审核返修和已定资源预算内，修复不符合
-> 原验收标准的问题。通过、阻塞或达到限额时向我汇报。新增需求单独列出，不 push、
-> 不发布。
+> 完成已约定的完整能力并自检，修复不符合原验收标准的问题。在当前范围和资源
+> 限制内继续，向我汇报结果或需要我决策的阻塞。新增需求单独列出，不 push、不发布。
 
-内部补丁不必各自新增计划、报告或人工审批。已经返回的交付与检查保持冻结；
-被检输入改变后，即使仍然 pass，也需要重新验证。这不启用并行，详见
-[有限修复指引](skills/plan-strata/references/repair-loop.md)。
+普通本地返修不必自设轮次、测试额度或预算账本；明确限额和实质资源消耗仍有边界。
+同一 Worker 可以沿原派工继续，用新交付版本返回，不必重新派工。保留旧交付与检查，
+被检输入改变后重新验证。详见[返修与交付](skills/plan-strata/references/repair-loop.md)。
 
 ## 文件如何分工
+
+优先复用项目已有任务卡、PR/CI 证据和进度记录。下表是可选的 bundled 格式，
+不要求在现有流程旁再建一套台账。项目替代格式手工核对，不由 bundled 解析器校验。
 
 | 文件 | 负责的信息 |
 |---|---|
@@ -118,57 +122,53 @@ Agent 使用你的语言撰写项目记录。你提供工作范围和资源边�
 | `ex-plan` | 一轮工作的任务定义、依赖、方法和验收要求 |
 | `progress` | 当前状态、负责人、确切执行绑定、下一步和检查引用 |
 | `check/` | 实际检查对象、证据、适用范围内的结论及限制 |
-| `CURRENT.md` | 为新工作显式选定的入口 |
+| `CURRENT.md` | 为新的 Plan Strata 管理工作显式选定的入口 |
 
-任务开始时绑定确切计划；切换 `CURRENT.md` 不会静默重分配运行中的任务。
-相关输入变化后，由 Agent 显式重新打开受影响的验收并复测；校验器不会自动发现
-这些变化。单项任务通过，集成仍可能未完成。
+任务开始时保留明确绑定：bundled schema 2 使用版本化计划路径，项目替代格式使用
+其明示绑定，schema 2 不要求哈希。切换 `CURRENT.md` 不会静默重分配运行中的任务。
+相关输入变化后，由指定 writer 重开受影响的验收，获准审阅者复测；校验器不会
+自动发现这些变化。单项任务通过，集成仍可能未完成。
 有效的科研活动可以以负结果或不确定发现结束。
 
-完整记录定义见[协议](skills/plan-strata/references/protocol.md)；验收分别遵循
-[开发说明](skills/plan-strata/references/development.md)与
+恢复时补齐缺失或过时的上下文，不必每轮重读全部记录。实现、调试和测试方式可在
+已约定的范围、验收、接口依赖和资源边界内自主调整；只有这些承诺或固定科研方法
+改变时才修订计划，项目目的与关键约束未变则沿用 core。
+
+完整记录定义见[协议](skills/plan-strata/references/protocol.md)；审阅遵循
+[验收约定](skills/plan-strata/references/protocol.md#acceptance)与
 [科研说明](skills/plan-strata/references/research.md)。
 
 ## 可选的并行交接
 
-**并行执行默认关闭。** 加载 Plan Strata 或检测到 Git，都不会自动启用。
-技能已安装并可用时，用自然语言告诉 Agent 即可，无需另改技能配置。例如：
+并行执行默认关闭，需明确授权当前迭代/批次。已批准派工沿用该授权；只请求方案
+不授权实际派发。不需要额外技能开关，例如：
 
-> 使用 $plan-strata，为当前这一轮启用并行交接。把已就绪且相互独立的任务交给
-> 最多两个本地 Worker，在隔离的工作目录执行。你作为 Manager 检查交付、安排
-> 最终集成检查，再向我汇报。所有工作保持本地，不创建 Issue、不 push、不合入主分支。
+> 使用 $plan-strata，为当前这一轮启用并行交接。把已就绪且独立的任务交给最多
+> 两个本地 Worker。你作为 Manager 检查交付，验证最终组合状态。所有工作保持
+> 本地，不创建 Issue、不 push、不合入主分支。
 
-这只启用指定的迭代/批次；任务边界或预算不清楚时，先补齐再派发。Git 指令和
-子 Agent 依赖宿主实际提供的工具与权限，技能不会开启缺失的运行时能力。
-环境不能派发子 Agent 时，可改为手工传递任务单或串行执行。
+沿用宿主工具和已有分配适配。宿主派工消息与绑定任务卡可共同构成完整交接，
+不必另建 packet。已有适配保证独占分配时，由指定 writer 在宿主返回 Agent ID 后
+补记回执；否则先登记分配再执行。共享接口、冲突写入和实际资源限制仍需协调。
+宿主不能派发子 Agent 时，可在授权内使用手工交接或串行执行。
 
-当任务输入已就绪、共享接口已确定、写入范围可以隔离时，可以选择委派。
-Manager 分配范围明确的任务单，Worker 返回产物和证据，最后由 Integrator
-检查组合后的交付。只有 Manager 维护进度并决定最终接受。
+Worker 完成产物、自检和报告即交付待审；Reviewer 完成范围内检查。只有获准
+Manager 决定接受，只有指定 writer 修改进度（默认 Manager）。同一 Agent 可兼任
+已获准角色。现有 CI 或合适环境可以验证最终组合状态，不强制另设 Integrator
+Agent 或工作目录；实际冲突写入仍需隔离。
 
-> 使用 $plan-strata，评估当前已确认 ex-plan 内哪些任务适合独立执行。
-> 先给出并行交接方案，写清修改范围、依赖与总体资源预算；让我选择执行者
-> 和交接渠道后再派发。保留最终集成检查以及向 Manager 的交付。
+本模式覆盖一份 ex-plan，不要求 Git/GitHub。Issue 可以承载完整任务说明，引用
+固定且可访问的上下文；说明完整、依赖就绪和已被分配是不同条件。任务单或 Issue
+不会启动 Agent，对外发布、付费任务及合并仍需相应授权。
 
-如果只想评估是否适合并行，使用上面的方案请求即可；它不授权实际派发。
-首版限定在一份 ex-plan 内，不要求 Git 或 GitHub。
-本地任务单、宿主的委派消息、经审核的 Issue 都承载相同的任务契约。选择 Issue
-派发时，Issue 本身包含可执行任务说明；详细计划可以引用固定且可访问的版本。
-新 Agent 应能据此从指定基线创建 worktree 并完成任务，不再等待补任务单。
-任务说明完整不等于依赖已就绪或已被领取：分别写清条件，执行前确认分配。
-任务单或 Issue 本身不会启动 Agent。执行仍依赖宿主工具与授权，默认工作流不变。
+输入缺失、范围冲突或需要新授权时，只暂停受影响动作，继续独立的授权工作。
+只有验收关键路径无法继续时才阻塞整个任务；明确停止指令与共享资源限制仍有效。
 
-用户明确指定执行人可以作为分配依据，不需要再补一份任务单或重复确认。
-默认仍由 Manager 开工前登记；延后登记需要显式协调约定来防止重复派发，
-worktree 或过时的 `planned` 状态不等于认领锁。详见
-[独占分配与进度登记](skills/plan-strata/references/parallel-handoff.md#ownership-and-progress-bookkeeping)。
-
-详见[交接说明](skills/plan-strata/references/parallel-handoff.md)、
-[Worker 任务单](skills/plan-strata/assets/task-handoff.md)和
-[Integrator 任务单](skills/plan-strata/assets/integration-handoff.md)。
+详见[交接说明](skills/plan-strata/references/parallel-handoff.md)及可选的
+[Worker](skills/plan-strata/assets/task-handoff.md) /
+[集成交接](skills/plan-strata/assets/integration-handoff.md)模板。
 贡献者可[重建本地双 Worker 试用](evals/README.md#parallel-handoff-trial)。
-这些 Markdown 任务单是 Agent 指导，不是新增的机器校验记录，也不是内置调度器。
-对外发布任务和合入主分支仍需各自的授权。
+这些 Markdown 契约是指导，不是机器校验记录或内置调度器。
 
 ## 可选的只读校验器
 
@@ -188,7 +188,8 @@ python3 .agents/skills/plan-strata/scripts/strata.py validate --project .
 `status: consistent` 表示声明的记录一致；`overall: accepted` 表示当前记录满足
 本轮验收结构。两者都不能证明输入未变、测试实际运行且充分、证据真实或科学结论成立。
 相关修改后需显式复核，保留旧检查，并在受影响的验证完成后新增检查。
-工具不会执行 Markdown 中的命令、修改记录、启动实验或上传内容。
+工具不会执行 Markdown 中的命令、修改记录、启动实验或上传内容。先报告不一致，
+仅在当前角色和写入范围授权时修复；其他角色将发现交给负责的 writer。
 
 自动化调用请按[退出码契约](skills/plan-strata/references/protocol.md#reading-validation-output)
 处理：记录校验问题（包括非法 `--current` 路径）使用 `1`，参数解析或项目根目录

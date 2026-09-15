@@ -97,6 +97,12 @@ copying anything. Preserve failed trials; prepare a new directory for
 a repaired attempt. The helper is for this synthetic fixture, not arbitrary
 projects, Issue synchronization, a lock, or an agent scheduler.
 
+This fixture fixes one delivery revision per attempt, separate workspaces, and
+explicit budgets for its scenario. These are not universal skill requirements.
+The general handoff contract permits new delivery revisions under one continuing
+assignment and verification in existing CI; this driver does not implement that
+multi-version transport.
+
 The revised receipts contain retained-text Manager checkpoints. Older schema 1
 trial directories are historical evidence and require a new trial, not an in-place
 upgrade. These checks assume exclusive access during each driver command and
@@ -168,8 +174,9 @@ internal self-check failure → repair → one acceptance check; formal failed d
 → repair with retained inputs/log/check; passing-input change → explicit reopening
 by Manager → fresh passing check; and a scripted exhausted repair budget with an unresolved
 defect that cannot be accepted. The task, core, and selected plan stay unchanged.
-The existing parallel tests separately reject a changed result under one received
-attempt identity. CLI exit-code regressions live in `test_workflow.py`.
+The existing parallel tests reject changed contents under their single received
+delivery revision per attempt; they do not test multi-version continuation under
+one assignment. CLI exit-code regressions live in `test_workflow.py`.
 
 These tests prescribe the edits, finite schedule, and recording actions. They
 exercise the actual validator and tiny project checks, not an agent's planning,
